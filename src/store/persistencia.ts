@@ -5,6 +5,7 @@ import { productosIniciales } from '../datos/productos';
 import { useBitacoraStore } from './useBitacoraStore';
 import { useCarritoStore } from './useCarritoStore';
 import { useCatalogoStore } from './useCatalogoStore';
+import { useCobrosStore } from './useCobrosStore';
 import { useCompensacionStore } from './useCompensacionStore';
 import { useComplianceStore } from './useComplianceStore';
 import { useDescuentosStore } from './useDescuentosStore';
@@ -31,6 +32,7 @@ const compartidas: Record<string, Tienda> = {
   periodos: usePeriodosStore, formacion: useFormacionStore, compliance: useComplianceStore,
   integraciones: useIntegracionesStore, compensacion: useCompensacionStore, permisos: usePermisosStore,
   notificaciones: useNotificacionesStore, bitacora: useBitacoraStore, descuentos: useDescuentosStore,
+  cobros: useCobrosStore,
 };
 
 const porPestana: Record<string, Tienda> = { sesion: useSesionStore, guia: useGuiaStore, carrito: useCarritoStore };

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, ChevronDown, Repeat } from 'lucide-react';
 import { useClicFuera } from '../../hooks/useClicFuera';
-import { useSesionStore } from '../../store/useSesionStore';
+import { usePersonaSesion, useSesionStore } from '../../store/useSesionStore';
+import { nombresPerfiles } from '../../datos/perfiles';
 import { unirClases } from '../../utilidades/clases';
 import { sesionesDemo } from './sesionesDemo';
 
@@ -12,6 +13,7 @@ export function SelectorRolDemo({ oscuro = false }: { oscuro?: boolean }) {
   const navegar = useNavigate();
   const referencia = useClicFuera<HTMLDivElement>(abierto, () => setAbierto(false));
   const actual = sesionesDemo.find((sesion) => sesion.personaId === personaId);
+  const persona = usePersonaSesion();
 
   const elegir = (id: string) => {
     setAbierto(false);
@@ -33,7 +35,7 @@ export function SelectorRolDemo({ oscuro = false }: { oscuro?: boolean }) {
       >
         <Repeat className="size-4 text-acento" aria-hidden />
         <span className="hidden xl:inline">Rol demo:</span>
-        <span className="hidden sm:inline">{actual?.etiqueta ?? 'Sin sesión'}</span>
+        <span className="hidden sm:inline">{actual?.etiqueta ?? (persona ? `${nombresPerfiles[persona.perfil]} ${persona.codigo}` : 'Sin sesión')}</span>
         <ChevronDown className="size-4 text-texto-3" aria-hidden />
       </button>
       {abierto && (

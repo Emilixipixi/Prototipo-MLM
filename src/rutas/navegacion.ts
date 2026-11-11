@@ -1,7 +1,7 @@
 import {
   Award, CalendarRange, Database, ClipboardCheck, FileChartColumn, Gift, GraduationCap, House, KeyRound,
   LayoutDashboard, Network, Package, Plug, Receipt, ScrollText, ShieldAlert, ShoppingCart, SlidersHorizontal,
-  Calculator, TrendingUp, Users, Workflow, Scale, Landmark, type LucideIcon,
+  Calculator, TrendingUp, Users, Workflow, Scale, Landmark, Banknote, type LucideIcon,
 } from 'lucide-react';
 import type { ModuloPermiso } from '../tipos/permisos';
 
@@ -44,6 +44,7 @@ export const navegacionAfiliado: GrupoNavegacion[] = [
       { texto: 'Mis compras', ruta: '/afiliado/compras', icono: ShoppingCart },
       { texto: 'Mis liquidaciones', ruta: '/afiliado/liquidaciones', icono: Receipt },
       { texto: 'Mi balance', ruta: '/afiliado/balance', icono: Scale },
+      { texto: 'Mis cobros', ruta: '/afiliado/cobros', icono: Banknote },
       { texto: 'Mi formación', ruta: '/afiliado/formacion', icono: GraduationCap },
     ],
   },
@@ -73,6 +74,7 @@ export const navegacionCorporativo: GrupoNavegacion[] = [
       { texto: 'Bonos', ruta: '/corporativo/bonos', icono: SlidersHorizontal, modulo: 'bonos' },
       { texto: 'Simulador', ruta: '/corporativo/simulador', icono: Calculator, modulo: 'simulador' },
       { texto: 'Liquidaciones', ruta: '/corporativo/liquidaciones', icono: ClipboardCheck, modulo: 'liquidaciones' },
+      { texto: 'Retiros', ruta: '/corporativo/retiros', icono: Banknote, modulo: 'liquidaciones' },
       { texto: 'Balance financiero', ruta: '/corporativo/balance', icono: Landmark, modulo: 'reportes' },
     ],
   },

@@ -1,5 +1,6 @@
 import { useGuiaStore } from './useGuiaStore';
 import { useDescuentosStore } from './useDescuentosStore';
+import { useCobrosStore } from './useCobrosStore';
 import { useBitacoraStore } from './useBitacoraStore';
 import { useCarritoStore } from './useCarritoStore';
 import { useCatalogoStore } from './useCatalogoStore';
@@ -32,4 +33,5 @@ export function reiniciarDemo(): void {
   useSesionStore.getState().reiniciar();
   useGuiaStore.getState().reiniciar();
   useDescuentosStore.getState().reiniciar();
+  useCobrosStore.getState().reiniciar();
 }

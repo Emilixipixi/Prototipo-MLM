@@ -26,6 +26,8 @@ const Reportes = lazy(() => import('../paginas/corporativo/Reportes'));
 const Integraciones = lazy(() => import('../paginas/corporativo/Integraciones'));
 const BalanceFinanciero = lazy(() => import('../paginas/corporativo/BalanceFinanciero'));
 const MiBalance = lazy(() => import('../paginas/afiliado/MiBalance'));
+const MisCobros = lazy(() => import('../paginas/afiliado/MisCobros'));
+const Retiros = lazy(() => import('../paginas/corporativo/Retiros'));
 const Ingreso = lazy(() => import('../paginas/sesion/Ingreso'));
 const RecuperarAcceso = lazy(() => import('../paginas/sesion/RecuperarAcceso'));
 const AccesoRestringido = lazy(() => import('../paginas/sesion/AccesoRestringido'));
@@ -55,7 +57,7 @@ const pantallasCorporativo: Record<string, ComponentType> = {
   resumen: PanelCorporativo, usuarios: Usuarios, 'usuarios/:id': FichaPersona, permisos: Permisos,
   productos: Productos, arboles: Arboles, periodos: Periodos, rangos: Rangos,
   bonos: ConfiguracionBonos, simulador: Simulador, liquidaciones: Liquidaciones, compliance: Compliance,
-  auditoria: Auditoria, reportes: Reportes, integraciones: Integraciones, balance: BalanceFinanciero,
+  auditoria: Auditoria, reportes: Reportes, integraciones: Integraciones, balance: BalanceFinanciero, retiros: Retiros,
 };
 
 const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
@@ -74,6 +76,7 @@ const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
   { ruta: 'auditoria', modulo: 'auditoria' },
   { ruta: 'reportes', modulo: 'reportes' },
   { ruta: 'balance', modulo: 'reportes' },
+  { ruta: 'retiros', modulo: 'liquidaciones' },
   { ruta: 'integraciones', modulo: 'integraciones' },
 ];
 
@@ -110,6 +113,7 @@ export function Rutas() {
           <Route path="compras" element={<MisCompras />} />
           <Route path="liquidaciones" element={<MisLiquidaciones />} />
           <Route path="balance" element={<MiBalance />} />
+          <Route path="cobros" element={<MisCobros />} />
           <Route path="formacion" element={<MiFormacion />} />
         </Route>
 
