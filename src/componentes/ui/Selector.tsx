@@ -9,14 +9,15 @@ interface PropsSelector extends SelectHTMLAttributes<HTMLSelectElement> {
   opciones: OpcionSelector[];
   error?: string | null;
   ayuda?: string;
+  ocultarEtiqueta?: boolean;
 }
 
-export function Selector({ etiqueta, opciones, error, ayuda, id, className, ...resto }: PropsSelector) {
+export function Selector({ etiqueta, opciones, error, ayuda, ocultarEtiqueta = false, id, className, ...resto }: PropsSelector) {
   const idGenerado = useId();
   const idCampo = id ?? idGenerado;
   return (
     <div className={unirClases('flex flex-col gap-1.5', className)}>
-      <label htmlFor={idCampo} className="text-[13px] font-semibold text-texto">{etiqueta}</label>
+      <label htmlFor={idCampo} className={ocultarEtiqueta ? 'sr-only' : 'text-[13px] font-semibold text-texto'}>{etiqueta}</label>
       <div className="relative">
         <select
           id={idCampo}

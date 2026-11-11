@@ -3,11 +3,11 @@ import { BadgeCheck, Ban, Calculator, CircleCheck, CircleDashed, ClipboardCheck,
 import { ResultadosCorrida } from '../../componentes/bonos/ResultadosCorrida';
 import { BarraExportar } from '../../componentes/ui/BarraExportar';
 import { Boton } from '../../componentes/ui/Boton';
-import { ChipsFiltro } from '../../componentes/ui/ChipsFiltro';
 import { Confirmacion } from '../../componentes/ui/Confirmacion';
 import { ConPermiso } from '../../componentes/ui/ConPermiso';
 import { EstadoVacio } from '../../componentes/ui/EstadoVacio';
 import { Insignia } from '../../componentes/ui/Insignia';
+import { Selector } from '../../componentes/ui/Selector';
 import { Tabla, type ColumnaTabla } from '../../componentes/ui/Tabla';
 import { Tarjeta } from '../../componentes/ui/Tarjeta';
 import { useToast } from '../../componentes/ui/useToast';
@@ -58,6 +58,8 @@ export default function Liquidaciones() {
   const periodosLiquidados = [...new Set(liquidaciones.map((liquidacion) => liquidacion.periodoId))].sort();
   const [filtroPeriodo, setFiltroPeriodo] = useState('todos');
   const [filtroEstado, setFiltroEstado] = useState<EstadoLiquidacion | 'todos'>('todos');
+  const opcionesPeriodo = [{ valor: 'todos', texto: 'Todos los períodos' }, ...periodosLiquidados.map((id) => ({ valor: id, texto: id }))];
+  const opcionesEstado: Array<{ valor: EstadoLiquidacion | 'todos'; texto: string }> = [{ valor: 'todos', texto: 'Todos los estados' }, ...(Object.keys(estadosLiquidacion) as EstadoLiquidacion[]).map((estado) => ({ valor: estado, texto: estadosLiquidacion[estado].etiqueta }))];
   const filas = useMemo(() => liquidaciones.filter((liquidacion) => (filtroPeriodo === 'todos' || liquidacion.periodoId === filtroPeriodo) && (filtroEstado === 'todos' || liquidacion.estado === filtroEstado)), [liquidaciones, filtroPeriodo, filtroEstado]);
   const nombre = (id: string) => {
     const persona = personas.find((item) => item.id === id);
@@ -196,7 +198,12 @@ export default function Liquidaciones() {
           claveFila={(fila) => fila.id}
           textoBusqueda={(fila) => `${fila.id} ${fila.personaId} ${nombre(fila.personaId)}`}
           placeholderBusqueda="Buscar afiliado o liquidación"
-          filtros={<div className="flex flex-col gap-2"><ChipsFiltro etiqueta="Período" activo={filtroPeriodo} alCambiar={setFiltroPeriodo} opciones={[{ valor: 'todos', texto: 'Todos los períodos' }, ...periodosLiquidados.map((id) => ({ valor: id, texto: id }))]} /><ChipsFiltro etiqueta="Estado" activo={filtroEstado} alCambiar={setFiltroEstado} opciones={[{ valor: 'todos', texto: 'Todos los estados' }, ...(Object.keys(estadosLiquidacion) as EstadoLiquidacion[]).map((estado) => ({ valor: estado, texto: estadosLiquidacion[estado].etiqueta }))]} /></div>}
+          filtros={(
+            <div className="grid w-full grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2 lg:w-[30rem]">
+              <Selector etiqueta="Período" ocultarEtiqueta value={filtroPeriodo} onChange={(evento) => setFiltroPeriodo(evento.target.value)} opciones={opcionesPeriodo} />
+              <Selector etiqueta="Estado" ocultarEtiqueta value={filtroEstado} onChange={(evento) => setFiltroEstado(opcionesEstado.find((opcion) => opcion.valor === evento.target.value)?.valor ?? 'todos')} opciones={opcionesEstado} />
+            </div>
+          )}
           accionesFila={(fila) => {
             const siguiente = siguientes[fila.estado];
             const permitido = siguiente && (siguiente.hacia === 'liquidada_simulada' || siguiente.hacia === 'apta_para_desembolso' ? puedeLiquidar : puedeAprobar);
