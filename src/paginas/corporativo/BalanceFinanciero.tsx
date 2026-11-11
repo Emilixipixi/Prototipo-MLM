@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { BadgePercent, ChartColumn, HandCoins, Info, Landmark, Layers, TrendingUp } from 'lucide-react';
+import { BadgePercent, ChartColumn, HandCoins, Info, Landmark, Layers, Receipt, TrendingUp } from 'lucide-react';
 import { BarraExportar } from '../../componentes/ui/BarraExportar';
 import { ChipsFiltro } from '../../componentes/ui/ChipsFiltro';
 import { Insignia } from '../../componentes/ui/Insignia';
-import { Tabla, type ColumnaTabla } from '../../componentes/ui/Tabla';
 import { Tarjeta } from '../../componentes/ui/Tarjeta';
 import { TarjetaKpi } from '../../componentes/ui/TarjetaKpi';
 import { presentacionMotores } from '../../datos/presentacionMotores';
 import { useDatosAfiliado } from '../../hooks/useDatosAfiliado';
 import { ordenMotores } from '../../motores/ejecutarCorrida';
 import type { CodigoMotor } from '../../tipos/reglas';
+import { unirClases } from '../../utilidades/clases';
 import { formatearMonto, formatearPorcentaje, redondear } from '../../utilidades/formatos';
 
 type OrigenComisiones = 'liquidaciones' | 'corrida_aprobada' | 'corrida_en_proceso' | 'estimacion';
@@ -69,16 +69,7 @@ export default function BalanceFinanciero() {
   const maximoMotor = Math.max(1, ...motores.map((item) => item.monto));
   const datosGrafico = filas.map((fila) => ({ ciclo: fila.periodoId.replace('DEMO-', ''), 'Ventas netas': fila.ventasNetas, Comisiones: redondear(fila.comisiones + fila.ajustes), Margen: fila.margen }));
 
-  const columnas: ColumnaTabla<FilaFinanciera>[] = [
-    { clave: 'periodo', titulo: 'Ciclo', principalEnMovil: true, render: (fila) => <div><p className="cifra font-semibold">{fila.periodoId}</p><Insignia tono={origenes[fila.origen].tono}>{origenes[fila.origen].texto}</Insignia></div> },
-    { clave: 'bruto', titulo: 'Ventas a precio de lista', alinear: 'derecha', ocultarEnMovil: true, render: (fila) => <span className="cifra whitespace-nowrap">{formatearMonto(fila.ventasBrutas)}</span> },
-    { clave: 'descuentos', titulo: 'Descuentos', alinear: 'derecha', ocultarEnMovil: true, render: (fila) => <span className="cifra whitespace-nowrap">{fila.descuentos > 0 ? `-${formatearMonto(fila.descuentos)}` : formatearMonto(0)}</span> },
-    { clave: 'devoluciones', titulo: 'Devoluciones', alinear: 'derecha', ocultarEnMovil: true, render: (fila) => <span className="cifra whitespace-nowrap">{fila.devoluciones > 0 ? `-${formatearMonto(fila.devoluciones)}` : formatearMonto(0)}</span> },
-    { clave: 'netas', titulo: 'Ventas netas', alinear: 'derecha', render: (fila) => <span className="cifra whitespace-nowrap font-semibold">{formatearMonto(fila.ventasNetas)}</span> },
-    { clave: 'comisiones', titulo: 'Comisiones y ajustes', alinear: 'derecha', render: (fila) => <span className="cifra whitespace-nowrap">{formatearMonto(fila.comisiones + fila.ajustes)}</span> },
-    { clave: 'margen', titulo: 'Margen comercial', alinear: 'derecha', render: (fila) => <span className="cifra whitespace-nowrap font-semibold">{formatearMonto(fila.margen)}</span> },
-    { clave: 'pago', titulo: '% pagado en bonos', alinear: 'derecha', render: (fila) => <span className="cifra whitespace-nowrap">{formatearPorcentaje(redondear(fila.porcentajePago * 100, 1))}</span> },
-  ];
+  const restar = (monto: number) => (monto > 0 ? `-${formatearMonto(monto)}` : formatearMonto(0));
 
   return (
     <div className="flex flex-col gap-5">
@@ -122,12 +113,61 @@ export default function BalanceFinanciero() {
           </ul>
         </Tarjeta>
       </div>
-      <Tabla
-        columnas={columnas}
-        filas={visibles}
-        claveFila={(fila) => fila.periodoId}
-        accionesCabecera={<BarraExportar modulo="reportes" nombreArchivo="DEMO-balance-financiero" filas={() => visibles.map((fila) => ({ ciclo: fila.periodoId, origen: origenes[fila.origen].texto, ventasListaUSD: fila.ventasBrutas, descuentosUSD: fila.descuentos, devolucionesUSD: fila.devoluciones, ventasNetasUSD: fila.ventasNetas, comisionesUSD: fila.comisiones, ajustesUSD: fila.ajustes, margenUSD: fila.margen, porcentajePago: redondear(fila.porcentajePago * 100) }))} />}
-      />
+      <Tarjeta
+        titulo="Detalle por ciclo"
+        subtitulo="De ventas a precio de lista a margen comercial, en USD"
+        icono={Receipt}
+        acciones={<BarraExportar modulo="reportes" nombreArchivo="DEMO-balance-financiero" filas={() => visibles.map((fila) => ({ ciclo: fila.periodoId, origen: origenes[fila.origen].texto, ventasListaUSD: fila.ventasBrutas, descuentosUSD: fila.descuentos, devolucionesUSD: fila.devoluciones, ventasNetasUSD: fila.ventasNetas, comisionesUSD: fila.comisiones, ajustesUSD: fila.ajustes, margenUSD: fila.margen, porcentajePago: redondear(fila.porcentajePago * 100) }))} />}
+      >
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
+          {visibles.map((fila) => {
+            const porcentaje = redondear(fila.porcentajePago * 100, 1);
+            return (
+              <article key={fila.periodoId} className="min-w-0 rounded-xl border border-borde bg-fondo/60 p-4">
+                <header className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="cifra text-[15px] font-bold text-texto">{fila.periodoId}</p>
+                    <div className="mt-1"><Insignia tono={origenes[fila.origen].tono}>{origenes[fila.origen].texto}</Insignia></div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-texto-3">% pagado en bonos</p>
+                    <p className="cifra text-[20px] font-bold text-oro">{formatearPorcentaje(porcentaje)}</p>
+                  </div>
+                </header>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-borde" aria-hidden>
+                  <span className="block h-full rounded-full bg-oro" style={{ width: `${Math.min(100, porcentaje)}%` }} />
+                </div>
+                <dl className="mt-4 flex flex-col text-[13.5px]">
+                  <div className="flex items-center justify-between gap-3 py-1.5">
+                    <dt className="text-texto-2">Ventas a precio de lista</dt>
+                    <dd className="cifra whitespace-nowrap text-texto">{formatearMonto(fila.ventasBrutas)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 py-1.5">
+                    <dt className="text-texto-2">Descuentos</dt>
+                    <dd className="cifra whitespace-nowrap text-texto">{restar(fila.descuentos)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 py-1.5">
+                    <dt className="text-texto-2">Devoluciones</dt>
+                    <dd className={unirClases('cifra whitespace-nowrap', fila.devoluciones > 0 ? 'text-error' : 'text-texto')}>{restar(fila.devoluciones)}</dd>
+                  </div>
+                  <div className="mt-1 flex items-center justify-between gap-3 border-t border-borde pt-2.5 pb-1.5">
+                    <dt className="font-semibold text-texto">Ventas netas</dt>
+                    <dd className="cifra whitespace-nowrap font-bold text-primario">{formatearMonto(fila.ventasNetas)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 py-1.5">
+                    <dt className="text-texto-2">Comisiones y ajustes</dt>
+                    <dd className="cifra whitespace-nowrap text-acento">{restar(redondear(fila.comisiones + fila.ajustes))}</dd>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between gap-3 rounded-lg bg-[#F0FDF4] px-3 py-2.5">
+                    <dt className="font-bold text-exito">Margen comercial</dt>
+                    <dd className="cifra whitespace-nowrap text-[15px] font-bold text-exito">{formatearMonto(fila.margen)}</dd>
+                  </div>
+                </dl>
+              </article>
+            );
+          })}
+        </div>
+      </Tarjeta>
     </div>
   );
 }
