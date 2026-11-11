@@ -46,7 +46,7 @@ export function LayoutPanel({ grupos, subtitulo, contexto }: PropsLayoutPanel) {
         </aside>
       )}
       <Cajon abierto={menuAbierto} alCerrar={() => setMenuAbierto(false)} etiqueta="Menú de navegación">
-        <MenuLateral grupos={grupos} subtitulo={subtitulo} alNavegar={() => setMenuAbierto(false)} />
+        <MenuLateral grupos={grupos} subtitulo={subtitulo} alNavegar={() => setMenuAbierto(false)} alCerrar={() => setMenuAbierto(false)} />
       </Cajon>
       <div className="flex min-w-0 flex-col">
         <div className="sticky top-0 z-30">
