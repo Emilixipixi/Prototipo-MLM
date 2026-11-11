@@ -1,5 +1,6 @@
 import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { PanelLeftClose } from 'lucide-react';
 import { LeyendaDemostracion } from '../../componentes/demo/LeyendaDemostracion';
 import { Cajon } from '../../componentes/ui/Cajon';
 import { CargandoPantalla } from '../../componentes/ui/CargandoPantalla';
@@ -42,7 +43,7 @@ export function LayoutPanel({ grupos, subtitulo, contexto }: PropsLayoutPanel) {
     <div className={unirClases('min-h-dvh lg:grid', menuOculto ? 'lg:grid-cols-[minmax(0,1fr)]' : 'lg:grid-cols-[264px_minmax(0,1fr)]')}>
       {!menuOculto && (
         <aside className="sticky top-0 hidden h-dvh lg:block">
-          <MenuLateral grupos={grupos} subtitulo={subtitulo} />
+          <MenuLateral grupos={grupos} subtitulo={subtitulo} alCerrar={alternarMenu} iconoCerrar={PanelLeftClose} />
         </aside>
       )}
       <Cajon abierto={menuAbierto} alCerrar={() => setMenuAbierto(false)} etiqueta="Menú de navegación">
