@@ -164,7 +164,7 @@ export default function Checkout() {
               <li key={producto.id} className="flex justify-between gap-3"><span className="min-w-0 truncate text-texto">{cantidad} x {producto.nombre}</span></li>
             ))}
           </ul>
-          <ResumenTotales precio={resumen.precio} vp={resumen.vp} vc={resumen.vc} mostrarVolumen={mostrarVolumen} articulos={resumen.articulos} />
+          <ResumenTotales precio={resumen.precio} vp={resumen.vp} vc={resumen.vc} mostrarVolumen={mostrarVolumen} articulos={resumen.articulos} ahorro={resumen.ahorro} />
           <Boton anchoCompleto className="mt-5" icono={ShoppingCart} onClick={confirmar} cargando={procesando} disabled={bloqueada || !periodo}>Crear pedido</Boton>
           <EnlaceBoton to="/carrito" variante="fantasma" icono={ArrowLeft} anchoCompleto className="mt-2">Volver al carrito</EnlaceBoton>
         </Tarjeta>

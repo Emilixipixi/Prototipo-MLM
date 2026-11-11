@@ -12,6 +12,8 @@ import { useToast } from '../../componentes/ui/useToast';
 import { categorias } from '../../datos/presentacionCatalogo';
 import { useCarritoStore } from '../../store/useCarritoStore';
 import { useCatalogoStore } from '../../store/useCatalogoStore';
+import { usePrecios } from '../../hooks/usePrecios';
+import { etiquetaDescuento } from '../../servicios/descuentos';
 import { usePersonaSesion } from '../../store/useSesionStore';
 import { formatearFecha } from '../../utilidades/fechas';
 import { formatearNumero } from '../../utilidades/formatos';
@@ -21,6 +23,8 @@ export default function FichaProducto() {
   const { id } = useParams();
   const producto = useCatalogoStore((estado) => estado.productos.find((item) => item.id === id));
   const agregar = useCarritoStore((estado) => estado.agregar);
+  const calcularPrecio = usePrecios();
+  const precioActual = producto ? calcularPrecio(producto) : null;
   const persona = usePersonaSesion();
   const navegar = useNavigate();
   const toast = useToast();
@@ -65,7 +69,7 @@ export default function FichaProducto() {
           </div>
 
           <div className="rounded-tarjeta border border-borde bg-superficie p-5 shadow-tarjeta">
-            <ValoresProducto precio={producto.precio} vp={producto.vp} vc={producto.vc} moneda={producto.moneda} mostrarVolumen={mostrarVolumen} />
+            <ValoresProducto precio={precioActual?.precioFinal ?? producto.precio} precioLista={producto.precio} etiquetaDescuento={precioActual?.descuento ? `${etiquetaDescuento(precioActual.descuento)} · ${precioActual.descuento.nombre}` : undefined} vp={producto.vp} vc={producto.vc} moneda={producto.moneda} mostrarVolumen={mostrarVolumen} />
             {mostrarVolumen ? (
               <p className="mt-3 flex items-start gap-2 rounded-xl bg-acento-suave px-3 py-2 text-[12.5px] text-[#155E75]">
                 <Info className="mt-0.5 size-4 shrink-0" aria-hidden />

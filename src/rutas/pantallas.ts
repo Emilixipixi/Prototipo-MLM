@@ -25,6 +25,7 @@ export const pantallas: InfoPantalla[] = [
   { patron: '/afiliado/bonos', numero: '11', nombre: 'Bonos y desglose de comisiones', requerimientos: ['MLM-041', 'MLM-044', 'MLM-054'], fase: 4, descripcion: 'Siete conceptos separados con trazabilidad.' },
   { patron: '/afiliado/compras', numero: '12', nombre: 'Historial de compras', requerimientos: ['MLM-014'], fase: 4, descripcion: 'Compras propias y de clientes con buscador.' },
   { patron: '/afiliado/liquidaciones', numero: '12', nombre: 'Historial de liquidaciones', requerimientos: ['MLM-046', 'MLM-055'], fase: 4, descripcion: 'Conceptos, ajustes, total, estado y comprobante.' },
+  { patron: '/afiliado/balance', numero: 'A', nombre: 'Mi balance', requerimientos: ['MLM-046', 'MLM-055'], fase: 8, descripcion: 'Compras propias frente a liquidaciones por ciclo, sin proyecciones.' },
   { patron: '/afiliado/formacion', numero: '13', nombre: 'Estado de formación vinculada', requerimientos: ['MLM-065'], fase: 4, descripcion: 'Estados matriculado, cursando y aprobado (dato de prueba).' },
   { patron: '/corporativo/resumen', numero: '14', nombre: 'Panel corporativo y alertas', requerimientos: ['MLM-057', 'MLM-059'], fase: 5, descripcion: 'KPIs generales y bandeja de alertas de integridad.' },
   { patron: '/corporativo/usuarios', numero: '15', nombre: 'Usuarios, estados y roles', requerimientos: ['MLM-003', 'MLM-004', 'MLM-006'], fase: 5, descripcion: 'Tabla de usuarios, alta y cambio de estado con motivo.' },
@@ -40,6 +41,7 @@ export const pantallas: InfoPantalla[] = [
   { patron: '/corporativo/compliance', numero: '23', nombre: 'Compliance, suspensiones y ajustes', requerimientos: ['MLM-047', 'MLM-048', 'MLM-059', 'MLM-060', 'MLM-061'], fase: 6, descripcion: 'Alertas, suspensiones, devoluciones y correcciones.' },
   { patron: '/corporativo/auditoria', numero: '24', nombre: 'Auditoría', requerimientos: ['MLM-007', 'MLM-062'], fase: 6, descripcion: 'Bitácora filtrable con valores anterior y nuevo.' },
   { patron: '/corporativo/reportes', numero: '24', nombre: 'Reportes exportables', requerimientos: ['MLM-014', 'MLM-049', 'MLM-064'], fase: 6, descripcion: 'Filtros por afiliado, producto, RUN, período y estado.' },
+  { patron: '/corporativo/balance', numero: 'B', nombre: 'Balance financiero', requerimientos: ['MLM-057', 'MLM-064'], fase: 8, descripcion: 'Ventas netas, comisiones, margen comercial y porcentaje pagado en bonos.' },
   { patron: '/corporativo/integraciones', numero: '25', nombre: 'Integraciones / estado de conectores', requerimientos: ['MLM-065', 'MLM-066', 'MLM-067', 'MLM-068', 'MLM-069', 'MLM-070'], fase: 6, descripcion: 'LMS, e-commerce, pagos, notificaciones y mercados (conceptual).' },
   { patron: '/demo/datos', numero: 'D', nombre: 'Datos de demostración', requerimientos: [], fase: 2, descripcion: 'Inspección interna de los datos DEMO y verificación de consistencia.' },
 ];

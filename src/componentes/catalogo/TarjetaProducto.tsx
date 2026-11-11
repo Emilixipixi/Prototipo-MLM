@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { categorias } from '../../datos/presentacionCatalogo';
+import { usePrecios } from '../../hooks/usePrecios';
+import { etiquetaDescuento } from '../../servicios/descuentos';
 import type { Producto } from '../../tipos/catalogo';
 import { Boton } from '../ui/Boton';
 import { Insignia } from '../ui/Insignia';
@@ -15,6 +17,7 @@ interface PropsTarjetaProducto {
 
 export function TarjetaProducto({ producto, mostrarVolumen, alAgregar }: PropsTarjetaProducto) {
   const categoria = categorias[producto.categoria];
+  const precio = usePrecios()(producto);
   return (
     <article className="group flex min-w-0 flex-col overflow-hidden rounded-tarjeta border border-borde bg-superficie shadow-tarjeta transition-shadow hover:shadow-flotante">
       <Link to={`/catalogo/${producto.id}`} className="block" aria-label={`Ver ficha de ${producto.nombre}`}>
@@ -30,7 +33,7 @@ export function TarjetaProducto({ producto, mostrarVolumen, alAgregar }: PropsTa
           <p className="mt-1 line-clamp-2 text-[12.5px] text-texto-2">{producto.descripcion}</p>
         </div>
         <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-1">
-          <ValoresProducto precio={producto.precio} vp={producto.vp} vc={producto.vc} moneda={producto.moneda} mostrarVolumen={mostrarVolumen} compacto />
+          <ValoresProducto precio={precio.precioFinal} precioLista={precio.precioLista} etiquetaDescuento={precio.descuento ? etiquetaDescuento(precio.descuento) : undefined} vp={producto.vp} vc={producto.vc} moneda={producto.moneda} mostrarVolumen={mostrarVolumen} compacto />
           <Boton tamano="sm" icono={ShoppingCart} onClick={() => alAgregar(producto)}>Agregar</Boton>
         </div>
       </div>

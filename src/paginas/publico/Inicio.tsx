@@ -13,6 +13,7 @@ import { categorias } from '../../datos/presentacionCatalogo';
 import { useCarritoStore } from '../../store/useCarritoStore';
 import { useCatalogoStore } from '../../store/useCatalogoStore';
 import { usePersonaSesion } from '../../store/useSesionStore';
+import { usePrecios } from '../../hooks/usePrecios';
 import type { CategoriaProducto, Producto } from '../../tipos/catalogo';
 import { formatearMonto } from '../../utilidades/formatos';
 import { puedeVerVolumen } from '../../utilidades/visibilidad';
@@ -33,6 +34,7 @@ export default function Inicio() {
   const todos = useCatalogoStore((estado) => estado.productos);
   const productos = useMemo(() => todos.filter((producto) => producto.activo), [todos]);
   const agregar = useCarritoStore((estado) => estado.agregar);
+  const calcularPrecio = usePrecios();
   const persona = usePersonaSesion();
   const navegar = useNavigate();
   const toast = useToast();
@@ -86,7 +88,7 @@ export default function Inicio() {
                 <div className="min-w-0">
                   <p className="truncate text-[13.5px] font-bold">{producto.nombre}</p>
                   <p className="text-[11.5px] text-[#A9BCD9]">{categorias[producto.categoria].nombre}</p>
-                  <p className="cifra mt-0.5 text-sm font-semibold">{formatearMonto(producto.precio, producto.moneda)}</p>
+                  <p className="cifra mt-0.5 text-sm font-semibold">{formatearMonto(calcularPrecio(producto).precioFinal, producto.moneda)}</p>
                 </div>
               </div>
             ))}

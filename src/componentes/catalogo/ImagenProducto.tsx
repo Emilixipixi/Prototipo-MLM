@@ -3,7 +3,7 @@ import type { Producto } from '../../tipos/catalogo';
 import { unirClases } from '../../utilidades/clases';
 
 interface PropsImagenProducto {
-  producto: Producto;
+  producto: Pick<Producto, 'id' | 'nombre' | 'categoria' | 'imagen'>;
   className?: string;
   tamano?: 'sm' | 'md' | 'lg';
 }
@@ -14,6 +14,13 @@ export function ImagenProducto({ producto, className, tamano = 'md' }: PropsImag
   const categoria = categorias[producto.categoria];
   const Icono = iconosProducto[producto.id] ?? categoria.icono;
   const [desde, hasta] = categoria.degradado;
+  if (producto.imagen) {
+    return (
+      <div className={unirClases('relative isolate overflow-hidden bg-fondo', className)}>
+        <img src={producto.imagen} alt={producto.nombre} className="size-full object-cover" loading="lazy" />
+      </div>
+    );
+  }
   return (
     <div
       className={unirClases('relative isolate grid place-items-center overflow-hidden', className)}

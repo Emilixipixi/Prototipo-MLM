@@ -136,7 +136,7 @@ export default function DetallePedido() {
                     {producto && <ImagenProducto producto={producto} tamano="sm" className="size-14 shrink-0 rounded-xl" />}
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-semibold text-texto">{producto?.nombre ?? item.productoId}</p>
-                      <p className="cifra text-xs text-texto-2">{item.cantidad} x {formatearMonto(item.precioUnitario)}{mostrarVolumen ? ` · ${formatearNumero(item.vpUnitario)} VP · ${formatearNumero(item.vcUnitario)} VC` : ''}</p>
+                      <p className="cifra text-xs text-texto-2">{item.cantidad} x {formatearMonto(item.precioUnitario)}{item.descuento ? ` (antes ${formatearMonto(item.descuento.precioLista)}, ${item.descuento.nombreDescuento})` : ''}{mostrarVolumen ? ` · ${formatearNumero(item.vpUnitario)} VP · ${formatearNumero(item.vcUnitario)} VC` : ''}</p>
                     </div>
                     <span className="cifra font-semibold text-texto">{formatearMonto(item.precioUnitario * item.cantidad)}</span>
                   </li>

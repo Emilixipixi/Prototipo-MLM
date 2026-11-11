@@ -1,7 +1,7 @@
 import {
   Award, CalendarRange, Database, ClipboardCheck, FileChartColumn, Gift, GraduationCap, House, KeyRound,
   LayoutDashboard, Network, Package, Plug, Receipt, ScrollText, ShieldAlert, ShoppingCart, SlidersHorizontal,
-  Calculator, TrendingUp, Users, Workflow, type LucideIcon,
+  Calculator, TrendingUp, Users, Workflow, Scale, Landmark, type LucideIcon,
 } from 'lucide-react';
 import type { ModuloPermiso } from '../tipos/permisos';
 
@@ -43,6 +43,7 @@ export const navegacionAfiliado: GrupoNavegacion[] = [
     items: [
       { texto: 'Mis compras', ruta: '/afiliado/compras', icono: ShoppingCart },
       { texto: 'Mis liquidaciones', ruta: '/afiliado/liquidaciones', icono: Receipt },
+      { texto: 'Mi balance', ruta: '/afiliado/balance', icono: Scale },
       { texto: 'Mi formación', ruta: '/afiliado/formacion', icono: GraduationCap },
     ],
   },
@@ -72,6 +73,7 @@ export const navegacionCorporativo: GrupoNavegacion[] = [
       { texto: 'Bonos', ruta: '/corporativo/bonos', icono: SlidersHorizontal, modulo: 'bonos' },
       { texto: 'Simulador', ruta: '/corporativo/simulador', icono: Calculator, modulo: 'simulador' },
       { texto: 'Liquidaciones', ruta: '/corporativo/liquidaciones', icono: ClipboardCheck, modulo: 'liquidaciones' },
+      { texto: 'Balance financiero', ruta: '/corporativo/balance', icono: Landmark, modulo: 'reportes' },
     ],
   },
   {

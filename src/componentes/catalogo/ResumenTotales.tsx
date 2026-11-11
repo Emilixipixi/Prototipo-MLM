@@ -7,13 +7,15 @@ interface PropsResumenTotales {
   vc: number;
   mostrarVolumen: boolean;
   articulos: number;
+  ahorro?: number;
 }
 
-export function ResumenTotales({ precio, vp, vc, mostrarVolumen, articulos }: PropsResumenTotales) {
+export function ResumenTotales({ precio, vp, vc, mostrarVolumen, articulos, ahorro = 0 }: PropsResumenTotales) {
   return (
     <dl className="flex flex-col gap-2.5 text-[13.5px]">
       <div className="flex items-center justify-between gap-3"><dt className="text-texto-2">Artículos</dt><dd className="cifra font-medium text-texto">{articulos}</dd></div>
-      <div className="flex items-center justify-between gap-3"><dt className="text-texto-2">Subtotal</dt><dd className="cifra font-medium text-texto">{formatearMonto(precio)}</dd></div>
+      <div className="flex items-center justify-between gap-3"><dt className="text-texto-2">Subtotal</dt><dd className="cifra font-medium text-texto">{formatearMonto(precio + ahorro)}</dd></div>
+      {ahorro > 0 && <div className="flex items-center justify-between gap-3"><dt className="text-texto-2">Descuentos</dt><dd className="cifra font-semibold text-exito">-{formatearMonto(ahorro)}</dd></div>}
       <div className="flex items-center justify-between gap-3"><dt className="text-texto-2">Envío e impuestos</dt><dd className="text-xs text-texto-3">No aplica en la demostración</dd></div>
       {mostrarVolumen && (
         <>

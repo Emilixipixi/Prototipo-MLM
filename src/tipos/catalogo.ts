@@ -7,3 +7,9 @@ export interface Producto {
   vigenteDesde: string; vigenteHasta: string | null; activo: boolean;
   proveedorFormativo?: string; imagen?: string;
 }
+
+export interface Descuento {
+  id: string; nombre: string; tipo: 'porcentaje' | 'monto'; valor: number;
+  productoIds: string[]; vigenteDesde: string; vigenteHasta: string | null; activo: boolean;
+  creadoPor: string; fecha: string;
+}

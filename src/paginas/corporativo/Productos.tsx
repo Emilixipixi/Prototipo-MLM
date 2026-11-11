@@ -1,5 +1,8 @@
 import { useState, type ChangeEvent } from 'react';
-import { Package, Pencil, Plus, Power } from 'lucide-react';
+import { BadgePercent, Package, Pencil, Plus, Power } from 'lucide-react';
+import { GestionDescuentos } from '../../componentes/catalogo/GestionDescuentos';
+import { Pestanas } from '../../componentes/ui/Pestanas';
+import { CampoImagenProducto } from '../../componentes/catalogo/CampoImagenProducto';
 import { ImagenProducto } from '../../componentes/catalogo/ImagenProducto';
 import { Boton } from '../../componentes/ui/Boton';
 import { BotonIcono } from '../../componentes/ui/BotonIcono';
@@ -26,6 +29,16 @@ const vacio: DatosProducto = {
 };
 
 export default function Productos() {
+  const [seccion, setSeccion] = useState('productos');
+  return (
+    <div className="flex flex-col gap-5">
+      <Pestanas etiqueta="Catálogo" activa={seccion} alCambiar={setSeccion} pestanas={[{ id: 'productos', texto: 'Productos', icono: Package }, { id: 'descuentos', texto: 'Descuentos', icono: BadgePercent }]} />
+      {seccion === 'productos' ? <ListaProductos /> : <GestionDescuentos />}
+    </div>
+  );
+}
+
+function ListaProductos() {
   const productos = useCatalogoStore((estado) => estado.productos);
   const actor = usePersonaSesion();
   const toast = useToast();
@@ -110,6 +123,7 @@ function FormularioProducto({ inicial, alCerrar }: { inicial: DatosProducto; alC
         <Campo etiqueta="VC" ayuda="Volumen de compensación para bonos." {...numero('vc')} />
         <Campo etiqueta="Vigente desde" type="date" value={datos.vigenteDesde} onChange={(evento) => cambiar('vigenteDesde', evento.target.value)} />
         <Campo etiqueta="Vigente hasta (opcional)" type="date" value={datos.vigenteHasta ?? ''} onChange={(evento) => cambiar('vigenteHasta', evento.target.value || null)} />
+        <div className="sm:col-span-2"><CampoImagenProducto producto={{ id: datos.id ?? 'nuevo', nombre: datos.nombre || 'Nuevo producto', categoria: datos.categoria, imagen: datos.imagen }} alCambiar={(imagen) => cambiar('imagen', imagen)} /></div>
         {datos.categoria === 'programa_formativo' && <Campo etiqueta="Proveedor formativo" value={datos.proveedorFormativo ?? ''} onChange={(evento) => cambiar('proveedorFormativo', evento.target.value)} className="sm:col-span-2" />}
         <label className="flex min-h-11 items-center gap-2 text-[13.5px] font-semibold sm:col-span-2">
           <input type="checkbox" checked={datos.activo} onChange={(evento) => cambiar('activo', evento.target.checked)} className="size-5 accent-[#0E7490]" />

@@ -8,6 +8,8 @@ import { fechaHoraActualIso } from '../utilidades/fechas';
 import { exito, fallo, type Resultado } from '../validaciones/resultado';
 import { transicionesPedido, validarTransicion } from '../validaciones/transiciones';
 import { calcularAjustesPorDevolucion } from './calculosCompensacion';
+import { calcularPrecio } from './descuentos';
+import { useDescuentosStore } from '../store/useDescuentosStore';
 import { periodoAbiertoActual } from './consultas';
 import { obtenerFuente } from './fuente';
 import { notificar, registrarBitacora } from './registro';
@@ -35,7 +37,11 @@ export function crearPedido(compradorId: string, lineas: LineaPedido[], actorId 
     const producto = productos.find((item) => item.id === linea.productoId);
     if (!producto || !producto.activo) return fallo(`El producto ${linea.productoId} no está disponible.`);
     if (linea.cantidad < 1) return fallo('La cantidad debe ser mayor a cero.');
-    items.push({ productoId: producto.id, cantidad: linea.cantidad, precioUnitario: producto.precio, vpUnitario: producto.vp, vcUnitario: producto.vc });
+    const precio = calcularPrecio(producto, useDescuentosStore.getState().descuentos);
+    items.push({
+      productoId: producto.id, cantidad: linea.cantidad, precioUnitario: precio.precioFinal, vpUnitario: producto.vp, vcUnitario: producto.vc,
+      ...(precio.descuento ? { descuento: { precioLista: precio.precioLista, descuentoId: precio.descuento.id, nombreDescuento: precio.descuento.nombre } } : {}),
+    });
   }
   if (items.length === 0) return fallo('El pedido no tiene artículos.');
   const { pedidos, establecer } = usePedidosStore.getState();

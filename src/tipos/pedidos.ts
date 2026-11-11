@@ -1,6 +1,6 @@
 export type EstadoPedido = 'borrador' | 'pendiente' | 'confirmada' | 'cancelada' | 'devuelta';
 
-export interface ItemPedido { productoId: string; cantidad: number; precioUnitario: number; vpUnitario: number; vcUnitario: number; }
+export interface ItemPedido { productoId: string; cantidad: number; precioUnitario: number; vpUnitario: number; vcUnitario: number; descuento?: DetalleDescuentoItem; }
 
 export interface EventoPedido { estado: EstadoPedido; fecha: string; actorId: string; detalle: string; }
 
@@ -16,3 +16,5 @@ export interface MovimientoVolumen {
   movimientoOrigenId: string | null; personaId: string; periodoId: string;
   vp: number; vc: number; fecha: string; motivo: string;
 }
+
+export interface DetalleDescuentoItem { precioLista: number; descuentoId: string; nombreDescuento: string; }

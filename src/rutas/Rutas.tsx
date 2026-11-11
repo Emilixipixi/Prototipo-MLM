@@ -24,6 +24,8 @@ const Compliance = lazy(() => import('../paginas/corporativo/Compliance'));
 const Auditoria = lazy(() => import('../paginas/corporativo/Auditoria'));
 const Reportes = lazy(() => import('../paginas/corporativo/Reportes'));
 const Integraciones = lazy(() => import('../paginas/corporativo/Integraciones'));
+const BalanceFinanciero = lazy(() => import('../paginas/corporativo/BalanceFinanciero'));
+const MiBalance = lazy(() => import('../paginas/afiliado/MiBalance'));
 const Ingreso = lazy(() => import('../paginas/sesion/Ingreso'));
 const RecuperarAcceso = lazy(() => import('../paginas/sesion/RecuperarAcceso'));
 const AccesoRestringido = lazy(() => import('../paginas/sesion/AccesoRestringido'));
@@ -53,7 +55,7 @@ const pantallasCorporativo: Record<string, ComponentType> = {
   resumen: PanelCorporativo, usuarios: Usuarios, 'usuarios/:id': FichaPersona, permisos: Permisos,
   productos: Productos, arboles: Arboles, periodos: Periodos, rangos: Rangos,
   bonos: ConfiguracionBonos, simulador: Simulador, liquidaciones: Liquidaciones, compliance: Compliance,
-  auditoria: Auditoria, reportes: Reportes, integraciones: Integraciones,
+  auditoria: Auditoria, reportes: Reportes, integraciones: Integraciones, balance: BalanceFinanciero,
 };
 
 const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
@@ -71,6 +73,7 @@ const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
   { ruta: 'compliance', modulo: 'compliance' },
   { ruta: 'auditoria', modulo: 'auditoria' },
   { ruta: 'reportes', modulo: 'reportes' },
+  { ruta: 'balance', modulo: 'reportes' },
   { ruta: 'integraciones', modulo: 'integraciones' },
 ];
 
@@ -106,6 +109,7 @@ export function Rutas() {
           <Route path="bonos" element={<MisBonos />} />
           <Route path="compras" element={<MisCompras />} />
           <Route path="liquidaciones" element={<MisLiquidaciones />} />
+          <Route path="balance" element={<MiBalance />} />
           <Route path="formacion" element={<MiFormacion />} />
         </Route>
 
