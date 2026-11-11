@@ -21,6 +21,8 @@ export interface EstadoCompensacionInicial {
 
 export const ID_CORRIDA_C01 = 'DEMO-CR-C01-01';
 
+const esRedAmpliada = (personaId: string) => /^DEMO-A(1[6-9]|[2-9]\d)$/.test(personaId);
+
 export function crearEstadoInicialCompensacion(): EstadoCompensacionInicial {
   const fuente: FuenteDatos = {
     personas: personasIniciales, patrocinios: patrociniosIniciales, posiciones: posicionesIniciales,
@@ -52,7 +54,10 @@ export function crearEstadoInicialCompensacion(): EstadoCompensacionInicial {
   }));
 
   const liquidaciones = construirLiquidaciones(corrida, [], personasIniciales, { actorId: 'DEMO-U01', fecha: '2026-11-02T18:00:00' })
-    .map((liquidacion): Liquidacion => {
+    .map((liquidacion, indice): Liquidacion => {
+      if (liquidacion.estado === 'retenida' && liquidacion.personaId !== 'DEMO-A05') {
+        return { ...liquidacion, aprobaciones: [...liquidacion.aprobaciones, { actorId: 'DEMO-U01', fecha: '2026-11-03T15:40:00', accion: 'Pago retenido por estado de la cuenta' }] };
+      }
       if (liquidacion.estado === 'retenida') {
         return {
           ...liquidacion,
@@ -73,8 +78,24 @@ export function crearEstadoInicialCompensacion(): EstadoCompensacionInicial {
           aprobaciones: [...aprobaciones, { actorId: 'DEMO-U01', fecha: '2026-11-04T12:00:00', accion: 'Marcada como liquidada (simulado, sin transferencia)' }],
         };
       }
+      if (!esRedAmpliada(liquidacion.personaId)) return { ...liquidacion, estado: 'apta_para_desembolso', aprobaciones };
+      const variante = indice % 5;
+      if (variante === 0) return { ...liquidacion, estado: 'borrador', aprobaciones: liquidacion.aprobaciones };
+      if (variante === 1) return { ...liquidacion, estado: 'en_revision', aprobaciones: [...liquidacion.aprobaciones, { actorId: 'DEMO-U02', fecha: '2026-11-02T19:10:00', accion: 'Enviada a revisión' }] };
+      if (variante === 2) return { ...liquidacion, estado: 'aprobada', aprobaciones: aprobaciones.slice(0, -1) };
+      if (variante === 3) {
+        return {
+          ...liquidacion,
+          estado: 'liquidada_simulada',
+          comprobante: `DEMO-CMP-LIQ-C01-${liquidacion.personaId.replace('DEMO-', '')}`,
+          aprobaciones: [...aprobaciones, { actorId: 'DEMO-U01', fecha: '2026-11-05T12:00:00', accion: 'Marcada como liquidada (simulado, sin transferencia)' }],
+        };
+      }
       return { ...liquidacion, estado: 'apta_para_desembolso', aprobaciones };
     });
+
+  const liquidadas = new Set(liquidaciones.filter((liquidacion) => liquidacion.estado === 'liquidada_simulada').map((liquidacion) => liquidacion.personaId));
+  corrida.resultados = corrida.resultados.map((bono) => (bono.estado === 'aprobada' && liquidadas.has(bono.personaId) ? { ...bono, estado: 'liquidada' } : bono));
 
   return {
     corridas: [corrida],

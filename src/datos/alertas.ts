@@ -1,4 +1,5 @@
 import type { AlertaIntegridad } from '../tipos/compliance';
+import { alertasAmpliadas } from './ampliacion';
 
 export const alertasIniciales: AlertaIntegridad[] = [
   {
@@ -17,4 +18,5 @@ export const alertasIniciales: AlertaIntegridad[] = [
     descripcion: 'Intento de colocación en una posición ocupada (DEMO-POS-001, brazo A).',
     fecha: '2026-10-20T10:02:00',
   },
+  ...alertasAmpliadas,
 ];

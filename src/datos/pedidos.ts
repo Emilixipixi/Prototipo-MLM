@@ -1,4 +1,5 @@
 import type { Pedido } from '../tipos/pedidos';
+import { pedidosAmpliados } from './ampliacion';
 
 export const pedidosIniciales: Pedido[] = [
   {
@@ -762,4 +763,5 @@ export const pedidosIniciales: Pedido[] = [
       { estado: 'confirmada', fecha: '2026-11-11T15:48:00', actorId: 'DEMO-U02', detalle: 'Confirmación de cobro simulada (sin transacción real)' },
     ],
   },
+  ...pedidosAmpliados,
 ];

@@ -1,4 +1,5 @@
 import type { MovimientoVolumen } from '../tipos/pedidos';
+import { movimientosAmpliados } from './ampliacion';
 
 export const movimientosIniciales: MovimientoVolumen[] = [
   { id: 'DEMO-MV-0001', tipo: 'origen', pedidoId: 'DEMO-P04', movimientoOrigenId: null, personaId: 'DEMO-A08', periodoId: 'DEMO-C01', vp: 400, vc: 315, fecha: '2026-10-19T09:09:00', motivo: 'Pedido confirmado' },
@@ -76,4 +77,5 @@ export const movimientosIniciales: MovimientoVolumen[] = [
   { id: 'DEMO-MV-0073', tipo: 'origen', pedidoId: 'DEMO-P74', movimientoOrigenId: null, personaId: 'DEMO-A01', periodoId: 'DEMO-C02', vp: 90, vc: 70, fecha: '2026-11-11T12:21:00', motivo: 'Pedido confirmado' },
   { id: 'DEMO-MV-0074', tipo: 'origen', pedidoId: 'DEMO-P75', movimientoOrigenId: null, personaId: 'DEMO-A06', periodoId: 'DEMO-C02', vp: 270, vc: 210, fecha: '2026-11-11T13:31:00', motivo: 'Pedido confirmado' },
   { id: 'DEMO-MV-0075', tipo: 'origen', pedidoId: 'DEMO-P76', movimientoOrigenId: null, personaId: 'DEMO-A07', periodoId: 'DEMO-C02', vp: 230, vc: 175, fecha: '2026-11-11T15:48:00', motivo: 'Pedido confirmado' },
+  ...movimientosAmpliados,
 ];

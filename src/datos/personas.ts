@@ -1,4 +1,5 @@
 import type { Persona } from '../tipos/persona';
+import { personasAmpliadas } from './ampliacion';
 
 const personasFase1: Persona[] = [
   {
@@ -138,4 +139,4 @@ const personasRed: Persona[] = [
   },
 ];
 
-export const personasIniciales: Persona[] = [...personasFase1, ...personasRed];
+export const personasIniciales: Persona[] = [...personasFase1, ...personasRed, ...personasAmpliadas];

@@ -1,4 +1,5 @@
 import type { HistorialRunPrevio, RemanentePrevio } from '../tipos/calificacion';
+import { historialAmpliado } from './ampliacion';
 
 const nota = 'Trayectoria anterior al ciclo DEMO-C01 (dato de demostración)';
 
@@ -18,6 +19,7 @@ export const historialRunPrevio: HistorialRunPrevio[] = [
   { personaId: 'DEMO-A13', runHistoricoPrevio: null, runCobroCicloAnterior: null, nota },
   { personaId: 'DEMO-A14', runHistoricoPrevio: null, runCobroCicloAnterior: null, nota },
   { personaId: 'DEMO-A15', runHistoricoPrevio: null, runCobroCicloAnterior: null, nota },
+  ...historialAmpliado,
 ];
 
 export const remanentesPrevios: RemanentePrevio[] = [

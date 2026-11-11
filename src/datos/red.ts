@@ -1,4 +1,5 @@
 import type { Patrocinio, PosicionTrinaria } from '../tipos/red';
+import { relacionesAmpliadas, ubicacionesAmpliadas } from './ampliacion';
 
 const relaciones: Array<[string, string | null, string]> = [
   ['DEMO-A00', null, '2024-01-15'],
@@ -17,6 +18,7 @@ const relaciones: Array<[string, string | null, string]> = [
   ['DEMO-A13', 'DEMO-A12', '2026-04-27'],
   ['DEMO-A14', 'DEMO-A13', '2026-06-05'],
   ['DEMO-A15', 'DEMO-A14', '2026-08-17'],
+  ...relacionesAmpliadas,
 ];
 
 export const patrociniosIniciales: Patrocinio[] = relaciones.map(([personaId, patrocinadorId, fecha], indice) => ({
@@ -46,6 +48,7 @@ const ubicaciones: Array<[string, string, string | null, 'A' | 'B' | 'C' | null,
   ['DEMO-POS-012', 'DEMO-A13', 'DEMO-POS-011', 'A', '2026-04-28'],
   ['DEMO-POS-013', 'DEMO-A14', 'DEMO-POS-012', 'A', '2026-06-06'],
   ['DEMO-POS-014', 'DEMO-A15', 'DEMO-POS-013', 'A', '2026-08-18'],
+  ...ubicacionesAmpliadas,
 ];
 
 export const posicionesIniciales: PosicionTrinaria[] = ubicaciones.map(([id, personaId, padrePosicionId, brazo, fecha]) => ({

@@ -1,4 +1,5 @@
 import type { Producto } from '../tipos/catalogo';
+import { productosAmpliados } from './ampliacion';
 
 export const productosIniciales: Producto[] = [
   {
@@ -37,4 +38,5 @@ export const productosIniciales: Producto[] = [
     categoria: 'servicio', precio: 300, vp: 120, vc: 90, moneda: 'USD',
     vigenteDesde: '2025-01-01', vigenteHasta: '2025-12-31', activo: false,
   },
+  ...productosAmpliados,
 ];
