@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { BadgeCheck, Ban, CircleCheck, ClipboardCheck, FileCheck2, Lock, PauseCircle, PlayCircle, Receipt, Wallet } from 'lucide-react';
+import { BadgeCheck, Ban, Calculator, CircleCheck, CircleDashed, ClipboardCheck, FileCheck2, Hourglass, Lock, PauseCircle, PlayCircle, Receipt, RotateCcw, Wallet } from 'lucide-react';
 import { ResultadosCorrida } from '../../componentes/bonos/ResultadosCorrida';
 import { BarraExportar } from '../../componentes/ui/BarraExportar';
 import { Boton } from '../../componentes/ui/Boton';
@@ -15,7 +15,9 @@ import { estadosLiquidacion } from '../../datos/presentacionCompensacion';
 import { estadosCorrida } from '../../datos/presentacionCompensacionCorporativa';
 import { presentacionMotores } from '../../datos/presentacionMotores';
 import { usePermiso } from '../../hooks/usePermiso';
-import { aprobarCierre, aprobarCorrida, cambiarEstadoLiquidacion, generarLiquidaciones, rechazarCorrida, revisarPartida } from '../../servicios/compensacion';
+import { aprobarCierre, aprobarCorrida, cambiarEstadoLiquidacion, crearCorrida, enviarCorridaARevision, generarLiquidaciones, iniciarCierre, rechazarCorrida, revisarPartida } from '../../servicios/compensacion';
+import { reabrirPeriodo } from '../../servicios/periodos';
+import { EnlaceBoton } from '../../componentes/ui/EnlaceBoton';
 import { useCompensacionStore } from '../../store/useCompensacionStore';
 import { usePeriodosStore } from '../../store/usePeriodosStore';
 import { usePersonasStore } from '../../store/usePersonasStore';
@@ -46,7 +48,10 @@ export default function Liquidaciones() {
   const idActor = actor?.id ?? 'DEMO-U01';
   const enRevision = corridas.filter((corrida) => corrida.estado === 'en_revision');
   const aprobadas = corridas.filter((corrida) => corrida.estado === 'aprobada');
-  const enCierre = periodos.filter((periodo) => periodo.estado === 'en_cierre');
+  const ciclosOrdenados = periodos.filter((periodo) => periodo.tipo === 'ciclo').sort((a, b) => a.fechaInicio.localeCompare(b.fechaInicio));
+  const abierto = ciclosOrdenados.find((periodo) => periodo.estado === 'abierto');
+  const ultimoCerrado = [...ciclosOrdenados].reverse().find((periodo) => periodo.estado === 'cerrado');
+  const ciclosCierre = [ultimoCerrado, ...ciclosOrdenados.filter((periodo) => periodo.estado === 'abierto' || periodo.estado === 'en_cierre')].filter((periodo): periodo is NonNullable<typeof periodo> => Boolean(periodo));
   const [corridaId, setCorridaId] = useState<string | null>(null);
   const revisada = enRevision.find((corrida) => corrida.id === corridaId) ?? enRevision[0];
   const [pendiente, setPendiente] = useState<Pendiente | null>(null);
@@ -63,6 +68,18 @@ export default function Liquidaciones() {
     else toast.error('No se pudo completar', resultado.error);
   };
 
+  const generarEjemplo = () => {
+    if (!abierto) return;
+    const creada = crearCorrida(abierto.id, idActor);
+    if (!creada.ok) {
+      toast.error('No se pudo simular', creada.error);
+      return;
+    }
+    const enviada = enviarCorridaARevision(creada.valor.id, idActor);
+    if (enviada.ok) toast.exito('Corrida de ejemplo en revisión', `${creada.valor.id} con reglas ${creada.valor.versionReglasId}. Revisa sus partidas y apruébala.`);
+    else toast.error('No se pudo enviar a revisión', enviada.error);
+  };
+
   const generar = (id: string) => {
     const resultado = generarLiquidaciones(id, idActor);
     if (!resultado.ok) {
@@ -75,10 +92,10 @@ export default function Liquidaciones() {
 
   const columnas: ColumnaTabla<Liquidacion>[] = [
     { clave: 'persona', titulo: 'Afiliado', principalEnMovil: true, valorOrden: (fila) => nombre(fila.personaId), render: (fila) => <div><p className="font-semibold">{nombre(fila.personaId)}</p><p className="cifra text-xs text-texto-2">{fila.id}</p></div> },
-    { clave: 'periodo', titulo: 'Período', render: (fila) => <span className="cifra">{fila.periodoId}</span> },
-    { clave: 'conceptos', titulo: 'Bonos', alinear: 'derecha', ocultarEnMovil: true, render: (fila) => <span className="cifra">{formatearMonto(fila.conceptos.reduce((suma, concepto) => suma + concepto.monto, 0))}</span> },
+    { clave: 'periodo', titulo: 'Período', render: (fila) => <span className="cifra whitespace-nowrap">{fila.periodoId}</span> },
+    { clave: 'conceptos', titulo: 'Bonos', alinear: 'derecha', ocultarEnMovil: true, render: (fila) => <span className="cifra whitespace-nowrap">{formatearMonto(fila.conceptos.reduce((suma, concepto) => suma + concepto.monto, 0))}</span> },
     { clave: 'ajustes', titulo: 'Ajustes', ocultarEnMovil: true, render: (fila) => <span className="cifra text-[12px] text-texto-2">{fila.ajustes.join(', ') || '-'}</span> },
-    { clave: 'total', titulo: 'Total', alinear: 'derecha', valorOrden: (fila) => fila.total, render: (fila) => <span className="cifra font-bold">{formatearMonto(fila.total)}</span> },
+    { clave: 'total', titulo: 'Total', alinear: 'derecha', valorOrden: (fila) => fila.total, render: (fila) => <span className="cifra whitespace-nowrap font-bold">{formatearMonto(fila.total)}</span> },
     { clave: 'estado', titulo: 'Estado', render: (fila) => <div className="flex flex-col items-start gap-1"><Insignia tono={estadosLiquidacion[fila.estado].tono} icono={estadosLiquidacion[fila.estado].icono}>{estadosLiquidacion[fila.estado].etiqueta}</Insignia>{fila.motivoRetencion && <span className="text-[11.5px] text-texto-2">{fila.motivoRetencion}</span>}</div> },
   ];
 
@@ -109,7 +126,20 @@ export default function Liquidaciones() {
               ) : null) : undefined}
             />
           </Tarjeta>
-        ) : <Tarjeta><EstadoVacio icono={ClipboardCheck} titulo="No hay corridas en revisión" texto="Ejecuta una corrida en el Simulador y envíala a revisión." /></Tarjeta>}
+        ) : (
+          <Tarjeta className="flex flex-col gap-4">
+            <EstadoVacio icono={ClipboardCheck} titulo="No hay corridas en revisión" texto={`Una corrida calcula los bonos de un ciclo. Genera una de ejemplo de ${abierto?.id ?? 'el ciclo abierto'} para recorrer el proceso completo aquí mismo.`} />
+            <ol className="mx-auto grid w-full max-w-3xl gap-2 text-[12.5px] sm:grid-cols-5">
+              {['Simular corrida', 'Revisar partidas', 'Aprobar corrida', 'Generar liquidaciones', 'Cerrar el período'].map((paso, indice) => (
+                <li key={paso} className="flex items-center gap-2 rounded-xl bg-fondo px-3 py-2 sm:flex-col sm:text-center"><span className="cifra grid size-6 shrink-0 place-items-center rounded-full bg-primario text-[11px] font-bold text-white">{indice + 1}</span>{paso}</li>
+              ))}
+            </ol>
+            <div className="flex flex-wrap justify-center gap-2">
+              {abierto && <ConPermiso modulo="simulador" accion="crear"><Boton icono={PlayCircle} onClick={generarEjemplo}>Generar corrida de ejemplo de {abierto.id}</Boton></ConPermiso>}
+              <EnlaceBoton to="/corporativo/simulador" variante="secundario" icono={Calculator}>Ir al Simulador</EnlaceBoton>
+            </div>
+          </Tarjeta>
+        )}
       </section>
 
       <section className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
@@ -128,18 +158,29 @@ export default function Liquidaciones() {
             })}
           </ul>
         </Tarjeta>
-        <Tarjeta titulo="Aprobación de cierre" subtitulo="Requiere una corrida aprobada del período" icono={Lock}>
-          {enCierre.length === 0 ? <p className="text-[13px] text-texto-2">No hay períodos en cierre. Inícialo desde Períodos.</p> : (
-            <ul className="flex flex-col gap-2">
-              {enCierre.map((periodo) => (
-                <li key={periodo.id} className="flex flex-wrap items-center gap-2 rounded-xl border border-borde p-3 text-[13px]">
-                  <span className="cifra font-semibold">{periodo.id}</span>
-                  <Insignia tono="advertencia">En cierre</Insignia>
-                  <ConPermiso modulo="periodos" accion="aprobar"><Boton tamano="sm" icono={Lock} onClick={() => puedeCerrar && informar(aprobarCierre(periodo.id, idActor), `${periodo.id} cerrado`, 'Las calificaciones y saldos del período quedan congelados.')} className="ml-auto">Aprobar cierre</Boton></ConPermiso>
+        <Tarjeta titulo="Aprobación de cierre" subtitulo="Cerrar un ciclo congela sus calificaciones y saldos" icono={Lock}>
+          <ul className="flex flex-col gap-2">
+            {ciclosCierre.map((periodo) => {
+              const aprobada = corridas.find((corrida) => corrida.periodoId === periodo.id && corrida.estado === 'aprobada');
+              return (
+                <li key={periodo.id} className="flex flex-col gap-2 rounded-xl border border-borde p-3 text-[13px]">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="cifra font-semibold">{periodo.id}</span>
+                    <Insignia tono={periodo.estado === 'en_cierre' ? 'advertencia' : periodo.estado === 'cerrado' ? 'exito' : 'info'}>{periodo.estado === 'en_cierre' ? 'En cierre' : periodo.estado === 'cerrado' ? 'Cerrado' : 'Abierto'}</Insignia>
+                    <span className={unirClases('inline-flex items-center gap-1 text-[12px]', aprobada ? 'text-exito' : 'text-texto-2')}>{aprobada ? <CircleCheck className="size-3.5" aria-hidden /> : <CircleDashed className="size-3.5" aria-hidden />}{aprobada ? `Corrida aprobada ${aprobada.id}` : 'Falta una corrida aprobada'}</span>
+                  </div>
+                  {periodo.estado === 'cerrado' ? <p className="text-[12px] text-texto-2">Cierre aprobado con las reglas {periodo.versionReglasId}. No se recalcula con reglas nuevas.</p> : (
+                    <div className="flex flex-wrap gap-2">
+                      {periodo.estado === 'abierto' && <ConPermiso modulo="periodos" accion="aprobar"><Boton tamano="sm" variante="secundario" icono={Hourglass} onClick={() => puedeCerrar && informar(iniciarCierre(periodo.id, idActor), `${periodo.id} en cierre`, 'Ya no recibe compras nuevas hasta aprobarse o reabrirse.')}>Iniciar cierre</Boton></ConPermiso>}
+                      {periodo.estado === 'en_cierre' && <ConPermiso modulo="periodos" accion="aprobar"><Boton tamano="sm" icono={Lock} onClick={() => puedeCerrar && informar(aprobarCierre(periodo.id, idActor), `${periodo.id} cerrado`, 'Las calificaciones y saldos quedan congelados y se abre el ciclo siguiente.')}>Aprobar cierre</Boton></ConPermiso>}
+                      {periodo.estado === 'en_cierre' && <ConPermiso modulo="periodos" accion="aprobar"><Boton tamano="sm" variante="fantasma" icono={RotateCcw} onClick={() => puedeCerrar && informar(reabrirPeriodo(periodo.id, idActor), `${periodo.id} reabierto`)}>Reabrir</Boton></ConPermiso>}
+                    </div>
+                  )}
                 </li>
-              ))}
-            </ul>
-          )}
+              );
+            })}
+          </ul>
+          <p className="mt-3 text-[12px] text-texto-2">Orden sugerido: aprobar la corrida del ciclo, generar liquidaciones, iniciar el cierre y aprobarlo.</p>
         </Tarjeta>
       </section>
 
