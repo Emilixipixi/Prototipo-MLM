@@ -39,8 +39,10 @@ function datos(tienda: Tienda): Record<string, unknown> {
   return Object.fromEntries(Object.entries(tienda.getState()).filter(([, valor]) => typeof valor !== 'function'));
 }
 
-function capturar(tiendas: Record<string, Tienda>): string {
-  return JSON.stringify(Object.fromEntries(Object.entries(tiendas).map(([nombre, tienda]) => [nombre, datos(tienda)])));
+function capturar(tiendas: Record<string, Tienda>, sinImagenes = false): string {
+  const instantanea = Object.fromEntries(Object.entries(tiendas).map(([nombre, tienda]) => [nombre, datos(tienda)]));
+  if (!sinImagenes) return JSON.stringify(instantanea);
+  return JSON.stringify(instantanea, (_clave, valor: unknown) => (typeof valor === 'string' && valor.startsWith('data:image/') ? undefined : valor));
 }
 
 function aplicar(tiendas: Record<string, Tienda>, texto: string | null): void {
@@ -65,11 +67,12 @@ function leer(almacen: Storage | undefined, clave: string): string | null {
   }
 }
 
-function escribir(almacen: Storage | undefined, clave: string, valor: string): void {
+function escribir(almacen: Storage | undefined, clave: string, valor: string): boolean {
   try {
     if (almacen && almacen.getItem(clave) !== valor) almacen.setItem(clave, valor);
+    return true;
   } catch {
-    return;
+    return false;
   }
 }
 
@@ -86,7 +89,9 @@ function sincronizar(tiendas: Record<string, Tienda>, almacen: Storage | undefin
   let pendiente: ReturnType<typeof setTimeout> | null = null;
   const guardar = () => {
     if (pendiente) clearTimeout(pendiente);
-    pendiente = setTimeout(() => escribir(almacen, clave, capturar(tiendas)), 150);
+    pendiente = setTimeout(() => {
+      if (!escribir(almacen, clave, capturar(tiendas))) escribir(almacen, clave, capturar(tiendas, true));
+    }, 150);
   };
   Object.values(tiendas).forEach((tienda) => tienda.subscribe(guardar));
 }

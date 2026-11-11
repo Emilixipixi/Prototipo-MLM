@@ -7,7 +7,7 @@ export function validarImagen(archivo: File): string | null {
   return null;
 }
 
-export function leerImagenReducida(archivo: File, ladoMaximo = 900): Promise<string> {
+export function leerImagenReducida(archivo: File, ladoMaximo = 720): Promise<string> {
   return new Promise((resolver, rechazar) => {
     const lector = new FileReader();
     lector.onerror = () => rechazar(new Error('No se pudo leer la imagen.'));
@@ -25,7 +25,8 @@ export function leerImagenReducida(archivo: File, ladoMaximo = 900): Promise<str
           return;
         }
         contexto.drawImage(imagen, 0, 0, lienzo.width, lienzo.height);
-        resolver(lienzo.toDataURL(archivo.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85));
+        const webp = lienzo.toDataURL('image/webp', 0.8);
+        resolver(webp.startsWith('data:image/webp') ? webp : lienzo.toDataURL('image/jpeg', 0.8));
       };
       imagen.src = String(lector.result);
     };
