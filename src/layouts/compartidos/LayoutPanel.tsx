@@ -13,6 +13,7 @@ interface PropsLayoutPanel {
   grupos: GrupoNavegacion[];
   subtitulo: string;
   contexto: string;
+  marca?: 'mlm' | 'campus' | 'erick';
 }
 
 const claveMenuOculto = 'mlm2027-menu-oculto';
@@ -25,7 +26,7 @@ function leerMenuOculto(): boolean {
   }
 }
 
-export function LayoutPanel({ grupos, subtitulo, contexto }: PropsLayoutPanel) {
+export function LayoutPanel({ grupos, subtitulo, contexto, marca }: PropsLayoutPanel) {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [menuOculto, setMenuOculto] = useState(leerMenuOculto);
 
@@ -43,11 +44,11 @@ export function LayoutPanel({ grupos, subtitulo, contexto }: PropsLayoutPanel) {
     <div className={unirClases('min-h-dvh lg:grid', menuOculto ? 'lg:grid-cols-[minmax(0,1fr)]' : 'lg:grid-cols-[264px_minmax(0,1fr)]')}>
       {!menuOculto && (
         <aside className="sticky top-0 hidden h-dvh lg:block">
-          <MenuLateral grupos={grupos} subtitulo={subtitulo} alCerrar={alternarMenu} iconoCerrar={PanelLeftClose} />
+          <MenuLateral grupos={grupos} subtitulo={subtitulo} alCerrar={alternarMenu} iconoCerrar={PanelLeftClose} marca={marca} />
         </aside>
       )}
       <Cajon abierto={menuAbierto} alCerrar={() => setMenuAbierto(false)} etiqueta="Menú de navegación">
-        <MenuLateral grupos={grupos} subtitulo={subtitulo} alNavegar={() => setMenuAbierto(false)} alCerrar={() => setMenuAbierto(false)} />
+        <MenuLateral grupos={grupos} subtitulo={subtitulo} alNavegar={() => setMenuAbierto(false)} alCerrar={() => setMenuAbierto(false)} marca={marca} />
       </Cajon>
       <div className="flex min-w-0 flex-col">
         <div className="sticky top-0 z-30">

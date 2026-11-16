@@ -5,4 +5,6 @@ export const nombresPerfiles: Record<PerfilAcceso, string> = {
   operador: 'Operador corporativo',
   afiliado: 'Afiliado / empresario',
   cliente_alumno: 'Cliente / alumno',
+  evaluador: 'Docente evaluador',
+  admin_educativo: 'Administrador educativo',
 };

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Circle, CircleCheckBig, Route, Sparkles, UserRound, X } from 'lucide-react';
 import { flujosDemostracion, type EstadoGuia, type PasoFlujo } from '../../datos/guiaFlujos';
+import { useCampusStore } from '../../store/useCampusStore';
 import { useBitacoraStore } from '../../store/useBitacoraStore';
 import { useCompensacionStore } from '../../store/useCompensacionStore';
 import { useComplianceStore } from '../../store/useComplianceStore';
@@ -19,6 +20,8 @@ import { useToast } from '../ui/useToast';
 
 const nombresRol: Record<string, string> = {
   'DEMO-U01': 'Superadministrador', 'DEMO-U02': 'Operador', 'DEMO-A01': 'Afiliado DEMO-A01', 'DEMO-C01': 'Cliente DEMO-C01',
+  'DEMO-L01': 'Alumna DEMO-L01', 'DEMO-L03': 'Alumno DEMO-L03', 'DEMO-L06': 'Alumna DEMO-L06', 'DEMO-U03': 'Evaluador DEMO-U03',
+  'DEMO-U04': 'Administradora educativa DEMO-U04',
 };
 
 function useEstadoGuia(): EstadoGuia {
@@ -33,7 +36,13 @@ function useEstadoGuia(): EstadoGuia {
   const alertas = useComplianceStore((estado) => estado.alertas);
   const bitacora = useBitacoraStore((estado) => estado.registros);
   const permisos = usePermisosStore((estado) => estado.tabla);
-  return useMemo(() => ({ personas, posiciones, pedidos, movimientos, corridas, liquidaciones, ajustes, formacion, alertas, bitacora, permisos }), [personas, posiciones, pedidos, movimientos, corridas, liquidaciones, ajustes, formacion, alertas, bitacora, permisos]);
+  const matriculas = useCampusStore((estado) => estado.matriculas);
+  const membresias = useCampusStore((estado) => estado.membresias);
+  const progreso = useCampusStore((estado) => estado.progreso);
+  const intentos = useCampusStore((estado) => estado.intentos);
+  const documentos = useCampusStore((estado) => estado.documentos);
+  const sustentaciones = useCampusStore((estado) => estado.sustentaciones);
+  return useMemo(() => ({ personas, posiciones, pedidos, movimientos, corridas, liquidaciones, ajustes, formacion, alertas, bitacora, permisos, campus: { matriculas, membresias, progreso, intentos, documentos, sustentaciones } }), [personas, posiciones, pedidos, movimientos, corridas, liquidaciones, ajustes, formacion, alertas, bitacora, permisos, matriculas, membresias, progreso, intentos, documentos, sustentaciones]);
 }
 
 export function GuiaFlujos() {

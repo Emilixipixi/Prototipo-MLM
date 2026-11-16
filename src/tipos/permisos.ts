@@ -4,6 +4,8 @@ export type AccionPermiso = 'consultar' | 'crear' | 'editar' | 'aprobar' | 'liqu
 
 export type ModuloPermiso = 'usuarios' | 'catalogo' | 'pedidos' | 'redes' | 'periodos' | 'rangos' | 'bonos'
   | 'simulador' | 'liquidaciones' | 'compliance' | 'auditoria' | 'reportes' | 'integraciones'
-  | 'configuracion' | 'permisos';
+  | 'configuracion' | 'permisos'
+  | 'academico' | 'matriculas' | 'certificados'
+  | 'calendario' | 'docentes' | 'contenidos' | 'configuracion_erick';
 
 export interface MatrizPermisos { perfil: PerfilAcceso; permisos: Record<string, string[]>; }

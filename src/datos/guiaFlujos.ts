@@ -8,11 +8,24 @@ import type { Persona } from '../tipos/persona';
 import type { PosicionTrinaria } from '../tipos/red';
 import { pedidosIniciales } from './pedidos';
 import { personasIniciales } from './personas';
+import type { DocumentoAcademico, IntentoEvaluacion, Matricula, Membresia, ProgresoComponente, SustentacionMid } from '../tipos/academico';
+import { documentosIniciales, matriculasIniciales } from './academico/matriculasIniciales';
+
+interface DatosCampusGuia {
+  matriculas: Matricula[]; membresias: Membresia[]; progreso: Record<string, ProgresoComponente>;
+  intentos: IntentoEvaluacion[]; documentos: DocumentoAcademico[]; sustentaciones: SustentacionMid[];
+}
+
+const matriculasBase = new Set(matriculasIniciales.map((matricula) => matricula.id));
+const documentosBase = new Set(documentosIniciales.map((documento) => documento.id));
+const documentoNuevo = (estado: EstadoGuia, personaId: string, tipo: DocumentoAcademico['tipo']) => (estado.campus?.documentos ?? []).some((documento) => !documentosBase.has(documento.id) && documento.personaId === personaId && documento.tipo === tipo);
+const sustentacionL03 = (estado: EstadoGuia) => (estado.campus?.sustentaciones ?? []).find((item) => item.personaId === 'DEMO-L03');
 
 export interface EstadoGuia {
   personas: Persona[]; posiciones: PosicionTrinaria[]; pedidos: Pedido[]; movimientos: MovimientoVolumen[];
   corridas: CorridaCalculo[]; liquidaciones: Liquidacion[]; ajustes: Ajuste[]; formacion: EstadoFormativo[];
   alertas: AlertaIntegridad[]; bitacora: Bitacora[]; permisos: TablaPermisos;
+  campus?: Pick<DatosCampusGuia, 'matriculas' | 'membresias' | 'progreso' | 'intentos' | 'documentos' | 'sustentaciones'>;
 }
 
 export interface PasoFlujo {
@@ -102,6 +115,47 @@ export const flujosDemostracion: FlujoDemostracion[] = [
       { id: 'F08-2', texto: 'Abre la ficha comparativa: documento y teléfono coinciden.', ruta: '/corporativo/compliance', rolId: 'DEMO-U01' },
       { id: 'F08-3', texto: 'Suspende o libera DEMO-A11 con motivo obligatorio y resuelve la alerta.', ruta: '/corporativo/compliance', rolId: 'DEMO-U01', detectar: (estado) => estado.alertas.some((alerta) => alerta.id === 'DEMO-ALR-01' && alerta.estado === 'resuelta') },
       { id: 'F08-4', texto: 'El reporte de compliance consolida decisiones y la bitácora lo registra.', ruta: '/corporativo/reportes', rolId: 'DEMO-U01' },
+    ],
+  },
+  {
+    id: 'F09', titulo: 'Compra y matrícula automática', objetivo: 'Pagar un curso o una membresía activa el acceso al Campus ERICK sin intervención.',
+    pasos: [
+      { id: 'F09-1', texto: 'La alumna DEMO-L01 agrega la Membresía ERICK de 1 mes al carrito.', ruta: '/catalogo/DEMO-PRD-21', rolId: 'DEMO-L01' },
+      { id: 'F09-2', texto: 'En el checkout elige "Pasarela local (simulada)" con respuesta Aprobado y crea el pedido.', ruta: '/checkout', rolId: 'DEMO-L01', detectar: (estado) => (estado.campus?.membresias ?? []).some((membresia) => membresia.personaId === 'DEMO-L01') },
+      { id: 'F09-3', texto: 'En Mi membresía se inscribe al Curso Ventas Digitales y lo ve en Mis programas.', ruta: '/campus/membresia', rolId: 'DEMO-L01', detectar: (estado) => (estado.campus?.matriculas ?? []).some((matricula) => !matriculasBase.has(matricula.id) && matricula.personaId === 'DEMO-L01') },
+    ],
+  },
+  {
+    id: 'F10', titulo: 'Estudio y evaluación automática', objetivo: 'El tema se estudia por componentes y la evaluación se califica sola de 0 a 20.',
+    pasos: [
+      { id: 'F10-1', texto: 'DEMO-L01 abre el tema 2: mira el video, lee la lectura (PDF) y completa el caso.', ruta: '/campus/temas/DEMO-TEM-002', rolId: 'DEMO-L01', detectar: (estado) => Boolean(estado.campus?.progreso['DEMO-L01|DEMO-TEM-002']?.caso) },
+      { id: 'F10-2', texto: 'Rinde la evaluación: con 3 de 5 obtiene 12 y desaprueba (14 no basta).', ruta: '/campus/temas/DEMO-TEM-002', rolId: 'DEMO-L01', detectar: (estado) => (estado.campus?.intentos ?? []).some((intento) => intento.personaId === 'DEMO-L01' && intento.ambitoId === 'DEMO-TEM-002' && !intento.aprobado) },
+      { id: 'F10-3', texto: 'En el segundo intento aprueba y se desbloquea el tema 3.', ruta: '/campus/programas/DEMO-CUR-01', rolId: 'DEMO-L01', detectar: (estado) => (estado.campus?.intentos ?? []).some((intento) => intento.personaId === 'DEMO-L01' && intento.ambitoId === 'DEMO-TEM-002' && intento.aprobado) },
+    ],
+  },
+  {
+    id: 'F11', titulo: 'Certificado con QR', objetivo: 'Al aprobar el curso se emite el certificado al instante y se verifica públicamente.',
+    pasos: [
+      { id: 'F11-1', texto: 'DEMO-L06 rinde el TIM del módulo 9 del Curso Ventas Digitales.', ruta: '/campus/tim/DEMO-TIM-09', rolId: 'DEMO-L06', detectar: (estado) => documentoNuevo(estado, 'DEMO-L06', 'certificado') },
+      { id: 'F11-2', texto: 'En Mis certificados descarga el PDF (anverso con QR y reverso con módulos).', ruta: '/campus/certificados', rolId: 'DEMO-L06' },
+      { id: 'F11-3', texto: 'Abre "Verificar": la página pública muestra el documento como válido.', ruta: '/verificar', rolId: null },
+    ],
+  },
+  {
+    id: 'F12', titulo: 'Certificado y efecto en el rango', objetivo: 'El conector LMS actualiza la formación del afiliado y su requisito de rango sin botón simulado.',
+    pasos: [
+      { id: 'F12-1', texto: 'DEMO-A01 aprueba el TIM del módulo 3 del Curso Liderazgo Comercial.', ruta: '/campus/tim/DEMO-TIM-03', rolId: 'DEMO-A01', detectar: (estado) => documentoNuevo(estado, 'DEMO-A01', 'certificado') },
+      { id: 'F12-2', texto: 'En Mi formación el programa figura aprobado por el conector y en Mi RUN el requisito se cumple.', ruta: '/afiliado/run', rolId: 'DEMO-A01', detectar: (estado) => estado.formacion.some((item) => item.personaId === 'DEMO-A01' && item.estado === 'aprobado') },
+      { id: 'F12-3', texto: 'En Integración ERICK, el registro de eventos del conector muestra curso aprobado y avance actualizado.', ruta: '/corporativo/integracion-erick', rolId: 'DEMO-U01' },
+    ],
+  },
+  {
+    id: 'F13', titulo: 'Sustentación MID', objetivo: 'La única calificación manual: evaluador asignado, rúbrica y constancia, sin cambiar el diploma.',
+    pasos: [
+      { id: 'F13-1', texto: 'DEMO-L03 (diploma emitido) solicita el MID con título, resumen y archivo.', ruta: '/campus/mid', rolId: 'DEMO-L03', detectar: (estado) => Boolean(sustentacionL03(estado)) },
+      { id: 'F13-2', texto: 'La administradora educativa asigna a DEMO-U03 y la fecha.', ruta: '/erick/mid', rolId: 'DEMO-U04', detectar: (estado) => Boolean(sustentacionL03(estado)?.evaluadorId) },
+      { id: 'F13-3', texto: 'El evaluador califica con la rúbrica y observaciones.', ruta: '/evaluador', rolId: 'DEMO-U03', detectar: (estado) => ['aprobado', 'desaprobado'].includes(sustentacionL03(estado)?.estado ?? '') },
+      { id: 'F13-4', texto: 'DEMO-L03 ve su constancia MID; su diploma sigue igual.', ruta: '/campus/certificados', rolId: 'DEMO-L03', detectar: (estado) => documentoNuevo(estado, 'DEMO-L03', 'constancia_mid') },
     ],
   },
 ];

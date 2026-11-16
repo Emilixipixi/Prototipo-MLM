@@ -1,5 +1,6 @@
 export type TipoPersona = 'cliente' | 'alumno' | 'empresario' | 'corporativo';
-export type PerfilAcceso = 'superadministrador' | 'operador' | 'afiliado' | 'cliente_alumno';
+export type PerfilAcceso = 'superadministrador' | 'operador' | 'afiliado' | 'cliente_alumno'
+  | 'evaluador' | 'admin_educativo';
 export type EstadoCuenta = 'activo' | 'pendiente' | 'suspendido' | 'bloqueado';
 
 export interface Persona {

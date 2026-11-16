@@ -16,11 +16,12 @@ interface PropsMenuLateral {
   alNavegar?: () => void;
   alCerrar?: () => void;
   iconoCerrar?: LucideIcon;
+  marca?: 'mlm' | 'campus' | 'erick';
 }
 
 const claseItem = 'flex min-h-11 items-center gap-3 rounded-[10px] px-3 text-[13.5px] font-medium transition-colors md:min-h-10';
 
-export function MenuLateral({ grupos, subtitulo, alNavegar, alCerrar, iconoCerrar = X }: PropsMenuLateral) {
+export function MenuLateral({ grupos, subtitulo, alNavegar, alCerrar, iconoCerrar = X, marca }: PropsMenuLateral) {
   const persona = usePersonaSesion();
   const tabla = usePermisosStore((estado) => estado.tabla);
   const { pathname } = useLocation();
@@ -28,9 +29,9 @@ export function MenuLateral({ grupos, subtitulo, alNavegar, alCerrar, iconoCerra
   const permitido = (item: ItemNavegacion) => !item.modulo || !persona || tabla[persona.perfil][item.modulo].includes('consultar');
 
   return (
-    <nav aria-label="Menú principal" className="fondo-menu-lateral flex h-full flex-col px-3.5 pb-4 pt-5 text-[#C7D3E6]">
+    <nav aria-label="Menú principal" className={unirClases('fondo-menu-lateral flex h-full flex-col px-3.5 pb-4 pt-5 text-[#C7D3E6]', (marca === 'campus' || marca === 'erick') && 'fondo-menu-campus')}>
       <div className="flex items-start gap-2 pb-4 pl-2.5">
-        <div className="min-w-0 flex-1"><Logo subtitulo={subtitulo} oscuro /></div>
+        <div className="min-w-0 flex-1"><Logo subtitulo={subtitulo} oscuro marca={marca} /></div>
         {alCerrar && <BotonIcono icono={iconoCerrar} etiqueta="Ocultar menú" oscuro onClick={alCerrar} className="shrink-0" />}
       </div>
       <div className="flex-1 overflow-y-auto">

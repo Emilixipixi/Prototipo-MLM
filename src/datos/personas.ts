@@ -1,5 +1,8 @@
 import type { Persona } from '../tipos/persona';
 import { personasAmpliadas } from './ampliacion';
+import { alumnosCampus } from './academico/alumnosCampus';
+import { personalErick } from './academico/personalErick';
+import { alumnosAmpliados } from './academico/alumnosAmpliados';
 
 const personasFase1: Persona[] = [
   {
@@ -13,6 +16,12 @@ const personasFase1: Persona[] = [
     tipo: 'corporativo', perfil: 'operador', estado: 'activo',
     correo: 'operador@correo.demo', telefono: '+51 900 000 002', documento: 'DEMO-DOC-002',
     pais: 'Perú', moneda: 'USD', idioma: 'es', fechaAlta: '2026-02-10', referenteId: null,
+  },
+  {
+    id: 'DEMO-U03', codigo: 'DEMO-U03', nombres: 'Docente Evaluador', apellidos: 'Demo',
+    tipo: 'corporativo', perfil: 'evaluador', estado: 'activo',
+    correo: 'evaluador@correo.demo', telefono: '+51 900 000 003', documento: 'DEMO-DOC-003',
+    pais: 'Perú', moneda: 'USD', idioma: 'es', fechaAlta: '2026-03-02', referenteId: null,
   },
   {
     id: 'DEMO-A01', codigo: 'DEMO-A01', nombres: 'Mariana', apellidos: 'Vega Ruiz',
@@ -139,4 +148,4 @@ const personasRed: Persona[] = [
   },
 ];
 
-export const personasIniciales: Persona[] = [...personasFase1, ...personasRed, ...personasAmpliadas];
+export const personasIniciales: Persona[] = [...personasFase1, ...personasRed, ...personasAmpliadas, ...alumnosCampus, ...personalErick, ...alumnosAmpliados];

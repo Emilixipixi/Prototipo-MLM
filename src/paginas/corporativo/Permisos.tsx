@@ -12,7 +12,7 @@ import { usePersonaSesion } from '../../store/useSesionStore';
 import type { PerfilAcceso } from '../../tipos/persona';
 import { unirClases } from '../../utilidades/clases';
 
-const perfiles: PerfilAcceso[] = ['operador', 'superadministrador', 'afiliado', 'cliente_alumno'];
+const perfiles: PerfilAcceso[] = ['operador', 'superadministrador', 'afiliado', 'cliente_alumno', 'evaluador', 'admin_educativo'];
 
 export default function Permisos() {
   const tabla = usePermisosStore((estado) => estado.tabla);
@@ -21,6 +21,7 @@ export default function Permisos() {
   const [perfil, setPerfil] = useState<PerfilAcceso>('operador');
   const bloqueado = perfil === 'superadministrador';
   const sinArea = perfil === 'afiliado' || perfil === 'cliente_alumno';
+  const gestionErick = perfil === 'evaluador' || perfil === 'admin_educativo';
 
   const alternar = (modulo: (typeof modulos)[number], accion: (typeof acciones)[number]) => {
     const resultado = alternarPermiso(perfil, modulo, accion, actor?.id ?? 'DEMO-U01');
@@ -33,7 +34,8 @@ export default function Permisos() {
       <Pestanas etiqueta="Perfil" activa={perfil} alCambiar={(valor) => setPerfil(valor as PerfilAcceso)} pestanas={perfiles.map((item) => ({ id: item, texto: nombresPerfiles[item], icono: item === 'superadministrador' ? Lock : KeyRound }))} />
       <div className="flex items-start gap-2 rounded-xl bg-acento-suave px-3 py-2.5 text-[12.5px] text-[#155E75]">
         <Info className="mt-0.5 size-4 shrink-0" aria-hidden />
-        {bloqueado ? 'El superadministrador conserva todos los permisos; la matriz se muestra solo como referencia.'
+        {gestionErick ? 'Este perfil pertenece a la plataforma ERICK S.A.C. y se administra allí; aquí se muestra solo como referencia.'
+          : bloqueado ? 'El superadministrador conserva todos los permisos del MLM; la administración académica corresponde a ERICK S.A.C. y aquí solo se consulta.'
           : sinArea ? 'Este perfil no accede al área corporativa: solo ve su propia información. Los permisos aquí no le abren módulos corporativos.'
             : 'Los cambios se aplican de inmediato a las sesiones con este perfil y quedan registrados en la bitácora. Los módulos sin "consultar" aparecen con candado en el menú.'}
       </div>
@@ -59,9 +61,9 @@ export default function Permisos() {
                           role="checkbox"
                           aria-checked={activo}
                           aria-label={`${accion} en ${nombresModulos[modulo]}`}
-                          disabled={bloqueado}
+                          disabled={bloqueado || gestionErick}
                           onClick={() => alternar(modulo, accion)}
-                          className={unirClases('mx-auto grid size-11 place-items-center rounded-lg border transition-colors md:size-9', activo ? 'border-acento bg-acento text-white' : 'border-borde bg-superficie text-transparent hover:border-texto-3', bloqueado && 'opacity-70')}
+                          className={unirClases('mx-auto grid size-11 place-items-center rounded-lg border transition-colors md:size-9', activo ? 'border-acento bg-acento text-white' : 'border-borde bg-superficie text-transparent hover:border-texto-3', (bloqueado || gestionErick) && 'opacity-70')}
                         >
                           <Check className="size-4" aria-hidden />
                         </button>
