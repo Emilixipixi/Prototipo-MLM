@@ -56,6 +56,7 @@ export const pantallas: InfoPantalla[] = [
   { patron: '/campus/historial', numero: 'C7', nombre: 'Historial académico', requerimientos: ['LMS-055'], fase: 8, descripcion: 'Programas por estado y documentos obtenidos.' },
   { patron: '/campus/certificados', numero: 'C8', nombre: 'Mis certificados', requerimientos: ['LMS-056'], fase: 8, descripcion: 'Certificados y diplomas en PDF con código QR y verificación.' },
   { patron: '/campus/membresia', numero: 'C9', nombre: 'Mi membresía', requerimientos: ['LMS-057', 'LMS-063'], fase: 8, descripcion: 'Plan, vencimiento y renovación de la membresía educativa.' },
+  { patron: '/campus/calendario', numero: 'C11', nombre: 'Mi calendario', requerimientos: ['ERK-E4'], fase: 9, etiquetaFase: 'ERICK E4', descripcion: 'Exámenes finales, clases en vivo, entregas y sustentaciones de mis programas.' },
   { patron: '/campus/mid', numero: 'C10', nombre: 'Mi MID', requerimientos: ['LMS-070', 'LMS-071'], fase: 8, descripcion: 'Solicitud, entrega y resultado de la sustentación MID.' },
   { patron: '/erick/resumen', numero: 'P1', nombre: 'Resumen educativo', requerimientos: ['LMS-088'], fase: 8, descripcion: 'Estadísticas de matrículas, avance, aprobación y documentos.' },
   { patron: '/erick/programas', numero: 'P2', nombre: 'Programas académicos', requerimientos: ['LMS-080'], fase: 8, descripcion: 'Cursos, diplomados y MID con su estado de publicación.' },

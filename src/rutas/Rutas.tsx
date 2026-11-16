@@ -90,6 +90,8 @@ const pantallasCampus: Record<string, ComponentType> = {
 };
 
 const rutasCampus = ['programas', 'programas/:id', 'temas/:id', 'evaluaciones/:ambito/:id', 'tim/:id', 'notas', 'historial', 'certificados', 'membresia', 'mid'];
+pantallasCampus.calendario = lazy(() => import('../paginas/campus/MiCalendario'));
+rutasCampus.push('calendario');
 
 const pantallasAcademicas: Record<string, ComponentType> = {
   'academico/resumen': lazy(() => import('../paginas/corporativo/academico/ResumenAcademico')),

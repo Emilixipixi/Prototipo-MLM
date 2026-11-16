@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { rutaRenovacion } from '../../componentes/campus/rutasCampus';
 import { TarjetaProgramaCampus } from '../../componentes/campus/TarjetaProgramaCampus';
+import { ProximasFechas } from '../../componentes/campus/ProximasFechas';
 import { Boton } from '../../componentes/ui/Boton';
 import { EnlaceBoton } from '../../componentes/ui/EnlaceBoton';
 import { EstadoVacio } from '../../componentes/ui/EstadoVacio';
@@ -68,6 +69,8 @@ export default function MisProgramas() {
           grafico={<Sub>{proximo ? `${proximo.dias} ${proximo.dias === 1 ? 'día' : 'días'} · ${proximo.matricula.origen === 'membresia' ? 'membresía' : proximo.programa.codigo}` : 'Sin accesos vigentes'}</Sub>}
         />
       </div>
+
+      <ProximasFechas personaId={persona.id} />
 
       {datos.membresia && datos.estadoMembresia === 'por_vencer' && (
         <div className="flex flex-wrap items-center gap-3 rounded-tarjeta border border-amber-200 bg-amber-50 px-4 py-3 text-[13px] text-[#92400E]">

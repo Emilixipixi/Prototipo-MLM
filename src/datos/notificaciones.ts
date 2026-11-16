@@ -1,4 +1,5 @@
 import type { Notificacion } from '../tipos/notificacion';
+import { notificacionesErick } from './academico/notificacionesErick';
 
 export const notificacionesIniciales: Notificacion[] = [
   {
@@ -26,3 +27,5 @@ export const notificacionesIniciales: Notificacion[] = [
     fecha: '2026-11-03T11:20:00', leida: true,
   },
 ];
+
+notificacionesIniciales.push(...notificacionesErick);

@@ -2,7 +2,7 @@ import { addDays, addMonths, format, parseISO } from 'date-fns';
 import { fechaHoraActualIso } from '../../utilidades/fechas';
 
 export function hoyCampus(): string {
-  return fechaHoraActualIso().slice(0, 10);
+  return format(parseISO(fechaHoraActualIso()), 'yyyy-MM-dd');
 }
 
 export function sumarDias(fecha: string, dias: number): string {

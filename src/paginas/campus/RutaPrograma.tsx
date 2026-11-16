@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, CalendarDays, ClipboardList, GraduationCap, Lock, Microscope, NotebookPen } from 'lucide-react';
 import { AnilloProgreso } from '../../componentes/campus/AnilloProgreso';
+import { ProximasFechas } from '../../componentes/campus/ProximasFechas';
 import { EnlaceBoton } from '../../componentes/ui/EnlaceBoton';
 import { EstadoVacio } from '../../componentes/ui/EstadoVacio';
 import { Insignia } from '../../componentes/ui/Insignia';
@@ -97,6 +98,7 @@ export default function RutaPrograma() {
       {acceso.acceso && acceso.vencimiento && (
         <p className="flex items-center gap-2 text-[12.5px] text-texto-2"><CalendarDays className="size-4" aria-hidden />Acceso hasta el {formatearFecha(acceso.vencimiento)}{acceso.via === 'membresia' ? ' (membresía)' : acceso.via === 'diplomado' ? ' (por tu diplomado)' : ''}</p>
       )}
+      {persona && <ProximasFechas personaId={persona.id} programaId={programa.id} />}
 
       {resumen.cursos.map((curso, indiceCurso) => (
         <section key={curso.programa.id} className="flex flex-col gap-3">

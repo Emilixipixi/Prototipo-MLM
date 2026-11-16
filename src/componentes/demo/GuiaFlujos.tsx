@@ -23,6 +23,7 @@ const nombresRol: Record<string, string> = {
   'DEMO-L01': 'Alumna DEMO-L01', 'DEMO-L03': 'Alumno DEMO-L03', 'DEMO-L06': 'Alumna DEMO-L06', 'DEMO-U03': 'Evaluador DEMO-U03',
   'DEMO-U04': 'Administradora educativa DEMO-U04',
 };
+nombresRol['DEMO-U05'] = 'Docente DEMO-U05';
 
 function useEstadoGuia(): EstadoGuia {
   const personas = usePersonasStore((estado) => estado.personas);

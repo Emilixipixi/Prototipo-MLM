@@ -42,6 +42,7 @@ const idsIniciales = new Set(personasIniciales.map((persona) => persona.id));
 const pedidosBase = new Set(pedidosIniciales.map((pedido) => pedido.id));
 const nuevosEmpresarios = (estado: EstadoGuia) => estado.personas.filter((persona) => !idsIniciales.has(persona.id) && persona.tipo === 'empresario' && persona.referenteId === 'DEMO-A01');
 const corridaC02 = (estado: EstadoGuia) => estado.corridas.find((corrida) => corrida.periodoId === 'DEMO-C02' && !corrida.parametrosTemporales) ?? estado.corridas.find((corrida) => corrida.periodoId === 'DEMO-C02');
+const accionDe = (estado: EstadoGuia, accion: string, actorId: string, referenciaId?: string) => estado.bitacora.some((registro) => registro.accion === accion && registro.actorId === actorId && (!referenciaId || registro.referenciaId === referenciaId));
 const hayAccion = (estado: EstadoGuia, accion: string, referenciaId?: string) => estado.bitacora.some((registro) => registro.accion === accion && (!referenciaId || registro.referenciaId === referenciaId));
 
 export const flujosDemostracion: FlujoDemostracion[] = [
@@ -156,6 +157,28 @@ export const flujosDemostracion: FlujoDemostracion[] = [
       { id: 'F13-2', texto: 'La administradora educativa asigna a DEMO-U03 y la fecha.', ruta: '/erick/mid', rolId: 'DEMO-U04', detectar: (estado) => Boolean(sustentacionL03(estado)?.evaluadorId) },
       { id: 'F13-3', texto: 'El evaluador califica con la rúbrica y observaciones.', ruta: '/docente/sustentaciones', rolId: 'DEMO-U03', detectar: (estado) => ['aprobado', 'desaprobado'].includes(sustentacionL03(estado)?.estado ?? '') },
       { id: 'F13-4', texto: 'DEMO-L03 ve su constancia MID; su diploma sigue igual.', ruta: '/campus/certificados', rolId: 'DEMO-L03', detectar: (estado) => documentoNuevo(estado, 'DEMO-L03', 'constancia_mid') },
+    ],
+  },
+  {
+    id: 'F14', titulo: 'Docente agenda el examen final', objetivo: 'Una fecha creada por el docente llega al estudiante como notificación, en Mi calendario y en Próximas fechas.',
+    pasos: [
+      { id: 'F14-1', texto: 'DEMO-U03 agenda un "Examen final" para el Curso Liderazgo Comercial (DEMO-CUR-01) con el botón Agendar fecha.', ruta: '/docente/calendario', rolId: 'DEMO-U03', detectar: (estado) => accionDe(estado, 'Fecha agendada en el calendario', 'DEMO-U03') },
+      { id: 'F14-2', texto: 'DEMO-L01 recibe la notificación (campana) y ve la fecha en Próximas fechas de Mis programas.', ruta: '/campus/programas', rolId: 'DEMO-L01' },
+      { id: 'F14-3', texto: 'DEMO-L01 abre Mi calendario y encuentra el examen en la vista mensual y en Próximas.', ruta: '/campus/calendario', rolId: 'DEMO-L01' },
+    ],
+  },
+  {
+    id: 'F15', titulo: 'Docente sube una clase en video', objetivo: 'El docente reemplaza la clase de un tema con un archivo propio y el estudiante la reproduce.',
+    pasos: [
+      { id: 'F15-1', texto: 'DEMO-U03 abre Clases en video del Curso Liderazgo Comercial y sube un MP4 o WEBM al tema 1.2 "Estilos de liderazgo".', ruta: '/docente/cursos/DEMO-CUR-01/clases', rolId: 'DEMO-U03', detectar: (estado) => accionDe(estado, 'Clase en video actualizada', 'DEMO-U03', 'DEMO-TEM-002') },
+      { id: 'F15-2', texto: 'DEMO-L01 abre el tema y reproduce la clase subida por su docente (el archivo tiene prioridad sobre YouTube).', ruta: '/campus/temas/DEMO-TEM-002', rolId: 'DEMO-L01' },
+    ],
+  },
+  {
+    id: 'F16', titulo: 'Administración asigna un docente', objetivo: 'El administrador educativo decide qué programas ve cada docente.',
+    pasos: [
+      { id: 'F16-1', texto: 'DEMO-U04 asigna a DEMO-U05 (Docente Ventas) el Curso Liderazgo Comercial en Docentes.', ruta: '/erick/docentes', rolId: 'DEMO-U04', detectar: (estado) => estado.bitacora.some((registro) => registro.accion === 'Docente asignado a programa' && registro.referenciaId === 'DEMO-CUR-01' && JSON.stringify(registro.despues).includes('DEMO-U05')) },
+      { id: 'F16-2', texto: 'DEMO-U05 entra a Mis cursos y ya ve el Curso Liderazgo Comercial con su libreta de notas.', ruta: '/docente/cursos', rolId: 'DEMO-U05' },
     ],
   },
 ];

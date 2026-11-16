@@ -18,6 +18,11 @@ import { agregarObservacion, construirLibreta, otorgarIntentoDocente } from '../
 import { validarArchivoVideo } from '../src/servicios/videosLocales';
 import { resumirPrograma } from '../src/motores/academico/progreso';
 import { usePersonasStore } from '../src/store/usePersonasStore';
+import { diasHasta, proximasFechas, textoCuentaRegresiva } from '../src/servicios/proximasFechas';
+import { filasExportablesLibreta } from '../src/servicios/notasDocente';
+import { flujosDemostracion } from '../src/datos/guiaFlujos';
+import { notificacionesErick } from '../src/datos/academico/notificacionesErick';
+import { hoyCampus } from '../src/datos/academico/fechasCampus';
 
 let total = 0;
 function prueba(nombre: string, cuerpo: () => void): void {
@@ -204,6 +209,44 @@ prueba('E3 el intento extra y la observación no cambian la nota automática', (
   assert.equal(despues?.nota.nota, antes?.nota.nota);
   assert.ok((useCampusStore.getState().matriculas.find((item) => item.id === fila.matricula?.id)?.intentosExtra[elemento] ?? 0) >= 1);
   assert.equal(rutaInicioPorPerfil('evaluador'), '/docente/cursos');
+});
+
+prueba('E4 próximas fechas: solo programadas y futuras, ordenadas, máximo 3 y filtro por programa', () => {
+  const hoy = relativoHoy(0);
+  const agenda = eventosDePersona('DEMO-L01');
+  const lista = proximasFechas(agenda, hoy);
+  assert.ok(lista.length > 0 && lista.length <= 3);
+  lista.forEach((evento) => { assert.equal(evento.estado, 'programado'); assert.ok(evento.fecha >= hoy); });
+  assert.deepEqual(lista.map((evento) => `${evento.fecha}${evento.horaInicio}`), [...lista.map((evento) => `${evento.fecha}${evento.horaInicio}`)].sort());
+  const curso = programasActuales().find((programa) => programa.id === 'DEMO-CUR-03');
+  assert.ok(proximasFechas(eventosDePersona('DEMO-L01'), hoy, 10, curso, programasActuales()).every((evento) => evento.programaId === 'DEMO-CUR-03'));
+  assert.equal(textoCuentaRegresiva(0), 'Hoy');
+  assert.equal(textoCuentaRegresiva(1), 'Mañana');
+  assert.equal(textoCuentaRegresiva(diasHasta(relativoHoy(9), hoy)), 'En 9 días');
+  assert.match(hoyCampus(), /^\d{4}-\d{2}-\d{2}$/);
+});
+
+prueba('E4 F14: el examen final del docente llega a Mi calendario, Próximas fechas y notificaciones de DEMO-L01', () => {
+  const avisosAntes = useNotificacionesStore.getState().notificaciones.filter((item) => item.personaId === 'DEMO-L01').length;
+  const creado = crearEvento({ ...base('DEMO-CUR-01'), titulo: 'Examen final adelantado', fecha: relativoHoy(1) }, 'DEMO-U03');
+  assert.ok(creado.ok);
+  const id = creado.ok ? creado.valor.evento.id : '';
+  assert.ok(eventosDePersona('DEMO-L01').some((evento) => evento.id === id));
+  assert.equal(proximasFechas(eventosDePersona('DEMO-L01'), relativoHoy(0))[0]?.fecha <= relativoHoy(1), true);
+  assert.equal(useNotificacionesStore.getState().notificaciones.filter((item) => item.personaId === 'DEMO-L01').length, avisosAntes + 1);
+  assert.ok(cancelarEvento(id, 'DEMO-U03', 'Se mantiene la fecha original del examen').ok);
+  assert.ok(!proximasFechas(eventosDePersona('DEMO-L01'), relativoHoy(0), 20).some((evento) => evento.id === id));
+});
+
+prueba('E4 notificaciones precargadas, exportación de la libreta y flujos F14 a F16', () => {
+  assert.ok(notificacionesErick.some((item) => item.personaId === 'DEMO-L01' && item.titulo.includes('Examen final')));
+  assert.equal(new Set(notificacionesErick.map((item) => item.id)).size, notificacionesErick.length);
+  const libreta = libretaDe('DEMO-CUR-01');
+  const filas = filasExportablesLibreta(libreta);
+  assert.equal(filas.length, libreta.filas.length);
+  assert.equal(new Set(filas.map((fila) => fila.Estudiante)).size, filas.length);
+  ['F14', 'F15', 'F16'].forEach((id) => assert.ok(flujosDemostracion.some((flujo) => flujo.id === id), id));
+  assert.equal(flujosDemostracion.flatMap((flujo) => flujo.pasos).length, 55);
 });
 
 console.log(`\n${total} pruebas de ERICK superadas`);

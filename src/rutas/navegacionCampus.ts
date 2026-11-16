@@ -78,3 +78,5 @@ export const navegacionDocente: GrupoNavegacion[] = [
   },
   { titulo: 'Evaluación académica', items: [{ texto: 'Sustentaciones MID', ruta: '/docente/sustentaciones', icono: ClipboardPen }] },
 ];
+
+navegacionCampus[0].items.push({ texto: 'Mi calendario', ruta: '/campus/calendario', icono: CalendarDays });
