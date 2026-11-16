@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus ERICK - Referencia visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primario:#14305A; --primario-hover:#1E4577; --primario-suave:#E8EEF6; --profundo:#0F2547;
+  --acento:#0E7490; --acento-suave:#E0F2F6; --brillo:#22B8D6; --oro:#B7791F; --oro-suave:#FBF3E4;
+  --fondo:#F8FAFC; --superficie:#FFFFFF; --borde:#E2E8F0; --texto:#0F172A; --texto-2:#475569; --texto-3:#94A3B8;
+  --exito:#15803D; --advertencia:#B45309; --error:#B91C1C; --info:#1D4ED8; --retenida:#6B7280;
+  --demo-fondo:#FEF3C7; --demo-texto:#92400E;
+  --radio:16px; --sombra:0 1px 2px rgba(15,23,42,.04),0 8px 24px -12px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--fondo);color:var(--texto);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,Consolas,monospace;font-feature-settings:"tnum"}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.s{width:15px;height:15px}
+.demo{background:var(--demo-fondo);color:var(--demo-texto);font-size:12px;font-weight:600;padding:7px 16px;text-align:center;border-bottom:1px solid #FDE68A}
+.selector{position:sticky;top:0;z-index:20;background:#0B1B33;color:#fff;padding:10px 16px;display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.selector::-webkit-scrollbar{display:none}
+.selector b{font-size:12px;color:#8FA3C2;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;margin-right:6px}
+.selector button{font:inherit;font-size:13px;font-weight:600;color:#C7D3E6;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:8px 14px;white-space:nowrap;cursor:pointer;min-height:40px}
+.selector button[aria-pressed=true]{background:#22B8D6;color:#0B1B33;border-color:#22B8D6}
+.vista{display:none}.vista.activa{display:block}
+.app{display:grid;grid-template-columns:264px minmax(0,1fr);min-height:calc(100vh - 93px)}
+aside{color:#C7D3E6;padding:22px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:60px;height:calc(100vh - 60px)}
+aside.campus{background:linear-gradient(180deg,#0E3B4A 0%,#0F2547 100%)}
+aside.corp{background:linear-gradient(180deg,#14305A 0%,#0F2547 100%)}
+.logo{display:flex;align-items:center;gap:10px;padding:4px 10px 18px;color:#fff;font-weight:800;font-size:17px;letter-spacing:-.02em}
+.logo-marca{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.campus .logo-marca{background:linear-gradient(135deg,#B7791F,#E8B15A)}
+.corp .logo-marca{background:linear-gradient(135deg,#0E7490,#2563EB)}
+.logo small{display:block;font-size:11px;font-weight:500;color:#8FA3C2}
+.grupo{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:#6F86AA;padding:12px 12px 6px;font-weight:700}
+.nav{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;color:#C7D3E6;font-weight:500;font-size:13.5px}
+.nav.activo{background:rgba(255,255,255,.10);color:#fff;box-shadow:inset 3px 0 0 #E8B15A}
+.corp .nav.activo{box-shadow:inset 3px 0 0 #22B8D6}
+.nav .cuenta{margin-left:auto;font-size:11px;background:rgba(255,255,255,.14);padding:1px 7px;border-radius:99px}
+.volver{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;color:#9FB4D3;padding:10px 12px;border:1px dashed rgba(255,255,255,.18);border-radius:10px}
+.perfil-lat{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;margin-top:8px}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:#0E7490;flex:none}
+main{padding:22px 32px 48px;min-width:0}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.top .ctx{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--texto-3)}
+.top h1{font-size:24px;font-weight:800;letter-spacing:-.025em}
+.top .der{margin-left:auto;display:flex;gap:8px;align-items:center}
+.rol{display:flex;align-items:center;gap:8px;border:1px solid var(--borde);background:#fff;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600}
+.btn-ico{width:40px;height:40px;border-radius:12px;border:1px solid var(--borde);background:#fff;display:grid;place-items:center;color:var(--texto-2);position:relative}
+.punto{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:#DB2777;border:2px solid #fff}
+.leyenda{display:flex;gap:8px;align-items:flex-start;background:var(--oro-suave);color:#7C4A03;border-radius:12px;padding:10px 14px;font-size:12.5px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--borde);border-radius:var(--radio);box-shadow:var(--sombra);padding:20px;min-width:0}
+.card h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sub{color:var(--texto-2);font-size:12.5px}
+.cab{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:600;font-size:13.5px;border-radius:12px;padding:0 16px;min-height:42px;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn.p{background:var(--primario);color:#fff}.btn.a{background:var(--acento);color:#fff}.btn.o{background:var(--oro);color:#fff}
+.btn.s{background:#fff;border-color:var(--borde);color:var(--texto)}.btn.f{background:transparent;color:var(--acento)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.p-ok{background:#DCFCE7;color:var(--exito)}.p-rev{background:#FEF3C7;color:var(--advertencia)}.p-info{background:#DBEAFE;color:var(--info)}
+.p-no{background:#FEE2E2;color:var(--error)}.p-gris{background:#F1F5F9;color:var(--retenida)}.p-oro{background:var(--oro-suave);color:var(--oro)}.p-ac{background:var(--acento-suave);color:var(--acento)}
+.barra{height:8px;background:#EEF2F7;border-radius:99px;overflow:hidden}.barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#0E7490,#22B8D6)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.kpi .et{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-2);font-weight:600}
+.kpi .ico{width:32px;height:32px;border-radius:10px;display:grid;place-items:center}
+.kpi .num{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:8px}
+.programa{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.programa .portada{height:120px;position:relative;display:flex;align-items:flex-end;padding:14px;color:#fff}
+.programa .portada::after{content:"";position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;border:24px solid rgba(255,255,255,.12)}
+.programa .cuerpo{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.programa h4{font-size:15.5px;font-weight:700;line-height:1.3}
+.meta{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--texto-2)}
+.meta span{display:inline-flex;align-items:center;gap:5px}
+.fila{display:flex;align-items:center;gap:10px}
+.ruta{list-style:none;display:flex;flex-direction:column;gap:2px}
+.ruta .mod{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--texto-3);padding:12px 4px 6px;display:flex;justify-content:space-between}
+.ruta li.t{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;font-size:13px}
+.ruta li.t.actual{background:var(--acento-suave);color:#0B5466;font-weight:600}
+.ruta .est{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none}
+.e-ok{background:#DCFCE7;color:var(--exito)}.e-act{background:var(--acento);color:#fff}.e-bloq{background:#F1F5F9;color:var(--texto-3)}.e-no{background:#FEE2E2;color:var(--error)}
+.ruta .n{margin-left:auto;font-size:12px;color:var(--texto-2)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--borde);margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:13.5px;font-weight:600;color:var(--texto-2);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.act{color:var(--acento);border-bottom-color:var(--acento)}
+.tab .ok{width:16px;height:16px;border-radius:50%;background:#DCFCE7;color:var(--exito);display:grid;place-items:center}
+.video{aspect-ratio:16/9;border-radius:14px;background:radial-gradient(120% 120% at 20% 10%,#1E4577 0%,#0F2547 55%,#081428 100%);position:relative;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:18px}
+.video .play{position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;backdrop-filter:blur(4px)}
+.video .controles{display:flex;align-items:center;gap:12px;font-size:12px;position:relative;z-index:1}
+.video .pista{flex:1;height:5px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden}.video .pista i{display:block;width:62%;height:100%;background:#22B8D6}
+.etq-demo{align-self:flex-start;font-size:11px;font-weight:700;background:rgba(254,243,199,.18);color:#FDE68A;border:1px solid rgba(253,230,138,.4);padding:3px 8px;border-radius:6px;position:relative;z-index:1}
+.componentes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.comp{border:1px solid var(--borde);border-radius:12px;padding:10px 12px;font-size:12.5px;display:flex;flex-direction:column;gap:4px}
+.comp b{display:flex;align-items:center;gap:6px;font-size:13px}
+.pregunta{border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:12px}
+.pregunta legend{float:left;width:100%;font-weight:700;font-size:14px;margin-bottom:6px;display:flex;gap:10px;padding:0}
+.pregunta legend+*{clear:both}
+.pregunta legend span{color:var(--texto-3);font-family:'JetBrains Mono',monospace;font-weight:500}
+.opcion{display:flex;align-items:center;gap:10px;border:1px solid var(--borde);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:13.5px;min-height:44px}
+.opcion .r{width:18px;height:18px;border-radius:50%;border:2px solid #CBD5E1;flex:none}
+.opcion.sel{border-color:var(--acento);background:#F0FAFC}.opcion.sel .r{border:5px solid var(--acento)}
+.opcion.bien{border-color:#86EFAC;background:#F0FDF4}.opcion.mal{border-color:#FCA5A5;background:#FEF2F2}
+.contador{display:flex;align-items:center;gap:8px;font-weight:700;font-family:'JetBrains Mono',monospace;background:#0F2547;color:#fff;border-radius:10px;padding:8px 12px;font-size:14px}
+.resultado{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.anillo{width:120px;height:120px}
+.intentos{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.intento{display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 12px;border:1px solid var(--borde);border-radius:12px}
+.intento .nota{margin-left:auto;font-family:'JetBrains Mono',monospace;font-weight:700}
+.cert{background:#fff;border-radius:6px;box-shadow:0 20px 50px -20px rgba(15,23,42,.35);aspect-ratio:1.414/1;position:relative;overflow:hidden;padding:5.5% 6.5%;display:flex;flex-direction:column;color:#1F2937}
+.cert::before{content:"";position:absolute;inset:14px;border:2px solid #E8D3A8;border-radius:4px;pointer-events:none}
+.cert::after{content:"";position:absolute;inset:20px;border:1px solid #F1E4C7;border-radius:3px;pointer-events:none}
+.cert .franja{position:absolute;left:0;top:0;bottom:0;width:4.2%;background:linear-gradient(180deg,#14305A,#0E7490)}
+.cert .enc{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+.cert .marca{display:flex;align-items:center;gap:10px}
+.cert .sello{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#B7791F,#E8B15A);display:grid;place-items:center;color:#fff}
+.cert .marca b{font-size:15px;letter-spacing:.04em}.cert .marca small{display:block;font-size:10px;color:#6B7280;letter-spacing:.06em}
+.cert .tit{text-align:center;margin-top:3.5%;position:relative;z-index:1}
+.cert .tit p{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--oro);font-weight:700}
+.cert .tit h2{font-size:clamp(18px,3vw,30px);letter-spacing:.08em;font-weight:800;color:#14305A;margin-top:4px}
+.cert .otorga{text-align:center;font-size:clamp(10px,1.1vw,12.5px);color:#4B5563;margin-top:2.5%;position:relative;z-index:1}
+.cert .nombre{text-align:center;font-size:clamp(17px,2.6vw,28px);font-weight:700;color:#0F172A;margin-top:1%;position:relative;z-index:1;border-bottom:1px solid #E5E7EB;padding-bottom:1%;margin-left:16%;margin-right:16%}
+.cert .prog{text-align:center;font-size:clamp(10px,1.15vw,13px);margin-top:2%;position:relative;z-index:1;color:#374151}
+.cert .prog b{color:#14305A}
+.cert .datos{display:flex;justify-content:center;gap:4%;margin-top:2.5%;font-size:clamp(9px,1vw,11.5px);position:relative;z-index:1}
+.cert .datos div{text-align:center}.cert .datos small{display:block;color:#9CA3AF;text-transform:uppercase;letter-spacing:.1em;font-size:.82em}
+.cert .datos b{font-family:'JetBrains Mono',monospace}
+.cert .pie{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:4%;position:relative;z-index:1}
+.cert .firma{text-align:center;font-size:clamp(8.5px,.95vw,11px);color:#4B5563;flex:1}
+.cert .firma svg{width:70%;height:auto;stroke:#14305A;fill:none;stroke-width:1.6}
+.cert .firma div{border-top:1px solid #9CA3AF;padding-top:3px;margin-top:2px}
+.cert .qr{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:clamp(7.5px,.8vw,9.5px);color:#6B7280}
+.cert .qr svg{width:clamp(56px,8vw,86px);height:auto}
+.cert .marcaagua{position:absolute;right:-6%;bottom:-14%;font-size:clamp(60px,12vw,150px);font-weight:800;color:rgba(20,48,90,.035);letter-spacing:.02em;z-index:0;transform:rotate(-12deg)}
+.cert .rotulo{position:absolute;top:22px;right:28px;font-size:9.5px;font-weight:700;color:var(--demo-texto);background:var(--demo-fondo);padding:2px 8px;border-radius:4px;z-index:2}
+.lista-cert{display:flex;flex-direction:column;gap:10px}
+.item-cert{display:flex;align-items:center;gap:12px;border:1px solid var(--borde);border-radius:14px;padding:12px}
+.item-cert .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.verif{max-width:620px;margin:40px auto;padding:0 16px}
+.verif .sello-ok{width:64px;height:64px;border-radius:50%;background:#DCFCE7;color:var(--exito);display:grid;place-items:center;margin:0 auto 12px}
+.verif dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:13.5px;margin-top:16px}
+.verif dt{color:var(--texto-3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+.pub-top{display:flex;align-items:center;gap:10px;padding:14px 24px;background:#fff;border-bottom:1px solid var(--borde)}
+table{width:100%;border-collapse:collapse}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--texto-3);font-weight:700;text-align:left;padding:0 10px 10px 0;white-space:nowrap}
+td{padding:11px 10px 11px 0;border-top:1px solid var(--borde);font-size:13px;vertical-align:middle}
+td.r,th.r{text-align:right}
+.tabla-wrap{overflow-x:auto}
+.arbol-ed{list-style:none;display:flex;flex-direction:column;gap:6px}
+.nodo{display:flex;align-items:center;gap:10px;border:1px solid var(--borde);border-radius:12px;padding:10px 12px;font-size:13px;background:#fff}
+.nodo .tipo{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.06em}
+.t-dip{background:var(--oro-suave);color:var(--oro)}.t-cur{background:var(--primario-suave);color:var(--primario)}.t-mod{background:var(--acento-suave);color:var(--acento)}.t-tema{background:#F1F5F9;color:#475569}.t-tim{background:#EDE9FE;color:#6D28D9}
+.nodo .h{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--texto-2)}
+.nodo .acc{display:flex;gap:4px}
+.nodo .acc span{width:30px;height:30px;border-radius:8px;border:1px solid var(--borde);display:grid;place-items:center;color:var(--texto-2)}
+.ind1{margin-left:22px}.ind2{margin-left:44px}.ind3{margin-left:66px}
+.validacion{display:flex;gap:8px;align-items:center;background:#F0FDF4;border:1px solid #BBF7D0;color:var(--exito);border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:600;margin-bottom:12px}
+.barras-v{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px}
+.barras-v div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--texto-2)}
+.barras-v i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#22B8D6,#0E7490)}
+.rubrica{display:flex;flex-direction:column;gap:10px}
+.crit{display:grid;grid-template-columns:1fr 70px 90px;gap:10px;align-items:center;font-size:13px;border:1px solid var(--borde);border-radius:12px;padding:10px 12px}
+.crit input{font:inherit;font-family:'JetBrains Mono',monospace;border:1px solid var(--borde);border-radius:8px;padding:8px;width:100%;text-align:right;min-height:40px}
+.evento{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--borde);font-size:13px}
+.evento:first-child{border-top:none}
+.guia-txt{max-width:1180px;margin:0 auto;padding:28px 32px 48px}
+.guia-txt h2{font-size:20px;font-weight:800;margin-bottom:6px}
+.guia-txt ul{padding-left:18px;color:var(--texto-2);display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.menu-movil{display:none}
+.solo-movil{display:none}
+@media (max-width:1180px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.componentes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  aside{display:none}
+  main{padding:16px}
+  .menu-movil{display:grid}
+  .grid>*{grid-column:span 12 !important}
+  .top h1{font-size:20px}
+  .top .der .rol span{display:none}
+  .resultado{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .crit{grid-template-columns:1fr 60px}
+  .crit .pill{grid-column:span 2;justify-self:start}
+  .evento{grid-template-columns:auto 1fr}
+  .evento .pill{grid-column:2}
+}
+@media (max-width:560px){.kpis{grid-template-columns:minmax(0,1fr)}.componentes{grid-template-columns:minmax(0,1fr)}.cert{aspect-ratio:auto;min-height:420px}.solo-escritorio{display:none}.ind1{margin-left:10px}.ind2{margin-left:20px}.ind3{margin-left:30px}.nodo .acc{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></symbol>
+    <symbol id="play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8V4Z"/></symbol>
+    <symbol id="libro" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2Z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8Z"/></symbol>
+    <symbol id="caso" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="eval" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 13 2 2 4-4"/></symbol>
+    <symbol id="premio" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m9 14-1.5 7L12 19l4.5 2L15 14"/></symbol>
+    <symbol id="escudo" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="tablero" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></symbol>
+    <symbol id="capas" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+    <symbol id="usuarios" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-2-6-5-7"/></symbol>
+    <symbol id="calendario" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
+    <symbol id="descarga" viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M5 21h14"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="candado" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="flecha" viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+    <symbol id="derecha" viewBox="0 0 24 24"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></symbol>
+    <symbol id="campana" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="rol" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol>
+    <symbol id="menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="archivo" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/></symbol>
+    <symbol id="tarjeta" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+    <symbol id="enchufe" viewBox="0 0 24 24"><path d="M9 2v6M15 2v6M6 8h12v3a6 6 0 0 1-12 0Z"/><path d="M12 17v5"/></symbol>
+    <symbol id="lapiz" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16Z"/></symbol>
+    <symbol id="arriba" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+    <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+    <symbol id="buscar" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v7h-3M14 20h1"/></symbol>
+  </defs>
+</svg>
+
+<div class="demo">DEMOSTRACIÓN - Referencia visual de la integración Campus ERICK. Datos, notas y certificados ficticios.</div>
+<nav class="selector" aria-label="Pantallas de la referencia">
+  <b>Ver pantalla</b>
+  <button type="button" data-vista="programas" aria-pressed="true">1. Mis programas</button>
+  <button type="button" data-vista="tema" aria-pressed="false">2. Tema y video</button>
+  <button type="button" data-vista="evaluacion" aria-pressed="false">3. Evaluación</button>
+  <button type="button" data-vista="certificados" aria-pressed="false">4. Certificado</button>
+  <button type="button" data-vista="verificar" aria-pressed="false">5. Verificación QR</button>
+  <button type="button" data-vista="panel" aria-pressed="false">6. Panel académico</button>
+  <button type="button" data-vista="estructura" aria-pressed="false">7. Editor de programa</button>
+  <button type="button" data-vista="mid" aria-pressed="false">8. Evaluador MID</button>
+  <button type="button" data-vista="integracion" aria-pressed="false">9. Conexión con MLM</button>
+</nav>
+
+<!-- 1. MIS PROGRAMAS -->
+<section class="vista activa" id="v-programas">
+<div class="app">
+  <aside class="campus" data-menu="campus"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Campus ERICK</p><h1>Mis programas</h1></div>
+      <div class="der"><div class="rol"><svg class="i s"><use href="#rol"/></svg><span>Rol demo: Alumno</span></div><div class="btn-ico"><svg class="i"><use href="#campana"/></svg><i class="punto"></i></div></div>
+    </div>
+    <div class="leyenda"><svg class="i s"><use href="#info"/></svg>Contenidos, notas y certificados de DEMOSTRACIÓN. Los videos son simulados y los certificados no tienen validez oficial.</div>
+    <div class="kpis">
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--acento-suave);color:var(--acento)"><svg class="i s"><use href="#cap"/></svg></span>Programas activos</div><div class="num">2</div><p class="sub">1 diplomado · 1 curso</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--primario-suave);color:var(--primario)"><svg class="i s"><use href="#eval"/></svg></span>Promedio actual</div><div class="num mono">16,40</div><p class="sub">Aprobado: mayor a 14</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--oro-suave);color:var(--oro)"><svg class="i s"><use href="#premio"/></svg></span>Certificados</div><div class="num">1</div><p class="sub">Descargables siempre</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:#FEF3C7;color:var(--advertencia)"><svg class="i s"><use href="#calendario"/></svg></span>Acceso vence</div><div class="num mono" style="font-size:22px">12/05/2027</div><p class="sub">Membresía 6 meses · 179 días</p></div>
+    </div>
+    <div class="grid">
+      <article class="card programa" style="grid-column:span 6">
+        <div class="portada" style="background:linear-gradient(135deg,#B7791F,#14305A)"><span class="pill" style="background:rgba(255,255,255,.18);color:#fff;position:relative;z-index:1">Diplomado · 120 h</span></div>
+        <div class="cuerpo">
+          <h4>Diplomado en Liderazgo y Gestión Comercial</h4>
+          <div class="meta"><span><svg class="i s"><use href="#capas"/></svg>2 cursos · 6 módulos</span><span><svg class="i s"><use href="#libro"/></svg>30 temas</span><span><svg class="i s"><use href="#eval"/></svg>Nota parcial <b class="mono">&nbsp;16,40</b></span></div>
+          <div><div class="fila" style="justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>Avance</span><b class="mono">58%</b></div><div class="barra"><i style="width:58%"></i></div></div>
+          <div class="fila" style="flex-wrap:wrap;gap:8px"><span class="pill p-ok"><svg class="i s"><use href="#check"/></svg>Curso 1 aprobado</span><span class="pill p-info">Curso 2 en curso</span><span class="pill p-gris">MID opcional</span></div>
+          <div class="fila" style="margin-top:4px;justify-content:space-between;flex-wrap:wrap;gap:8px"><span class="sub">Siguiente: Módulo 4 · Tema 3 "Delegar con criterio"</span><span class="btn a">Continuar<svg class="i s"><use href="#derecha"/></svg></span></div>
+        </div>
+      </article>
+      <article class="card programa" style="grid-column:span 6">
+        <div class="portada" style="background:linear-gradient(135deg,#0E7490,#22B8D6)"><span class="pill" style="background:rgba(255,255,255,.18);color:#fff;position:relative;z-index:1">Curso · 60 h</span></div>
+        <div class="cuerpo">
+          <h4>Curso Ventas Digitales</h4>
+          <div class="meta"><span><svg class="i s"><use href="#capas"/></svg>3 módulos</span><span><svg class="i s"><use href="#libro"/></svg>15 temas</span><span><svg class="i s"><use href="#eval"/></svg>Sin notas aún</span></div>
+          <div><div class="fila" style="justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>Avance</span><b class="mono">7%</b></div><div class="barra"><i style="width:7%"></i></div></div>
+          <div class="fila" style="flex-wrap:wrap;gap:8px"><span class="pill p-info">En curso</span><span class="pill p-ac">Incluido en tu membresía</span></div>
+          <div class="fila" style="margin-top:4px;justify-content:space-between;flex-wrap:wrap;gap:8px"><span class="sub">Siguiente: Módulo 1 · Tema 2 "Embudo de ventas"</span><span class="btn s">Continuar<svg class="i s"><use href="#derecha"/></svg></span></div>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 2. TEMA -->
+<section class="vista" id="v-tema">
+<div class="app">
+  <aside class="campus" data-menu="campus"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Curso Gestión de Equipos y Ventas · Módulo 4</p><h1>Tema 3 · Delegar con criterio</h1></div>
+      <div class="der"><span class="btn s"><svg class="i s"><use href="#flecha"/></svg>Ruta del programa</span></div>
+    </div>
+    <div class="grid">
+      <div style="grid-column:span 8" class="card">
+        <div class="tabs" role="tablist">
+          <span class="tab act"><svg class="i s"><use href="#play"/></svg>Video<span class="ok"><svg class="i" style="width:11px;height:11px"><use href="#check"/></svg></span></span>
+          <span class="tab"><svg class="i s"><use href="#libro"/></svg>Lectura<span class="ok"><svg class="i" style="width:11px;height:11px"><use href="#check"/></svg></span></span>
+          <span class="tab"><svg class="i s"><use href="#caso"/></svg>Caso práctico</span>
+          <span class="tab"><svg class="i s"><use href="#eval"/></svg>Evaluación</span>
+        </div>
+        <div class="video">
+          <span class="etq-demo">Video de demostración</span>
+          <span class="play"><svg class="i" style="width:30px;height:30px;fill:#fff;stroke:#fff"><use href="#play"/></svg></span>
+          <div class="controles"><span class="mono">18:36</span><span class="pista"><i></i></span><span class="mono">30:00</span></div>
+        </div>
+        <div class="componentes">
+          <div class="comp"><b><svg class="i s" style="color:var(--acento)"><use href="#play"/></svg>Videoclase</b><span class="sub">30 min · vista</span></div>
+          <div class="comp"><b><svg class="i s" style="color:var(--acento)"><use href="#archivo"/></svg>Lectura PDF</b><span class="sub">60 min · leída</span></div>
+          <div class="comp"><b><svg class="i s" style="color:var(--texto-3)"><use href="#caso"/></svg>Caso práctico</b><span class="sub">60 min · pendiente</span></div>
+          <div class="comp"><b><svg class="i s" style="color:var(--texto-3)"><use href="#eval"/></svg>Evaluación</b><span class="sub">30 min · 3 intentos</span></div>
+        </div>
+        <div class="fila" style="justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:8px"><span class="btn s"><svg class="i s"><use href="#check"/></svg>Marcar video como visto</span><span class="btn a">Siguiente: Lectura<svg class="i s"><use href="#derecha"/></svg></span></div>
+      </div>
+      <div style="grid-column:span 4" class="card">
+        <h3><svg class="i s"><use href="#capas"/></svg>Ruta del módulo</h3>
+        <p class="sub" style="margin-bottom:6px">Módulo 4 · Gestión de equipos · nota parcial <b class="mono">16,90</b></p>
+        <ul class="ruta">
+          <li class="mod"><span>Temas</span><span>3 h c/u</span></li>
+          <li class="t"><span class="est e-ok"><svg class="i s"><use href="#check"/></svg></span>1. Formar equipos comerciales<span class="n mono">18,00</span></li>
+          <li class="t"><span class="est e-ok"><svg class="i s"><use href="#check"/></svg></span>2. Roles y responsabilidades<span class="n mono">16,00</span></li>
+          <li class="t actual"><span class="est e-act"><svg class="i s"><use href="#play"/></svg></span>3. Delegar con criterio<span class="n">En curso</span></li>
+          <li class="t"><span class="est e-bloq"><svg class="i s"><use href="#candado"/></svg></span>4. Retroalimentación efectiva<span class="n">Bloqueado</span></li>
+          <li class="t"><span class="est e-bloq"><svg class="i s"><use href="#candado"/></svg></span>5. Resolución de conflictos<span class="n">Bloqueado</span></li>
+          <li class="mod"><span>Trabajo integrador</span><span>5 h</span></li>
+          <li class="t"><span class="est e-bloq"><svg class="i s"><use href="#candado"/></svg></span>TIM 4 · Plan de equipo<span class="n">Al aprobar 5 temas</span></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 3. EVALUACION -->
+<section class="vista" id="v-evaluacion">
+<div class="app">
+  <aside class="campus" data-menu="campus"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Tema 3 · Delegar con criterio</p><h1>Evaluación del tema</h1></div>
+      <div class="der"><span class="contador"><svg class="i s"><use href="#reloj"/></svg>24:12</span></div>
+    </div>
+    <div class="grid">
+      <div style="grid-column:span 7">
+        <fieldset class="pregunta card">
+          <legend><span>1/5</span>¿Qué debe definirse primero al delegar una tarea?</legend>
+          <div class="opcion"><span class="r"></span>Quién supervisará cada paso</div>
+          <div class="opcion sel"><span class="r"></span>El resultado esperado y su plazo</div>
+          <div class="opcion"><span class="r"></span>La herramienta que se utilizará</div>
+          <div class="opcion"><span class="r"></span>El bono asociado a la tarea</div>
+        </fieldset>
+        <fieldset class="pregunta card">
+          <legend><span>2/5</span>Verdadero o falso: delegar implica transferir también la responsabilidad final.</legend>
+          <div class="fila" style="gap:10px;flex-wrap:wrap"><div class="opcion" style="flex:1"><span class="r"></span>Verdadero</div><div class="opcion sel" style="flex:1"><span class="r"></span>Falso</div></div>
+        </fieldset>
+        <div class="fila" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><span class="sub">Preguntas tomadas al azar del banco del tema · escala 0 a 20</span><span class="btn p">Enviar evaluación</span></div>
+      </div>
+      <div style="grid-column:span 5" class="card">
+        <h3><svg class="i s"><use href="#eval"/></svg>Resultado del intento 2</h3>
+        <div class="resultado" style="margin-top:12px">
+          <svg class="anillo" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="#EEF2F7" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#15803D" stroke-width="12" stroke-linecap="round" stroke-dasharray="282.7 314.2" transform="rotate(-90 60 60)"/><text x="60" y="58" text-anchor="middle" font-family="JetBrains Mono, Consolas, monospace" font-weight="700" font-size="24" fill="#0F172A">18,00</text><text x="60" y="78" text-anchor="middle" font-size="11" font-family="Plus Jakarta Sans, sans-serif" fill="#475569">de 20</text></svg>
+          <div><span class="pill p-ok"><svg class="i s"><use href="#check"/></svg>Aprobado</span><p style="margin-top:8px;font-size:13px">4 de 5 respuestas correctas. Se desbloqueó el <b>Tema 4</b>.</p><p class="sub" style="margin-top:4px">Nota registrada: mejor intento.</p></div>
+        </div>
+        <div class="intentos">
+          <div class="intento"><span class="pill p-no">Intento 1</span>Desaprobado<span class="nota" style="color:var(--error)">12,00</span></div>
+          <div class="intento"><span class="pill p-ok">Intento 2</span>Aprobado<span class="nota" style="color:var(--exito)">18,00</span></div>
+          <div class="intento" style="color:var(--texto-3)"><span class="pill p-gris">Intento 3</span>Disponible<span class="nota">-</span></div>
+        </div>
+        <p class="sub" style="margin-top:12px;display:flex;gap:6px"><svg class="i s"><use href="#info"/></svg>Regla: aprobado solo si la nota es mayor a 14. Una nota de 14,00 desaprueba.</p>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 4. CERTIFICADOS -->
+<section class="vista" id="v-certificados">
+<div class="app">
+  <aside class="campus" data-menu="campus"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Campus ERICK</p><h1>Mis certificados</h1></div>
+    </div>
+    <div class="grid">
+      <div style="grid-column:span 4" class="card">
+        <h3><svg class="i s"><use href="#premio"/></svg>Documentos emitidos</h3>
+        <p class="sub" style="margin-bottom:12px">Disponibles aunque venza tu acceso</p>
+        <div class="lista-cert">
+          <div class="item-cert" style="border-color:var(--oro);background:#FFFCF5"><span class="ic" style="background:var(--oro-suave);color:var(--oro)"><svg class="i"><use href="#premio"/></svg></span><div style="min-width:0"><b style="font-size:13px">Curso Liderazgo Comercial</b><p class="mono" style="font-size:11.5px;color:var(--texto-2)">ERK-CER-2026-00041</p><span class="pill p-ok" style="margin-top:4px">Válido · 17,47</span></div></div>
+          <div class="item-cert"><span class="ic" style="background:#F1F5F9;color:var(--texto-3)"><svg class="i"><use href="#candado"/></svg></span><div><b style="font-size:13px">Diploma 120 h</b><p class="sub">Al aprobar el Curso 2</p></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px"><span class="btn o"><svg class="i s"><use href="#descarga"/></svg>Descargar PDF</span><span class="btn s"><svg class="i s"><use href="#escudo"/></svg>Abrir verificación</span></div>
+      </div>
+      <div style="grid-column:span 8">
+        <div class="cert">
+          <span class="franja"></span><span class="rotulo">DEMOSTRACIÓN</span><span class="marcaagua">ERICK</span>
+          <div class="enc"><div class="marca"><span class="sello"><svg class="i"><use href="#cap"/></svg></span><div><b>ERICK S.A.C.</b><small>EDUCACIÓN CONTINUA</small></div></div><span class="mono" style="font-size:10.5px;color:#6B7280">ERK-CER-2026-00041</span></div>
+          <div class="tit"><p>Certificado de aprobación</p><h2>CERTIFICADO</h2></div>
+          <p class="otorga">Se otorga el presente a</p>
+          <p class="nombre">Gabriela Ponce Lara</p>
+          <p class="prog">por haber aprobado el curso <b>Liderazgo Comercial</b>, modalidad virtual asincrónica</p>
+          <div class="datos"><div><small>Duración</small><b>60 horas</b></div><div><small>Nota final</small><b>17,47 / 20</b></div><div><small>Culminación</small><b>13/11/2026</b></div><div><small>Emisión</small><b>13/11/2026</b></div></div>
+          <div class="pie">
+            <div class="firma"><svg viewBox="0 0 120 40"><path d="M8 28c10-18 18-20 20-8s6 10 14-6 14-8 16 4 10 6 18-2 14-4 20 2"/></svg><div><b>Lucía Herrera Campos</b><br>Directora Académica</div></div>
+            <div class="qr"><svg viewBox="0 0 29 29" id="qr-cert" shape-rendering="crispEdges"></svg><span>Verificar autenticidad</span><span class="mono">K7Q2-M9XD</span></div>
+            <div class="firma"><svg viewBox="0 0 120 40"><path d="M10 24c8-12 16-14 18-4s10 8 16-4 10-10 14 0 8 8 16 0 10-6 20 0"/></svg><div><b>Andrés Valdivia Soto</b><br>Gerente General</div></div>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:10px">Página 2 del PDF: relación de módulos con horas y notas (Fundamentos del liderazgo 18,10 · Comunicación efectiva 17,20 · Motivación y desempeño 17,10).</p>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 5. VERIFICACION -->
+<section class="vista" id="v-verificar">
+  <div class="pub-top"><span class="logo-marca" style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#B7791F,#E8B15A);color:#fff;display:grid;place-items:center"><svg class="i s"><use href="#cap"/></svg></span><b>ERICK S.A.C.</b><span class="sub" style="margin-left:auto">Verificación pública de documentos</span></div>
+  <div class="verif">
+    <div class="card" style="text-align:center;padding:28px">
+      <div class="sello-ok"><svg class="i" style="width:30px;height:30px"><use href="#escudo"/></svg></div>
+      <span class="pill p-ok">Documento válido</span>
+      <h1 style="font-size:22px;margin-top:10px">Certificado de aprobación</h1>
+      <p class="mono sub">ERK-CER-2026-00041 · K7Q2-M9XD</p>
+      <dl style="text-align:left">
+        <dt>Estudiante</dt><dd><b>Gabriela Ponce Lara</b></dd>
+        <dt>Documento</dt><dd class="mono">DEMO-****-021</dd>
+        <dt>Programa</dt><dd>Curso Liderazgo Comercial · 60 horas</dd>
+        <dt>Nota final</dt><dd class="mono">17,47 / 20</dd>
+        <dt>Emisión</dt><dd class="mono">13/11/2026</dd>
+        <dt>Emisor</dt><dd>ERICK S.A.C.</dd>
+      </dl>
+      <p class="sub" style="margin-top:16px">Si el documento fuera anulado, esta página lo indicaría con el motivo y la fecha.</p>
+    </div>
+    <div class="card" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <svg class="i"><use href="#buscar"/></svg><span style="flex:1;min-width:180px;border:1px solid var(--borde);border-radius:10px;padding:10px 12px;color:var(--texto-3)">Ingresa el código del certificado</span><span class="btn p">Verificar</span>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PANEL ACADEMICO -->
+<section class="vista" id="v-panel">
+<div class="app">
+  <aside class="corp" data-menu="corp"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Administración corporativa · Académico</p><h1>Resumen académico</h1></div>
+      <div class="der"><div class="rol"><svg class="i s"><use href="#rol"/></svg><span>Rol demo: Superadministrador</span></div></div>
+    </div>
+    <div class="kpis">
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--acento-suave);color:var(--acento)"><svg class="i s"><use href="#usuarios"/></svg></span>Estudiantes activos</div><div class="num">48</div><p class="sub">+6 este mes</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--primario-suave);color:var(--primario)"><svg class="i s"><use href="#eval"/></svg></span>Tasa de aprobación</div><div class="num mono">82%</div><p class="sub">Evaluaciones de tema</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:var(--oro-suave);color:var(--oro)"><svg class="i s"><use href="#premio"/></svg></span>Certificados emitidos</div><div class="num">14</div><p class="sub">3 diplomas · 1 anulado</p></div>
+      <div class="card kpi"><div class="et"><span class="ico" style="background:#FEF3C7;color:var(--advertencia)"><svg class="i s"><use href="#calendario"/></svg></span>Membresías por vencer</div><div class="num">5</div><p class="sub">En los próximos 7 días</p></div>
+    </div>
+    <div class="grid">
+      <div class="card" style="grid-column:span 5">
+        <h3><svg class="i s"><use href="#tablero"/></svg>Aprobación por módulo</h3><p class="sub">Diplomado en Liderazgo y Gestión Comercial</p>
+        <div class="barras-v">
+          <div><i style="height:88%"></i>M1</div><div><i style="height:81%"></i>M2</div><div><i style="height:76%"></i>M3</div><div><i style="height:70%"></i>M4</div><div><i style="height:64%"></i>M5</div><div><i style="height:52%"></i>M6</div>
+        </div>
+      </div>
+      <div class="card" style="grid-column:span 7">
+        <div class="cab"><div><h3><svg class="i s"><use href="#usuarios"/></svg>Matrículas recientes</h3><p class="sub">Activadas por pago confirmado o manualmente</p></div><span class="btn s"><svg class="i s"><use href="#descarga"/></svg>CSV / PDF</span></div>
+        <div class="tabla-wrap"><table>
+          <thead><tr><th>Estudiante</th><th>Programa</th><th>Origen</th><th class="r">Avance</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td><b>Gabriela Ponce</b><br><span class="mono sub">DEMO-L01</span></td><td>Curso Liderazgo Comercial</td><td>Compra DEMO-P91</td><td class="r mono">100%</td><td><span class="pill p-ok">Aprobado</span></td></tr>
+            <tr><td><b>Mariana Vega</b><br><span class="mono sub">DEMO-A01</span></td><td>Diplomado 120 h</td><td>Compra</td><td class="r mono">97%</td><td><span class="pill p-info">Activa</span></td></tr>
+            <tr><td><b>Paula Mejía</b><br><span class="mono sub">DEMO-L04</span></td><td>Membresía 3 meses</td><td>Membresía</td><td class="r mono">41%</td><td><span class="pill p-rev">Por vencer</span></td></tr>
+            <tr><td><b>Samuel Guerrero</b><br><span class="mono sub">DEMO-L05</span></td><td>Curso Ventas Digitales</td><td>Manual (beca)</td><td class="r mono">100%</td><td><span class="pill p-gris">Vencida</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 7. EDITOR DE ESTRUCTURA -->
+<section class="vista" id="v-estructura">
+<div class="app">
+  <aside class="corp" data-menu="corp" data-activo="Programas"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Académico · Programas</p><h1>Diplomado en Liderazgo y Gestión Comercial</h1></div>
+      <div class="der"><span class="pill p-ok">Publicado</span><span class="btn s solo-escritorio">Duplicar</span><span class="btn p">Guardar</span></div>
+    </div>
+    <div class="tabs"><span class="tab act"><svg class="i s"><use href="#capas"/></svg>Estructura</span><span class="tab"><svg class="i s"><use href="#libro"/></svg>Contenidos</span><span class="tab"><svg class="i s"><use href="#eval"/></svg>Preguntas</span><span class="tab"><svg class="i s"><use href="#lapiz"/></svg>Reglas de aprobación</span><span class="tab"><svg class="i s"><use href="#tarjeta"/></svg>Producto y precio</span></div>
+    <div class="grid">
+      <div class="card" style="grid-column:span 8">
+        <div class="validacion"><svg class="i s"><use href="#check"/></svg>La estructura cuadra: 2 cursos · 6 módulos · 30 temas · 6 TIM = 120 horas</div>
+        <ul class="arbol-ed">
+          <li class="nodo"><span class="tipo t-dip">Diplomado</span><b>Liderazgo y Gestión Comercial</b><span class="h">120 h</span></li>
+          <li class="nodo ind1"><span class="tipo t-cur">Curso</span>Liderazgo Comercial<span class="h">60 h</span><span class="acc"><span><svg class="i s"><use href="#arriba"/></svg></span><span><svg class="i s"><use href="#lapiz"/></svg></span></span></li>
+          <li class="nodo ind2"><span class="tipo t-mod">Módulo</span>Fundamentos del liderazgo<span class="h">20 h</span><span class="acc"><span><svg class="i s"><use href="#arriba"/></svg></span><span><svg class="i s"><use href="#lapiz"/></svg></span></span></li>
+          <li class="nodo ind3"><span class="tipo t-tema">Tema</span>Estilos de liderazgo<span class="h">3 h</span></li>
+          <li class="nodo ind3"><span class="tipo t-tema">Tema</span>Liderazgo situacional<span class="h">3 h</span></li>
+          <li class="nodo ind3" style="color:var(--texto-3)"><span class="tipo t-tema">Tema</span>+ 3 temas más<span class="h">9 h</span></li>
+          <li class="nodo ind3"><span class="tipo t-tim">TIM</span>Diagnóstico de liderazgo<span class="h">5 h</span></li>
+          <li class="nodo ind2" style="color:var(--texto-3)"><span class="tipo t-mod">Módulo</span>+ 2 módulos más<span class="h">40 h</span></li>
+          <li class="nodo ind1"><span class="tipo t-cur">Curso</span>Gestión de Equipos y Ventas<span class="h">60 h</span><span class="acc"><span><svg class="i s"><use href="#arriba"/></svg></span><span><svg class="i s"><use href="#lapiz"/></svg></span></span></li>
+          <li class="nodo ind1" style="border-style:dashed"><span class="tipo t-oro" style="background:var(--oro-suave);color:var(--oro)">MID</span>Investigación y Desarrollo (opcional)<span class="h">20 h</span></li>
+        </ul>
+      </div>
+      <div class="card" style="grid-column:span 4">
+        <h3><svg class="i s"><use href="#lapiz"/></svg>Reglas de aprobación</h3>
+        <table style="margin-top:10px"><tbody>
+          <tr><td>Nota mínima</td><td class="r mono">mayor a 14</td></tr>
+          <tr><td>Intentos por evaluación</td><td class="r mono">3</td></tr>
+          <tr><td>Nota registrada</td><td class="r">Mejor intento</td></tr>
+          <tr><td>Preguntas por evaluación</td><td class="r mono">5</td></tr>
+          <tr><td>Tiempo límite</td><td class="r mono">30 min</td></tr>
+          <tr><td>Desbloqueo</td><td class="r">Aprobar para avanzar</td></tr>
+          <tr><td>Duración del acceso</td><td class="r mono">6 meses</td></tr>
+        </tbody></table>
+        <p class="sub" style="margin-top:10px">Nota de módulo = (5 temas x 3 h + TIM x 5 h) / 20 h</p>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 8. EVALUADOR MID -->
+<section class="vista" id="v-mid">
+<div class="app">
+  <aside class="corp" data-menu="evaluador"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Evaluador académico</p><h1>Sustentaciones MID asignadas</h1></div>
+      <div class="der"><div class="rol"><svg class="i s"><use href="#rol"/></svg><span>Rol demo: Evaluador</span></div></div>
+    </div>
+    <div class="grid">
+      <div class="card" style="grid-column:span 5">
+        <h3><svg class="i s"><use href="#usuarios"/></svg>Mi bandeja</h3>
+        <div class="lista-cert" style="margin-top:12px">
+          <div class="item-cert" style="border-color:var(--acento);background:#F5FBFD"><span class="avatar">DA</span><div><b style="font-size:13px">Diego Arana Becerra</b><p class="sub">"Fidelización en ventas directas" · 18/11/2026</p><span class="pill p-rev" style="margin-top:4px">Por calificar</span></div></div>
+          <div class="item-cert"><span class="avatar" style="background:#7C3AED">RO</span><div><b style="font-size:13px">Renata Ortega Salcedo</b><p class="sub">"Indicadores de equipos" · 22/11/2026</p><span class="pill p-info" style="margin-top:4px">Asignada</span></div></div>
+        </div>
+      </div>
+      <div class="card" style="grid-column:span 7">
+        <h3><svg class="i s"><use href="#eval"/></svg>Rúbrica de sustentación</h3><p class="sub">Única evaluación manual del sistema · no modifica el diploma</p>
+        <div class="rubrica" style="margin-top:12px">
+          <div class="crit"><span>Planteamiento del problema</span><span class="pill p-gris">25%</span><input value="17" aria-label="Nota planteamiento"></div>
+          <div class="crit"><span>Metodología y evidencias</span><span class="pill p-gris">30%</span><input value="16" aria-label="Nota metodología"></div>
+          <div class="crit"><span>Resultados y propuesta</span><span class="pill p-gris">30%</span><input value="18" aria-label="Nota resultados"></div>
+          <div class="crit"><span>Exposición y defensa</span><span class="pill p-gris">15%</span><input value="17" aria-label="Nota exposición"></div>
+        </div>
+        <div class="fila" style="justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px"><span>Nota final <b class="mono" style="font-size:20px;margin-left:6px">17,00</b> <span class="pill p-ok" style="margin-left:6px">Aprobado</span></span><span class="btn p">Registrar y emitir constancia</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- 9. INTEGRACION -->
+<section class="vista" id="v-integracion">
+<div class="app">
+  <aside class="corp" data-menu="corp" data-activo="Integraciones"></aside>
+  <main>
+    <div class="top">
+      <div class="menu-movil btn-ico"><svg class="i"><use href="#menu"/></svg></div>
+      <div><p class="ctx">Administración corporativa · Control</p><h1>Integraciones · Conector LMS</h1></div>
+    </div>
+    <div class="grid">
+      <div class="card" style="grid-column:span 5">
+        <div class="cab"><div class="fila"><span class="ic" style="width:42px;height:42px;border-radius:12px;background:var(--oro-suave);color:var(--oro);display:grid;place-items:center"><svg class="i"><use href="#cap"/></svg></span><div><h3>Campus ERICK</h3><p class="mono sub">DEMO-CON-LMS</p></div></div><span class="pill p-ok"><svg class="i s"><use href="#enchufe"/></svg>Conectado (simulado)</span></div>
+        <p class="sub">Matrículas, avance, aprobaciones y certificados llegan como eventos. La aprobación de un curso o diplomado cumple el requisito de rango "Formación aprobada".</p>
+        <div class="card" style="margin-top:14px;background:linear-gradient(135deg,#14305A,#0F2547);color:#fff;border:none">
+          <p style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#9FDFF0;font-weight:700">Efecto en Mi RUN de DEMO-A01</p>
+          <div class="fila" style="margin-top:8px;gap:10px"><span class="est e-ok" style="width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#DCFCE7;color:var(--exito)"><svg class="i s"><use href="#check"/></svg></span><span>Formación aprobada</span><span class="mono" style="margin-left:auto;color:#A9BCD9">Diploma ERK-DIP-2026-00012</span></div>
+          <p style="font-size:12px;color:#A9BCD9;margin-top:6px">Fuente: evento diploma_emitido del conector LMS</p>
+        </div>
+      </div>
+      <div class="card" style="grid-column:span 7">
+        <div class="cab"><div><h3><svg class="i s"><use href="#enchufe"/></svg>Registro de eventos</h3><p class="sub">Lo que el campus informa a la plataforma MLM</p></div><span class="btn s"><svg class="i s"><use href="#descarga"/></svg>CSV</span></div>
+        <div>
+          <div class="evento"><span class="mono sub">13/11 18:42</span><span><b>diploma_emitido</b> · Mariana Vega · Diplomado 120 h</span><span class="pill p-ok">Procesado</span></div>
+          <div class="evento"><span class="mono sub">13/11 16:05</span><span><b>curso_aprobado</b> · Gabriela Ponce · Curso Liderazgo</span><span class="pill p-ok">Procesado</span></div>
+          <div class="evento"><span class="mono sub">13/11 15:31</span><span><b>avance_actualizado</b> · Diego Arana · 64%</span><span class="pill p-ok">Procesado</span></div>
+          <div class="evento"><span class="mono sub">12/11 10:14</span><span><b>matricula_creada</b> · Paula Mejía · Membresía 3 meses</span><span class="pill p-ok">Procesado</span></div>
+          <div class="evento"><span class="mono sub">11/11 09:00</span><span><b>acceso_vencido</b> · Samuel Guerrero · Ventas Digitales</span><span class="pill p-rev">Enviado</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</section>
+
+<div class="guia-txt">
+  <h2>Qué muestra esta referencia</h2>
+  <ul>
+    <li>El campus tiene su propio menú (tono petróleo y dorado de ERICK) dentro del mismo proyecto, con enlace "Volver a MLM 2027".</li>
+    <li>El panel académico se integra al menú corporativo existente como grupo "Académico".</li>
+    <li>El certificado en pantalla es la misma composición que tendrá el PDF (A4 horizontal), con el QR que abre la verificación pública.</li>
+    <li>Colores, tipografías, tarjetas, insignias y tablas son los mismos de MLM 2027. Los datos son ficticios.</li>
+  </ul>
+</div>
+
+<script>
+const menus = {
+  campus: { clase: 'campus', marca: 'Campus ERICK', sub: 'Plataforma educativa', icono: 'cap', grupos: [
+    ['Aprendizaje', [['Mis programas', 'cap', 'programas'], ['Mis notas', 'eval', 'evaluacion'], ['Historial académico', 'libro']]],
+    ['Logros', [['Mis certificados', 'premio', 'certificados', '1'], ['Mi membresía', 'calendario'], ['Mi MID', 'caso']]],
+  ], pie: ['GP', 'Gabriela Ponce', 'DEMO-L01', '#0E7490'], volver: true },
+  corp: { clase: 'corp', marca: 'MLM 2027', sub: 'Administración corporativa', icono: 'capas', grupos: [
+    ['General', [['Resumen', 'tablero']]],
+    ['Académico', [['Resumen académico', 'cap', 'panel'], ['Programas', 'capas', 'estructura'], ['Banco de preguntas', 'eval'], ['Matrículas', 'usuarios'], ['Certificados', 'premio'], ['Sustentaciones MID', 'caso'], ['Reportes', 'archivo']]],
+    ['Control', [['Integraciones', 'enchufe', 'integracion']]],
+  ], pie: ['AD', 'Admin Demo', 'DEMO-U01', '#14305A'] },
+  evaluador: { clase: 'corp', marca: 'MLM 2027', sub: 'Evaluador académico', icono: 'capas', grupos: [
+    ['Evaluación', [['Sustentaciones MID', 'caso', 'mid', '2']]],
+  ], pie: ['DE', 'Docente Evaluador', 'DEMO-U03', '#7C3AED'] },
+};
+const vistaActual = () => document.querySelector('.vista.activa').id.replace('v-', '');
+function pintarMenus() {
+  document.querySelectorAll('aside[data-menu]').forEach((aside) => {
+    const m = menus[aside.dataset.menu];
+    const vista = aside.closest('.vista').id.replace('v-', '');
+    const activoTexto = aside.dataset.activo;
+    let html = `<div class="logo"><span class="logo-marca"><svg class="i"><use href="#${m.icono}"/></svg></span><div>${m.marca}<small>${m.sub}</small></div></div>`;
+    m.grupos.forEach(([titulo, items]) => {
+      html += `<p class="grupo">${titulo}</p>`;
+      items.forEach(([texto, icono, destino, cuenta]) => {
+        const activo = activoTexto ? texto === activoTexto : destino === vista;
+        html += `<a class="nav${activo ? ' activo' : ''}"${destino ? ` data-ir="${destino}"` : ''}><svg class="i"><use href="#${icono}"/></svg>${texto}${cuenta ? `<span class="cuenta">${cuenta}</span>` : ''}</a>`;
+      });
+    });
+    if (m.volver) html += `<span class="volver"><svg class="i s"><use href="#flecha"/></svg>Volver a MLM 2027</span>`;
+    const [ini, nom, cod, color] = m.pie;
+    html += `<div class="perfil-lat"${m.volver ? '' : ' style="margin-top:auto"'}><span class="avatar" style="background:${color}">${ini}</span><div><b style="color:#fff;font-size:13px">${nom}</b><p class="mono" style="font-size:11px;color:#8FA3C2">${cod}</p></div></div>`;
+    aside.innerHTML = html;
+  });
+}
+function mostrar(vista) {
+  document.querySelectorAll('.vista').forEach((s) => s.classList.toggle('activa', s.id === `v-${vista}`));
+  document.querySelectorAll('.selector button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vista === vista)));
+  window.scrollTo({ top: 0 });
+}
+document.querySelector('.selector').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) mostrar(b.dataset.vista); });
+document.addEventListener('click', (e) => { const a = e.target.closest('[data-ir]'); if (a) mostrar(a.dataset.ir); });
+pintarMenus();
+(function dibujarQr() {
+  const svg = document.getElementById('qr-cert'); const n = 29; let semilla = 41; const azar = () => (semilla = (semilla * 9301 + 49297) % 233280) / 233280;
+  const enFinder = (x, y) => [[0, 0], [n - 7, 0], [0, n - 7]].some(([fx, fy]) => x >= fx && x < fx + 7 && y >= fy && y < fy + 7);
+  let r = '<rect width="29" height="29" fill="#fff"/>';
+  [[0, 0], [n - 7, 0], [0, n - 7]].forEach(([fx, fy]) => { r += `<rect x="${fx}" y="${fy}" width="7" height="7" fill="#14305A"/><rect x="${fx + 1}" y="${fy + 1}" width="5" height="5" fill="#fff"/><rect x="${fx + 2}" y="${fy + 2}" width="3" height="3" fill="#14305A"/>`; });
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!enFinder(x, y) && azar() > 0.52) r += `<rect x="${x}" y="${y}" width="1" height="1" fill="#14305A"/>`;
+  svg.innerHTML = r;
+})();
+</script>
+</body>
+</html>
