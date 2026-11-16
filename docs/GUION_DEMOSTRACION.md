@@ -120,3 +120,29 @@ Hacer los flujos en este orden dentro de la misma sesión: F03, F07, F01, F02, F
 - **¿Qué pasa si cambian las reglas a mitad de mes?** La versión nueva aplica desde su vigencia. Los períodos cerrados conservan la versión con la que se calcularon.
 - **¿Se puede pagar dos veces por error?** No. Generar liquidaciones es idempotente y cada corrida guarda su clave.
 - **¿Qué se necesita para pasar a producción?** Backend con base de datos transaccional, motor de cálculo desacoplado, colas con reintentos y adaptadores para LMS, comercio electrónico y pagos (ver Integraciones).
+
+## 7. Campus ERICK (integración LMS)
+
+Campus ERICK es un apartado del mismo prototipo: se entra desde "Campus ERICK" en el menú del afiliado, desde Mi cuenta del alumno o desde el menú de usuario. Comparte la sesión, el selector de rol y la Guía de flujos (F09 a F13). Todos los contenidos, notas y certificados son de DEMOSTRACIÓN.
+
+Mensaje central: "Desde la compra hasta el diploma, sin intervención manual: la matrícula se activa con el pago confirmado, las evaluaciones se califican solas de 0 a 20 (aprueba con más de 14), el certificado se emite al instante y el MLM se entera por el conector".
+
+### Orden recomendado (12 a 15 minutos): F09, F10, F11, F12, F13
+
+- **F09 - Compra y matrícula automática (Alumna DEMO-L01).** Catálogo, Membresía ERICK 1 mes, checkout con "Pasarela local (simulada)" en Aprobado. En el detalle del pedido aparece "Acceso académico generado". En Mi membresía, "Inscribirme" en el Curso Ventas Digitales. Probar también Rechazado: el pedido se cancela y no se activa nada.
+- **F10 - Estudio y evaluación (DEMO-L01).** Tema 2: video simulado, lectura con PDF, caso con respuesta guía. La evaluación se habilita al completar los tres. Responder mal a propósito (12/20 desaprueba; 14 tampoco aprueba), luego aprobar. El tema 3 se desbloquea en la ruta.
+- **F11 - Certificado con QR (DEMO-L06).** Rendir el TIM 9. Al aprobar, el certificado se emite en el mismo momento. Descargar el PDF (anverso con QR, reverso con módulos, horas y notas) y abrir "Verificar".
+- **F12 - Efecto en el rango (DEMO-A01).** Aprobar el TIM 3 del Curso Liderazgo Comercial. Mi formación pasa a aprobado por el conector (sin el botón simulado) y en Mi RUN el requisito de formación queda cumplido. En Integraciones se ve el registro de eventos.
+- **F13 - MID (DEMO-L03, U01, U03).** L03 solicita el MID; el superadministrador asigna a DEMO-U03; el evaluador califica con la rúbrica; L03 recibe la constancia y su diploma no cambia.
+
+### Panel académico (Superadministrador, grupo "Académico")
+
+Resumen con indicadores, Programas (crear desde una plantilla, publicar solo si la estructura cuadra: agregar un sexto tema muestra el error), Banco de preguntas, Matrículas (manual, suspender, intento extra a DEMO-A26), Membresías, Certificados (anular y reemitir), Sustentaciones MID y Reportes (CSV y PDF). La Ficha de persona tiene la pestaña "Académico".
+
+### Estados precargados útiles
+
+DEMO-L04 (membresía por vencer en 5 días), DEMO-L05 (acceso vencido con certificado descargable), DEMO-L02 (certificado anulado y reemitido), DEMO-A26 (tema bloqueado por intentos), DEMO-A18 (evento del conector en error).
+
+### Nota sobre la verificación pública
+
+Los datos viven en el navegador. Un QR escaneado desde otro dispositivo verifica los documentos precargados; los emitidos durante la demostración se verifican en el mismo navegador.

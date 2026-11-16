@@ -78,3 +78,87 @@ Estado: Cubierto = implementado y verificable en la pantalla indicada. Las obser
 | MLM-070 | Resiliencia | 25 | `/corporativo/integraciones` | Cubierto | Tarjeta descriptiva de resiliencia (no funcional por definición). |
 
 Total: 70 requerimientos.
+
+## Campus ERICK (LMS-001 a LMS-097)
+
+| ID | Funcionalidad | Dónde comprobarlo | Estado | Observación |
+|---|---|---|---|---|
+| LMS-001 | Jerarquía de programas | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-002 | MID | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-003 | Programas independientes | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-004 | Totales coherentes | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-005 | Estados de programa | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-006 | Vínculo con catálogo | `/corporativo/academico/programas` | Cubierto |  |
+| LMS-010 | Componentes del tema | `/campus/temas/:id` | Cubierto |  |
+| LMS-011 | Videoclase | `/campus/temas/:id` | Cubierto | Clase de YouTube insertada cuando el tema tiene enlace (se marca como vista al terminar o con el botón); sin enlace, video simulado con portada configurable. Demo: DEMO-TEM-001, 002 y 006. |
+| LMS-012 | Lectura | `/campus/temas/:id` | Cubierto |  |
+| LMS-013 | Caso práctico | `/campus/temas/:id` | Cubierto |  |
+| LMS-014 | Descargas autorizadas | `/campus/temas/:id` | Cubierto |  |
+| LMS-015 | Avance del tema | `/campus/temas/:id` | Cubierto |  |
+| LMS-020 | Tipos de pregunta | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-021 | Banco de preguntas | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-022 | Escala | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-023 | Aprobación | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-024 | Intentos | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-025 | Tiempo límite | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-026 | Retroalimentación | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-027 | TIM | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-028 | Nota de módulo | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-029 | Nota de curso | `/campus/evaluaciones/:ambito/:id` | Cubierto |  |
+| LMS-030 | Nota de diplomado | `/campus/programas/:id` | Cubierto |  |
+| LMS-031 | Desbloqueo progresivo | `/campus/programas/:id` | Cubierto |  |
+| LMS-032 | Sin intentos | `/campus/programas/:id` | Cubierto |  |
+| LMS-033 | Recalculo | `/campus/programas/:id` | Cubierto |  |
+| LMS-040 | Emisión automática de certificado | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-041 | Emisión automática de diploma | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-042 | Contenido del documento | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-043 | Reverso | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-044 | Código único | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-045 | QR | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-046 | Verificación pública | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-047 | PDF | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-048 | Permanencia | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-049 | Anulación y reemisión | `/campus/certificados, /verificar` | Cubierto |  |
+| LMS-050 | Acceso | `/campus` | Cubierto |  |
+| LMS-051 | Mis programas | `/campus` | Cubierto |  |
+| LMS-052 | Ruta del programa | `/campus` | Cubierto |  |
+| LMS-053 | Vista del tema | `/campus` | Cubierto |  |
+| LMS-054 | Mis notas | `/campus` | Cubierto |  |
+| LMS-055 | Historial académico | `/campus` | Cubierto |  |
+| LMS-056 | Mis certificados | `/campus` | Cubierto |  |
+| LMS-057 | Mi membresía | `/campus` | Cubierto |  |
+| LMS-058 | Acceso vencido | `/campus` | Cubierto |  |
+| LMS-060 | Matrícula individual | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-061 | Membresías | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-062 | Activación por pago | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-063 | Renovación | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-064 | Vencimientos | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-065 | Precios y descuentos | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-066 | Matrícula manual | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-067 | Pasarela peruana simulada | `/campus/programas, /campus/membresia, /checkout` | Cubierto |  |
+| LMS-070 | Inscripción MID | `/campus/mid, /evaluador` | Cubierto |  |
+| LMS-071 | Entrega | `/campus/mid, /evaluador` | Cubierto |  |
+| LMS-072 | Asignación | `/campus/mid, /evaluador` | Cubierto |  |
+| LMS-073 | Evaluación manual | `/campus/mid, /evaluador` | Cubierto |  |
+| LMS-074 | Constancia MID | `/campus/mid, /evaluador` | Cubierto |  |
+| LMS-075 | Bandeja del evaluador | `/campus/mid, /evaluador` | Cubierto | Precarga: 3 sustentaciones asignadas a DEMO-U03 por calificar, 2 aprobadas con constancia, 1 desaprobada y 2 solicitadas por asignar (alumnos DEMO-L08 a DEMO-L17). |
+| LMS-080 | Programas | `/corporativo/academico/*` | Cubierto |  |
+| LMS-081 | Editor de estructura | `/corporativo/academico/programas/:id` | Cubierto | Validación de horas, alta o baja de temas y reordenamiento de temas y módulos con subir y bajar (solo en borrador). |
+| LMS-082 | Contenidos | `/corporativo/academico/programas/:id` | Cubierto | Título, objetivos, lectura, caso, bandera descargable y portada del video (imagen en memoria durante la demostración). |
+| LMS-083 | Banco de preguntas | `/corporativo/academico/*` | Cubierto |  |
+| LMS-084 | Reglas de aprobación | `/corporativo/academico/*` | Cubierto |  |
+| LMS-085 | Matrículas | `/corporativo/academico/matriculas` | Cubierto | Acción Extender (1 a 12 meses, motivo obligatorio) desde el vencimiento vigente o desde hoy si venció; las matrículas por membresía se extienden con la membresía. |
+| LMS-086 | Membresías | `/corporativo/academico/*` | Cubierto |  |
+| LMS-087 | Certificados | `/corporativo/academico/*` | Cubierto |  |
+| LMS-088 | Estadísticas | `/corporativo/academico/resumen` | Cubierto | Indicadores, gráfico de avance promedio por programa y distribución de notas (recharts). |
+| LMS-089 | Reportes | `/corporativo/academico/reportes` | Cubierto | CSV y PDF por reporte con filtro por rango de fechas. |
+| LMS-090 | Conector | `/corporativo/integraciones` | Cubierto |  |
+| LMS-091 | Eventos | `/corporativo/integraciones` | Cubierto |  |
+| LMS-092 | Estado formativo | `/corporativo/integraciones` | Cubierto |  |
+| LMS-093 | Botón simulado | `/corporativo/integraciones` | Cubierto |  |
+| LMS-094 | Integraciones | `/corporativo/integraciones` | Cubierto |  |
+| LMS-095 | Volumen comercial | `/corporativo/integraciones` | Cubierto |  |
+| LMS-096 | Ficha de persona | `/corporativo/integraciones` | Cubierto |  |
+| LMS-097 | API documentada | `/corporativo/integraciones` | Cubierto |  |
+
+Total: 77 requerimientos LMS (77 cubiertos). Pruebas automáticas: `npm run pruebas`.

@@ -84,7 +84,7 @@ Disenar una plataforma cloud, clara y escalable que permita operar el back offic
 4. Organizar **motores de compensacion independientes y parametrizables**, con simulacion previa a cualquier liquidacion.
 5. Ofrecer a cada afiliado un panel legible que explique desempeno, red, bonos y avance de rango.
 6. Permitir auditoria de ajustes, reversiones, suspensiones y decisiones corporativas.
-7. Preparar (de forma conceptual) la integracion posterior con comercio electronico, la plataforma educativa **ERIC S.A.C.** y proveedores de pago.
+7. Preparar (de forma conceptual) la integracion posterior con comercio electronico, la plataforma educativa **ERICK S.A.C.** y proveedores de pago.
 
 ### 1.5 Alcance de la primera presentacion
 
@@ -636,7 +636,7 @@ Diseno responsive (escritorio y movil). Tres recorridos: cliente/alumno, afiliad
 | 10 | `/afiliado/run` | Progreso hacia siguiente RUN | Escalera de los 11 RUN marcando Cobro e Historico; barra de progreso y checklist del siguiente RUN con requerido, logrado, faltante y fuente de cada requisito; incluye requisito de formacion. | MLM-028, 029, 030, 056 |
 | 11 | `/afiliado/bonos` | Bonos y desglose | Selector de periodo; tarjeta por cada uno de los 7 conceptos con monto ilustrativo, estado y boton "Ver desglose" (base, regla y version, fuente, periodo, ajustes, resultado). Para Unilevel, tabla por nivel 1-7. Leyenda DEMOSTRACION. | MLM-041, 044, 054 |
 | 12 | `/afiliado/compras`, `/afiliado/liquidaciones` | Historial de liquidaciones y compras | Compras propias y de clientes con buscador (persona, producto, periodo, estado, comprobante); liquidaciones por periodo con conceptos, ajustes, total, estado y comprobante descargable (simulado). | MLM-014, 046, 055 |
-| 13 | `/afiliado/formacion` | Estado de formacion vinculada | Programas ERIC S.A.C. con estado matriculado/cursando/aprobado, indicador "Conector LMS pendiente de integracion", y como afecta al requisito de rango. | MLM-065 |
+| 13 | `/afiliado/formacion` | Estado de formacion vinculada | Programas ERICK S.A.C. con estado matriculado/cursando/aprobado, indicador "Conector LMS pendiente de integracion", y como afecta al requisito de rango. | MLM-065 |
 
 ### 9.4 Corporativo (layout con menu lateral; prefijo `/corporativo`)
 
@@ -653,7 +653,7 @@ Diseno responsive (escritorio y movil). Tres recorridos: cliente/alumno, afiliad
 | 22 | `/corporativo/liquidaciones` | Revision, aprobacion y liquidaciones | Corridas en revision; partidas con aprobar/retener; aprobar cierre; generar liquidaciones (idempotente); estados; exportar CSV / imprimir. Distincion visual clara entre corrida simulada y liquidacion aprobada (CA-14). | MLM-044 a 046, 049 |
 | 23 | `/corporativo/compliance` | Compliance, suspensiones y ajustes | Bandeja de alertas; ficha de revision; suspender/liberar/bloquear con motivo; retener/liberar pagos; registrar devolucion (elige pedido -> vista previa de reversion VP/VC y ajustes de bono -> confirmar); correcciones excepcionales con motivo y evidencia. | MLM-047, 048, 059 a 061 |
 | 24 | `/corporativo/auditoria`, `/corporativo/reportes` | Auditoria y reportes | Bitacora filtrable (actor, modulo, accion, fecha) con detalle antes/despues; reportes por afiliado, producto, RUN, periodo y estado; exportar CSV e imprimir. | MLM-007, 014, 062, 064, 049 |
-| 25 | `/corporativo/integraciones` | Integraciones y conectores | Tarjetas: LMS ERIC S.A.C. (pendiente de integracion), e-commerce externo (futuro), pagos (interfaz desacoplada, simulado), notificaciones (simulado), mercados (pais, moneda, idioma, tributos, metodo de pago), resiliencia (respaldos, monitoreo, recuperacion, permisos). Ninguna afirma estar conectada. | MLM-065 a 070 |
+| 25 | `/corporativo/integraciones` | Integraciones y conectores | Tarjetas: LMS ERICK S.A.C. (pendiente de integracion), e-commerce externo (futuro), pagos (interfaz desacoplada, simulado), notificaciones (simulado), mercados (pais, moneda, idioma, tributos, metodo de pago), resiliencia (respaldos, monitoreo, recuperacion, permisos). Ninguna afirma estar conectada. | MLM-065 a 070 |
 
 ---
 
@@ -798,11 +798,11 @@ Verificaciones que deben cumplirse con estos datos:
 
 | ID | Nombre | Categoria | Precio (USD) | VP | VC | Notas |
 |---|---|---|---|---|---|---|
-| DEMO-PRD-01 | Programa Liderazgo Comercial - Nivel 1 | programa_formativo | 250,00 | 100 | 80 | Proveedor ERIC S.A.C. (vinculo LMS conceptual) |
+| DEMO-PRD-01 | Programa Liderazgo Comercial - Nivel 1 | programa_formativo | 250,00 | 100 | 80 | Proveedor ERICK S.A.C. (vinculo LMS conceptual) |
 | DEMO-PRD-02 | Kit Nutricional Premium | bien_fisico | 120,00 | 60 | 45 | |
 | DEMO-PRD-03 | Asesoria de Imagen Personal | servicio | 80,00 | 20 | 30 | VC mayor que VP a proposito (sin equivalencia) |
 | DEMO-PRD-04 | Set de Cuidado Personal | bien_fisico | 65,00 | 30 | 25 | |
-| DEMO-PRD-05 | Taller de Ventas Digitales | programa_formativo | 150,00 | 70 | 50 | Proveedor ERIC S.A.C. |
+| DEMO-PRD-05 | Taller de Ventas Digitales | programa_formativo | 150,00 | 70 | 50 | Proveedor ERICK S.A.C. |
 | DEMO-PRD-06 | Membresia Anual de Servicios | servicio | 300,00 | 120 | 90 | Inactivo (vigencia vencida) para mostrar vigencia |
 
 ### 13.3 Periodos y versiones de reglas
