@@ -3,6 +3,7 @@ import {
   Bell, CircleDashed, CreditCard, DatabaseBackup, GraduationCap, Globe2, KeyRound, LifeBuoy, MonitorCheck, Play, Plug, ShieldCheck, ShoppingCart, type LucideIcon,
 } from 'lucide-react';
 import { Boton } from '../../componentes/ui/Boton';
+import { RegistroEventosLms } from '../../componentes/campus/RegistroEventosLms';
 import { Insignia, type TonoInsignia } from '../../componentes/ui/Insignia';
 import { Tarjeta } from '../../componentes/ui/Tarjeta';
 import { useIntegracionesStore } from '../../store/useIntegracionesStore';
@@ -15,7 +16,7 @@ const estados: Record<Conector['estado'], { etiqueta: string; tono: TonoInsignia
   futuro: { etiqueta: 'Conector futuro', tono: 'neutra' },
 };
 const detalles: Record<Conector['tipo'], string[]> = {
-  lms: ['Estados recibidos: matriculado, cursando, aprobado.', 'El estado "aprobado" puede ser condición de rango.', 'Hoy se simula con el botón de Mi formación.'],
+  lms: ['Conectado (simulado): matrículas, avances, aprobaciones, documentos y vencimientos llegan como eventos.', 'Cada evento actualiza el estado formativo; "aprobado" cumple el requisito de rango.', 'El botón de Mi formación queda como atajo de demostración. API descrita en docs/API_LMS.md.'],
   ecommerce: ['Importaría ventas y estatus desde otra tienda.', 'Cada venta generaría movimientos VP/VC al confirmarse.', 'Sin conexión en este prototipo.'],
   pagos: ['Confirmación de cobro del pedido: simulada.', 'Pago posterior de liquidaciones: simulado, sin transferencia.', 'Interfaz desacoplada: el proveedor real se conecta por adaptador.'],
   notificaciones: ['Avisos internos en el centro de notificaciones.', 'Compra, cambio de estado, cierre y liquidaciones.', 'Sin envío real de correos ni mensajes.'],
@@ -34,7 +35,8 @@ export default function Integraciones() {
   const [pasoPago, setPasoPago] = useState(0);
   return (
     <div className="flex flex-col gap-5">
-      <p className="flex items-start gap-2 rounded-xl bg-oro-suave px-3 py-2.5 text-[12.5px] text-[#7C4A03]"><Plug className="mt-0.5 size-4 shrink-0" aria-hidden />Ningún conector está conectado. Las tarjetas muestran cómo se integrará cada servicio; todo flujo económico es simulado.</p>
+      <p className="flex items-start gap-2 rounded-xl bg-oro-suave px-3 py-2.5 text-[12.5px] text-[#7C4A03]"><Plug className="mt-0.5 size-4 shrink-0" aria-hidden />El conector de Campus ERICK funciona en modo simulado dentro del prototipo. Los demás conectores muestran cómo se integrará cada servicio; todo flujo económico es simulado.</p>
+      <RegistroEventosLms />
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
         {conectores.map((conector) => {
           const Icono = iconos[conector.tipo];

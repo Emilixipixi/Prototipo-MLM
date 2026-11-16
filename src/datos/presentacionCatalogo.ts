@@ -25,7 +25,7 @@ export const categorias: Record<CategoriaProducto, EstiloCategoria> = {
   },
   programa_formativo: {
     nombre: 'Programa formativo', plural: 'Programas formativos', icono: GraduationCap,
-    descripcion: 'Formación ofrecida por ERIC S.A.C.; el estado académico podrá ser condición de rango.',
+    descripcion: 'Formación ofrecida por ERICK S.A.C.; el estado académico podrá ser condición de rango.',
     degradado: ['#14305A', '#2563EB'], tono: 'oro',
   },
 };

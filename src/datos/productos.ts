@@ -1,12 +1,13 @@
 import type { Producto } from '../tipos/catalogo';
 import { productosAmpliados } from './ampliacion';
+import { productosCampus } from './academico/membresias';
 
 export const productosIniciales: Producto[] = [
   {
     id: 'DEMO-PRD-01', codigo: 'DEMO-PRD-01', nombre: 'Programa Liderazgo Comercial - Nivel 1',
-    descripcion: 'Programa formativo de liderazgo y gestión comercial. Acceso a través de la plataforma educativa ERIC S.A.C. (vínculo conceptual).',
+    descripcion: 'Programa formativo de liderazgo y gestión comercial. Acceso a través de la plataforma educativa ERICK S.A.C. (vínculo conceptual).',
     categoria: 'programa_formativo', precio: 250, vp: 100, vc: 80, moneda: 'USD',
-    vigenteDesde: '2026-01-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERIC S.A.C.',
+    vigenteDesde: '2026-01-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERICK S.A.C.',
   },
   {
     id: 'DEMO-PRD-02', codigo: 'DEMO-PRD-02', nombre: 'Kit Nutricional Premium',
@@ -28,9 +29,9 @@ export const productosIniciales: Producto[] = [
   },
   {
     id: 'DEMO-PRD-05', codigo: 'DEMO-PRD-05', nombre: 'Taller de Ventas Digitales',
-    descripcion: 'Programa formativo práctico de ventas en canales digitales, ofrecido por ERIC S.A.C. (vínculo conceptual).',
+    descripcion: 'Programa formativo práctico de ventas en canales digitales, ofrecido por ERICK S.A.C. (vínculo conceptual).',
     categoria: 'programa_formativo', precio: 150, vp: 70, vc: 50, moneda: 'USD',
-    vigenteDesde: '2026-01-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERIC S.A.C.',
+    vigenteDesde: '2026-01-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERICK S.A.C.',
   },
   {
     id: 'DEMO-PRD-06', codigo: 'DEMO-PRD-06', nombre: 'Membresía Anual de Servicios',
@@ -39,4 +40,5 @@ export const productosIniciales: Producto[] = [
     vigenteDesde: '2025-01-01', vigenteHasta: '2025-12-31', activo: false,
   },
   ...productosAmpliados,
+  ...productosCampus,
 ];

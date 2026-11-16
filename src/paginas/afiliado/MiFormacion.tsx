@@ -34,7 +34,7 @@ export default function MiFormacion() {
     <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
       <div className="flex min-w-0 flex-col gap-4">
         {programas.length === 0 ? (
-          <Tarjeta><EstadoVacio icono={BookOpen} titulo="Sin programas vinculados" texto="Cuando compres un programa formativo de ERIC S.A.C., su estado aparecerá aquí." accion={<EnlaceBoton to="/catalogo?categoria=programa_formativo" icono={GraduationCap}>Ver programas</EnlaceBoton>} /></Tarjeta>
+          <Tarjeta><EstadoVacio icono={BookOpen} titulo="Sin programas vinculados" texto="Cuando compres un programa formativo de ERICK S.A.C., su estado aparecerá aquí." accion={<EnlaceBoton to="/catalogo?categoria=programa_formativo" icono={GraduationCap}>Ver programas</EnlaceBoton>} /></Tarjeta>
         ) : programas.map((programa) => {
           const indice = pasos.indexOf(programa.estado);
           const proximo = siguiente[programa.estado];
@@ -53,7 +53,7 @@ export default function MiFormacion() {
                 })}
               </ol>
               {proximo ? (
-                <Boton variante="secundario" icono={RefreshCw} className="mt-4" onClick={() => simular(programa.id, proximo)}>Simular actualización desde LMS: {etiquetas[proximo].toLowerCase()}</Boton>
+                <Boton variante="secundario" icono={RefreshCw} className="mt-4" onClick={() => simular(programa.id, proximo)}>Atajo de demostración: simular {etiquetas[proximo].toLowerCase()}</Boton>
               ) : <p className="mt-4 text-[13px] font-semibold text-exito">Programa aprobado: cuenta como formación aprobada para la calificación.</p>}
             </Tarjeta>
           );
@@ -73,8 +73,9 @@ export default function MiFormacion() {
           <EnlaceBoton to="/afiliado/run" variante="fantasma" tamano="sm" iconoDerecha={ArrowRight} className="mt-3">Ver todos los requisitos</EnlaceBoton>
         </Tarjeta>
         <Tarjeta titulo="Conector LMS" icono={Plug}>
-          <Insignia tono="advertencia">Pendiente de integración</Insignia>
-          <p className="mt-2 text-[13px] text-texto-2">La plataforma educativa ERIC S.A.C. sigue siendo un sistema independiente. Los estados que ves son datos de prueba; no hay inscripción real ni conexión activa.</p>
+          <Insignia tono="info">Conectado (simulado)</Insignia>
+          <p className="mt-2 text-[13px] text-texto-2">Campus ERICK actualiza estos estados automáticamente: al matricularte, al empezar a estudiar y al aprobar un curso o diplomado. El botón de simulación queda solo como atajo de demostración.</p>
+          <EnlaceBoton to="/campus" variante="secundario" tamano="sm" icono={GraduationCap} className="mt-3">Ir a Campus ERICK</EnlaceBoton>
         </Tarjeta>
       </div>
     </div>

@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { GraduationCap } from 'lucide-react';
+import { FichaAcademica } from '../../componentes/campus/FichaAcademica';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowLeft, Award, Gift, History, IdCard, Network, Receipt, RefreshCw, ShoppingCart, UserRound, Users, Workflow,
@@ -116,6 +118,7 @@ export default function FichaPersona() {
           { id: 'bonos', texto: 'Bonos', icono: Gift, contador: bonos.length },
           { id: 'liquidaciones', texto: 'Liquidaciones', icono: Receipt, contador: propias.length },
           { id: 'historial', texto: 'Historial', icono: History, contador: historial.length },
+          { id: 'academico', texto: 'Académico', icono: GraduationCap },
         ]}
       />
 
@@ -183,6 +186,7 @@ export default function FichaPersona() {
       {pestana === 'bonos' && <Tabla columnas={columnasBonos} filas={bonos} claveFila={(fila) => fila.id} textoVacio="Sin partidas en corridas registradas." />}
       {pestana === 'liquidaciones' && <Tabla columnas={columnasLiquidaciones} filas={propias} claveFila={(fila) => fila.id} textoVacio="Sin liquidaciones." />}
       {pestana === 'historial' && <Tabla columnas={columnasHistorial} filas={historial} claveFila={(fila) => fila.id} textoVacio="Sin registros en la bitácora para esta persona." />}
+      {pestana === 'academico' && <FichaAcademica personaId={persona.id} />}
       {cambiando && <DialogoEstadoCuenta persona={persona} alCerrar={() => setCambiando(false)} />}
     </div>
   );

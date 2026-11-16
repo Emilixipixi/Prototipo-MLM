@@ -9,9 +9,9 @@ import type { CodigoRun } from '../tipos/reglas';
 export const productosAmpliados: Producto[] = [
   {
     id: 'DEMO-PRD-07', codigo: 'DEMO-PRD-07', nombre: 'Programa Liderazgo Comercial - Nivel 2',
-    descripcion: 'Continuación del programa de liderazgo con módulos de gestión de equipos. Plataforma educativa ERIC S.A.C. (vínculo conceptual).',
+    descripcion: 'Continuación del programa de liderazgo con módulos de gestión de equipos. Plataforma educativa ERICK S.A.C. (vínculo conceptual).',
     categoria: 'programa_formativo', precio: 320, vp: 130, vc: 100, moneda: 'USD',
-    vigenteDesde: '2026-03-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERIC S.A.C.',
+    vigenteDesde: '2026-03-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERICK S.A.C.',
   },
   {
     id: 'DEMO-PRD-08', codigo: 'DEMO-PRD-08', nombre: 'Batido Proteico Vainilla',
@@ -33,9 +33,9 @@ export const productosAmpliados: Producto[] = [
   },
   {
     id: 'DEMO-PRD-11', codigo: 'DEMO-PRD-11', nombre: 'Curso de Finanzas Personales',
-    descripcion: 'Programa formativo breve sobre presupuesto y ahorro, ofrecido por ERIC S.A.C. (vínculo conceptual).',
+    descripcion: 'Programa formativo breve sobre presupuesto y ahorro, ofrecido por ERICK S.A.C. (vínculo conceptual).',
     categoria: 'programa_formativo', precio: 110, vp: 50, vc: 40, moneda: 'USD',
-    vigenteDesde: '2026-05-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERIC S.A.C.',
+    vigenteDesde: '2026-05-01', vigenteHasta: null, activo: true, proveedorFormativo: 'ERICK S.A.C.',
   },
   {
     id: 'DEMO-PRD-12', codigo: 'DEMO-PRD-12', nombre: 'Kit de Inicio Empresario',
@@ -47,7 +47,7 @@ export const productosAmpliados: Producto[] = [
     id: 'DEMO-PRD-13', codigo: 'DEMO-PRD-13', nombre: 'Taller de Oratoria Comercial',
     descripcion: 'Programa formativo descontinuado. Se mantiene inactivo para mostrar productos fuera de catálogo.',
     categoria: 'programa_formativo', precio: 90, vp: 40, vc: 30, moneda: 'USD',
-    vigenteDesde: '2025-06-01', vigenteHasta: '2026-06-30', activo: false, proveedorFormativo: 'ERIC S.A.C.',
+    vigenteDesde: '2025-06-01', vigenteHasta: '2026-06-30', activo: false, proveedorFormativo: 'ERICK S.A.C.',
   },
 ];
 
@@ -307,7 +307,7 @@ export const formacionAmpliada: EstadoFormativo[] = ([
   ['DEMO-L06', 'Taller de Ventas Digitales', 'cursando', '2026-11-01'],
   ['DEMO-L07', 'Programa Liderazgo Comercial - Nivel 1', 'matriculado', '2026-11-08'],
 ] as Array<[string, string, EstadoFormativo['estado'], string]>).map(([personaId, programaExterno, estado, fechaActualizacion], indice) => ({
-  id: `DEMO-FOR-${String(5 + indice).padStart(2, '0')}`, personaId, programaExterno, proveedor: 'ERIC S.A.C.', estado, fechaActualizacion,
+  id: `DEMO-FOR-${String(5 + indice).padStart(2, '0')}`, personaId, programaExterno, proveedor: 'ERICK S.A.C.', estado, fechaActualizacion,
 }));
 
 export const alertasAmpliadas: AlertaIntegridad[] = [

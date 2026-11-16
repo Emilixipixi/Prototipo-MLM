@@ -21,7 +21,7 @@ import { puedeVerVolumen } from '../../utilidades/visibilidad';
 const pasos = [
   { icono: ShoppingBag, titulo: 'Compra', texto: 'Elige bienes, servicios o programas. Cada compra confirmada registra su precio, VP y VC por separado.' },
   { icono: UserPlus, titulo: 'Afíliate', texto: 'Regístrate con el enlace de tu patrocinador. Tu relación de patrocinio y tu posición en la red se gestionan por separado.' },
-  { icono: GraduationCap, titulo: 'Fórmate', texto: 'Accede a programas de ERIC S.A.C. Tu estado académico podrá considerarse como condición de rango.' },
+  { icono: GraduationCap, titulo: 'Fórmate', texto: 'Accede a programas de ERICK S.A.C. Tu estado académico podrá considerarse como condición de rango.' },
 ];
 
 const garantias = [
