@@ -1,3 +1,4 @@
+import type { DocumentoAcademico, EstadoElemento, EstadoMatricula, EstadoMid, EstadoPrograma, EventoIntegracion } from '../tipos/academico';
 import type { EstadoBono, EstadoLiquidacion } from '../tipos/compensacion';
 import type { EstadoFormacion } from '../tipos/formacion';
 import type { EstadoPedido } from '../tipos/pedidos';
@@ -71,3 +72,44 @@ export function validarTransicion<T extends string>(maquina: Maquina<T>, desde: 
   const permitidos = maquina[desde]?.length ? maquina[desde].join(', ') : 'ninguno (estado final)';
   return `Transición no permitida en ${entidad}: de "${desde}" a "${hacia}". Estados siguientes permitidos: ${permitidos}.`;
 }
+
+export const transicionesPrograma: Maquina<EstadoPrograma> = {
+  borrador: ['publicado'],
+  publicado: ['borrador', 'archivado'],
+  archivado: [],
+};
+
+export const transicionesMatricula: Maquina<EstadoMatricula> = {
+  activa: ['por_vencer', 'vencida', 'suspendida'],
+  por_vencer: ['vencida', 'suspendida', 'activa'],
+  vencida: ['activa'],
+  suspendida: ['activa'],
+};
+
+export const transicionesElemento: Maquina<EstadoElemento> = {
+  bloqueado: ['disponible'],
+  disponible: ['en_curso'],
+  en_curso: ['aprobado', 'desaprobado'],
+  desaprobado: ['en_curso', 'bloqueado_por_intentos'],
+  bloqueado_por_intentos: ['en_curso'],
+  aprobado: [],
+};
+
+export const transicionesDocumento: Maquina<DocumentoAcademico['estado']> = {
+  emitido: ['anulado'],
+  anulado: [],
+};
+
+export const transicionesMid: Maquina<EstadoMid> = {
+  solicitado: ['asignado'],
+  asignado: ['sustentado'],
+  sustentado: ['aprobado', 'desaprobado'],
+  aprobado: [],
+  desaprobado: [],
+};
+
+export const transicionesEventoLms: Maquina<EventoIntegracion['estado']> = {
+  enviado: ['procesado', 'error'],
+  error: ['enviado'],
+  procesado: [],
+};

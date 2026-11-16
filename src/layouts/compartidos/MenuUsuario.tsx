@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { House, LogOut, RotateCcw } from 'lucide-react';
+import { GraduationCap, House, LogOut, RotateCcw } from 'lucide-react';
 import { DialogoReiniciarDemo } from '../../componentes/demo/BotonReiniciarDemo';
 import { Avatar } from '../../componentes/ui/Avatar';
 import { useToast } from '../../componentes/ui/useToast';
@@ -52,6 +52,12 @@ export function MenuUsuario() {
               <House className="size-4 text-texto-2" aria-hidden />
               {persona.perfil === 'cliente_alumno' ? 'Mi cuenta' : 'Mi inicio'}
             </Link>
+            {(persona.perfil === 'cliente_alumno' || persona.perfil === 'afiliado') && (
+              <Link role="menuitem" to="/campus" onClick={() => setAbierto(false)} className={claseOpcion}>
+                <GraduationCap className="size-4 text-texto-2" aria-hidden />
+                Campus ERICK
+              </Link>
+            )}
             <button role="menuitem" type="button" onClick={() => { setAbierto(false); setReiniciando(true); }} className={claseOpcion}>
               <RotateCcw className="size-4 text-texto-2" aria-hidden />
               Reiniciar demostración

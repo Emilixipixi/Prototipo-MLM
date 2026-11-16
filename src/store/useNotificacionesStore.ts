@@ -14,7 +14,7 @@ interface EstadoNotificaciones {
 }
 
 export function esCorporativa(persona: Persona | null): boolean {
-  return persona?.perfil === 'superadministrador' || persona?.perfil === 'operador';
+  return persona?.perfil === 'superadministrador' || persona?.perfil === 'operador' || persona?.perfil === 'admin_educativo';
 }
 
 export function filtrarPorPersona(notificaciones: Notificacion[], persona: Persona | null): Notificacion[] {

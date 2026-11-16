@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   BookOpen, CircleCheck, CircleDashed, FileText, GraduationCap, IdCard, Info, Mail, MapPin, Phone, Plug, ShoppingBag, UserRound,
 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ComprobanteSimulado } from '../../componentes/catalogo/ComprobanteSimulado';
 import { Avatar } from '../../componentes/ui/Avatar';
 import { Boton } from '../../componentes/ui/Boton';
@@ -91,7 +92,15 @@ export default function MiCuenta() {
             ) : <p className="text-[13px] text-texto-2">No tienes un referente asignado.</p>}
             <p className="mt-3 flex items-start gap-2 text-xs text-texto-2"><Info className="mt-0.5 size-3.5 shrink-0" aria-hidden />Las cuentas de cliente y alumno no participan en comisiones ni ven árboles de red.</p>
           </Tarjeta>
-          <Tarjeta titulo="Formación vinculada" subtitulo="Plataforma educativa ERIC S.A.C." icono={GraduationCap}>
+          <Link to="/campus" className="fondo-menu-lateral fondo-menu-campus flex min-h-11 items-center gap-3 rounded-tarjeta p-4 text-white shadow-tarjeta hover:opacity-95">
+            <span className="grid size-10 shrink-0 place-items-center rounded-[10px] bg-gradient-to-br from-[#E2C46E] to-[#B8862B]"><GraduationCap className="size-5" aria-hidden /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[15px] font-bold">Campus ERICK</span>
+              <span className="block text-xs text-[#B9D4E8]">Tus cursos, notas, membresía y certificados</span>
+            </span>
+            <ArrowRight className="size-4 shrink-0" aria-hidden />
+          </Link>
+          <Tarjeta titulo="Formación vinculada" subtitulo="Plataforma educativa ERICK S.A.C." icono={GraduationCap}>
             {formacion.length === 0 ? (
               <EstadoVacio icono={BookOpen} titulo="Sin programas" texto="Cuando compres un programa formativo, su estado aparecerá aquí." className="py-4" />
             ) : (

@@ -4,6 +4,7 @@ import {
   ArrowRight, Ban, CircleCheck, CreditCard, FileText, Info, Lock, PackageSearch, Receipt, Repeat, ShoppingBag, Undo2,
 } from 'lucide-react';
 import { ImagenProducto } from '../../componentes/catalogo/ImagenProducto';
+import { AccesoAcademicoPedido } from '../../componentes/campus/AccesoAcademicoPedido';
 import { Boton } from '../../componentes/ui/Boton';
 import { Confirmacion } from '../../componentes/ui/Confirmacion';
 import { EnlaceBoton } from '../../componentes/ui/EnlaceBoton';
@@ -115,6 +116,7 @@ export default function DetallePedido() {
       </div>
 
       {error && <EstadoError queOcurrio={error} />}
+      <AccesoAcademicoPedido pedidoId={pedido.id} compradorId={pedido.compradorId} />
 
       {pedido.estado === 'pendiente' && puedeActuar && (
         <Tarjeta variante="simulacion" titulo="Confirmación de cobro simulada" subtitulo="No se realiza ninguna transacción real. Al confirmar, el pedido genera sus movimientos de VP y VC." icono={CreditCard}>

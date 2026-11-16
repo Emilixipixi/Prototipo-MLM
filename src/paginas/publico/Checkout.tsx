@@ -14,6 +14,9 @@ import { Tarjeta } from '../../componentes/ui/Tarjeta';
 import { useToast } from '../../componentes/ui/useToast';
 import { useLineasCarrito } from '../../hooks/useLineasCarrito';
 import { crearPedido, enviarPedido } from '../../servicios/pedidos';
+import { cancelarPedido, confirmarPedido } from '../../servicios/pedidos';
+import { productoAcademico } from '../../servicios/conectorLms';
+import { GraduationCap, Landmark } from 'lucide-react';
 import { useCarritoStore } from '../../store/useCarritoStore';
 import { usePeriodosStore } from '../../store/usePeriodosStore';
 import { usePersonasStore } from '../../store/usePersonasStore';
@@ -28,6 +31,14 @@ const metodos = [
   { id: 'transferencia', texto: 'Transferencia (simulado)', icono: Banknote },
 ];
 
+type ResultadoPasarela = 'aprobado' | 'rechazado' | 'pendiente';
+
+const resultadosPasarela: Array<{ id: ResultadoPasarela; texto: string; detalle: string }> = [
+  { id: 'aprobado', texto: 'Aprobado', detalle: 'El cobro se confirma y la matrícula se activa al instante.' },
+  { id: 'rechazado', texto: 'Rechazado', detalle: 'El pedido se cancela y no se activa ningún acceso.' },
+  { id: 'pendiente', texto: 'Pendiente', detalle: 'El pedido espera la confirmación; no se activa el acceso.' },
+];
+
 export default function Checkout() {
   const resumen = useLineasCarrito();
   const vaciar = useCarritoStore((estado) => estado.vaciar);
@@ -40,6 +51,7 @@ export default function Checkout() {
   const [metodo, setMetodo] = useState('tarjeta');
   const [error, setError] = useState<string | null>(null);
   const [procesando, setProcesando] = useState(false);
+  const [resultadoPasarela, setResultadoPasarela] = useState<ResultadoPasarela>('aprobado');
   const periodo = periodos.find((item) => item.tipo === 'ciclo' && item.estado === 'abierto');
 
   if (resumen.lineas.length === 0) {
@@ -74,6 +86,7 @@ export default function Checkout() {
   const destinoVolumen = esEmpresario ? persona : vinculo;
   const mostrarVolumen = puedeVerVolumen(persona);
   const bloqueada = persona.estado !== 'activo';
+  const tieneFormativos = resumen.lineas.some((linea) => productoAcademico(linea.producto.id) !== null);
 
   const confirmar = () => {
     setError(null);
@@ -91,6 +104,21 @@ export default function Checkout() {
       return;
     }
     vaciar();
+    if (metodo === 'pasarela') {
+      const pedidoId = creado.valor.id;
+      if (resultadoPasarela === 'aprobado') {
+        const confirmado = confirmarPedido(pedidoId, persona.id);
+        if (confirmado.ok) toast.exito('Pago aprobado por la pasarela (simulado)', `${pedidoId} confirmado. Tu acceso en Campus ERICK ya está activo.`);
+        else toast.error('No se pudo confirmar el cobro', confirmado.error);
+      } else if (resultadoPasarela === 'rechazado') {
+        cancelarPedido(pedidoId, persona.id, 'Pago rechazado por la pasarela local (simulado)');
+        toast.error('Pago rechazado (simulado)', `${pedidoId} fue cancelado. No se activó ningún acceso.`);
+      } else {
+        toast.info('Pago pendiente (simulado)', `${pedidoId} espera la confirmación de la pasarela. El acceso se activa al confirmarse.`);
+      }
+      navegar(`/pedido/${pedidoId}`);
+      return;
+    }
     toast.info('Pedido creado', `${creado.valor.id} quedó pendiente de confirmación de cobro (simulada).`);
     navegar(`/pedido/${creado.valor.id}`);
   };
@@ -154,7 +182,34 @@ export default function Checkout() {
                   {texto}
                 </button>
               ))}
+              {tieneFormativos && (
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={metodo === 'pasarela'}
+                  onClick={() => setMetodo('pasarela')}
+                  className={unirClases('flex min-h-14 items-center gap-3 rounded-xl border px-4 text-left text-[13.5px] font-semibold sm:col-span-2', metodo === 'pasarela' ? 'border-acento bg-acento-suave/50 text-texto ring-2 ring-acento-suave' : 'border-borde text-texto-2 hover:border-texto-3')}
+                >
+                  <Landmark className="size-5 text-acento" aria-hidden />
+                  <span className="min-w-0 flex-1">Pasarela local (simulada)<span className="block text-xs font-normal text-texto-2">Para cursos, diplomados y membresías de Campus ERICK</span></span>
+                  <GraduationCap className="size-5 text-texto-3" aria-hidden />
+                </button>
+              )}
             </div>
+            {metodo === 'pasarela' && (
+              <fieldset className="mt-4 rounded-xl border border-dashed border-blue-300 bg-fondo p-3">
+                <legend className="px-1 text-[11px] font-bold uppercase tracking-[0.08em] text-texto-3">Respuesta simulada de la pasarela</legend>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {resultadosPasarela.map((opcion) => (
+                    <label key={opcion.id} className={unirClases('flex min-h-11 cursor-pointer items-start gap-2 rounded-lg border bg-superficie p-2.5 text-[13px]', resultadoPasarela === opcion.id ? 'border-acento ring-2 ring-acento-suave' : 'border-borde')}>
+                      <input type="radio" name="resultado-pasarela" className="mt-1 accent-[#0E7490]" checked={resultadoPasarela === opcion.id} onChange={() => setResultadoPasarela(opcion.id)} />
+                      <span><span className="block font-semibold text-texto">{opcion.texto}</span><span className="block text-xs text-texto-2">{opcion.detalle}</span></span>
+                    </label>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-texto-2">No se solicitan datos de tarjeta ni se conecta ninguna pasarela real.</p>
+              </fieldset>
+            )}
             <p className="mt-3 text-xs text-texto-2">El pedido quedará pendiente y podrás simular la confirmación del cobro en el siguiente paso.</p>
           </Tarjeta>
         </div>

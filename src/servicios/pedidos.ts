@@ -13,6 +13,7 @@ import { useDescuentosStore } from '../store/useDescuentosStore';
 import { periodoAbiertoActual } from './consultas';
 import { obtenerFuente } from './fuente';
 import { notificar, registrarBitacora } from './registro';
+import { alConfirmarPedido, alDevolverPedido } from './conectorLms';
 
 function siguienteId(prefijo: string, existentes: string[], digitos: number): string {
   const numeros = existentes.map((id) => Number(id.replace(prefijo, ''))).filter((numero) => !Number.isNaN(numero));
@@ -107,6 +108,7 @@ export function confirmarPedido(pedidoId: string, actorId: string): Resultado<{ 
   if (destinoId !== pedido.compradorId) {
     notificar({ personaId: destinoId, tipo: 'compra', titulo: 'Compra de un cliente referido', mensaje: `El pedido ${pedidoId} de tu cliente sumó ${pedido.totalVp} VP y ${pedido.totalVc} VC a tu volumen.` });
   }
+  alConfirmarPedido(confirmado, actorId);
   return exito({ pedido: confirmado, movimiento });
 }
 
@@ -173,5 +175,6 @@ export function registrarDevolucion(pedidoId: string, actorId: string, motivo: s
     antes: { estado: pedido.estado }, despues: { estado: 'devuelta', reversiones: reversiones.map((item) => item.id), ajustes: ajustes.map((item) => item.id) },
   });
   notificar({ personaId: null, tipo: 'estado', titulo: 'Devolución registrada', mensaje: `El pedido ${pedidoId} fue devuelto. Se crearon ${reversiones.length} reversiones de volumen y ${ajustes.length} ajustes propuestos.` });
+  alDevolverPedido(devuelto, actorId, motivo);
   return exito({ pedido: devuelto, reversiones, ajustes });
 }
