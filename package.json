@@ -7,11 +7,19 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prueba:academico": "tsx pruebas/academico.prueba.ts",
+    "prueba:matriculas": "tsx pruebas/matriculas.prueba.ts",
+    "prueba:campus": "tsx pruebas/campus.prueba.ts",
+    "prueba:panel": "tsx pruebas/panel.prueba.ts",
+    "prueba:erick": "tsx pruebas/erick.prueba.ts",
+    "pruebas": "tsx pruebas/academico.prueba.ts && tsx pruebas/matriculas.prueba.ts && tsx pruebas/campus.prueba.ts && tsx pruebas/panel.prueba.ts && tsx pruebas/erick.prueba.ts"
   },
   "dependencies": {
     "date-fns": "^4.4.0",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.71.0",
+    "qrcode": "^1.5.4",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",
@@ -22,11 +30,13 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^24.19.2",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "oxlint": "^1.90.0",
     "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
     "typescript": "~7.0.2",
     "vite": "^8.3.6"
   }
