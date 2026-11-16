@@ -5,6 +5,7 @@ export interface InfoPantalla {
   requerimientos: string[];
   fase: number;
   descripcion: string;
+  etiquetaFase?: string;
 }
 
 export const pantallas: InfoPantalla[] = [
@@ -46,4 +47,33 @@ export const pantallas: InfoPantalla[] = [
   { patron: '/corporativo/retiros', numero: 'B', nombre: 'Retiros y datos de cobro', requerimientos: ['MLM-046', 'MLM-067'], fase: 8, descripcion: 'Verificación de datos de cobro, aprobación de retiros y registro de pago simulado.' },
   { patron: '/corporativo/integraciones', numero: '25', nombre: 'Integraciones / estado de conectores', requerimientos: ['MLM-065', 'MLM-066', 'MLM-067', 'MLM-068', 'MLM-069', 'MLM-070'], fase: 6, descripcion: 'LMS, e-commerce, pagos, notificaciones y mercados (conceptual).' },
   { patron: '/demo/datos', numero: 'D', nombre: 'Datos de demostración', requerimientos: [], fase: 2, descripcion: 'Inspección interna de los datos DEMO y verificación de consistencia.' },
+  { patron: '/campus/programas', numero: 'C1', nombre: 'Mis programas', requerimientos: ['LMS-051', 'LMS-058'], fase: 8, descripcion: 'Programas matriculados con avance, nota, estado de acceso y aviso de vencimiento.' },
+  { patron: '/campus/programas/:id', numero: 'C2', nombre: 'Ruta del programa', requerimientos: ['LMS-052'], fase: 8, descripcion: 'Cursos, módulos, temas y TIM con estados de desbloqueo y notas parciales.' },
+  { patron: '/campus/temas/:id', numero: 'C3', nombre: 'Tema', requerimientos: ['LMS-010', 'LMS-015', 'LMS-053'], fase: 8, descripcion: 'Videoclase, lectura descargable, caso práctico y evaluación.' },
+  { patron: '/campus/evaluaciones/:ambito/:id', numero: 'C4', nombre: 'Evaluación', requerimientos: ['LMS-020', 'LMS-026'], fase: 8, descripcion: 'Cuestionario con contador, calificación automática y retroalimentación.' },
+  { patron: '/campus/tim/:id', numero: 'C5', nombre: 'Trabajo Integrador Modular', requerimientos: ['LMS-027'], fase: 8, descripcion: 'Formulario estructurado calificado automáticamente.' },
+  { patron: '/campus/notas', numero: 'C6', nombre: 'Mis notas', requerimientos: ['LMS-054'], fase: 8, descripcion: 'Notas por tema, TIM, módulo, curso y diplomado, con intentos.' },
+  { patron: '/campus/historial', numero: 'C7', nombre: 'Historial académico', requerimientos: ['LMS-055'], fase: 8, descripcion: 'Programas por estado y documentos obtenidos.' },
+  { patron: '/campus/certificados', numero: 'C8', nombre: 'Mis certificados', requerimientos: ['LMS-056'], fase: 8, descripcion: 'Certificados y diplomas en PDF con código QR y verificación.' },
+  { patron: '/campus/membresia', numero: 'C9', nombre: 'Mi membresía', requerimientos: ['LMS-057', 'LMS-063'], fase: 8, descripcion: 'Plan, vencimiento y renovación de la membresía educativa.' },
+  { patron: '/campus/mid', numero: 'C10', nombre: 'Mi MID', requerimientos: ['LMS-070', 'LMS-071'], fase: 8, descripcion: 'Solicitud, entrega y resultado de la sustentación MID.' },
+  { patron: '/erick/resumen', numero: 'P1', nombre: 'Resumen educativo', requerimientos: ['LMS-088'], fase: 8, descripcion: 'Estadísticas de matrículas, avance, aprobación y documentos.' },
+  { patron: '/erick/programas', numero: 'P2', nombre: 'Programas académicos', requerimientos: ['LMS-080'], fase: 8, descripcion: 'Cursos, diplomados y MID con su estado de publicación.' },
+  { patron: '/erick/programas/:id', numero: 'P3', nombre: 'Editor de programa', requerimientos: ['LMS-081', 'LMS-082', 'LMS-084'], fase: 8, descripcion: 'Estructura, contenidos y reglas de aprobación con validación de horas.' },
+  { patron: '/erick/preguntas', numero: 'P4', nombre: 'Banco de preguntas', requerimientos: ['LMS-083'], fase: 8, descripcion: 'Preguntas por tema y TIM con respuestas configuradas.' },
+  { patron: '/erick/matriculas', numero: 'P5', nombre: 'Matrículas y accesos', requerimientos: ['LMS-085', 'LMS-066'], fase: 8, descripcion: 'Matrículas manuales, suspensión, renovación e intentos extra.' },
+  { patron: '/erick/membresias', numero: 'P6', nombre: 'Membresías', requerimientos: ['LMS-086'], fase: 8, descripcion: 'Planes de 1, 2, 3, 6, 9 y 12 meses y membresías activas.' },
+  { patron: '/erick/certificados', numero: 'P7', nombre: 'Certificados y diplomas', requerimientos: ['LMS-087', 'LMS-049'], fase: 8, descripcion: 'Registro de documentos emitidos, anulados y reemitidos.' },
+  { patron: '/erick/mid', numero: 'P8', nombre: 'Sustentaciones MID', requerimientos: ['LMS-072'], fase: 8, descripcion: 'Solicitudes MID y asignación de evaluadores.' },
+  { patron: '/erick/reportes', numero: 'P9', nombre: 'Reportes académicos', requerimientos: ['LMS-089'], fase: 8, descripcion: 'Reportes de matrículas, notas y documentos en CSV y PDF.' },
+  { patron: '/erick/integracion', numero: 'P10', nombre: 'Integración con MLM', requerimientos: ['LMS-090', 'LMS-091'], fase: 9, etiquetaFase: 'ERICK E1', descripcion: 'Eventos que ERICK S.A.C. envía al MLM por el conector.' },
+  { patron: '/erick/estudiantes', numero: 'P11', nombre: 'Estudiantes', requerimientos: ['ERK-E2'], fase: 9, etiquetaFase: 'ERICK E2', descripcion: 'Directorio de estudiantes con avance, acceso, documentos y ficha académica.' },
+  { patron: '/erick/docentes', numero: 'P12', nombre: 'Docentes', requerimientos: ['ERK-E2'], fase: 9, etiquetaFase: 'ERICK E2', descripcion: 'Alta de docentes, asignación de programas y carga académica.' },
+  { patron: '/erick/calendario', numero: 'P13', nombre: 'Calendario académico', requerimientos: ['ERK-E2'], fase: 9, etiquetaFase: 'ERICK E2', descripcion: 'Exámenes finales, clases en vivo, entregas y sustentaciones de todos los programas.' },
+  { patron: '/erick/configuracion', numero: 'P14', nombre: 'Configuración ERICK', requerimientos: ['ERK-E2'], fase: 9, etiquetaFase: 'ERICK E2', descripcion: 'Datos institucionales, texto del certificado y valores por defecto.' },
+  { patron: '/erick/bitacora', numero: 'P15', nombre: 'Bitácora académica', requerimientos: ['ERK-E2'], fase: 9, etiquetaFase: 'ERICK E2', descripcion: 'Acciones registradas sobre la plataforma ERICK.' },
+  { patron: '/corporativo/integracion-erick', numero: '25', nombre: 'Integración ERICK', requerimientos: ['MLM-065', 'LMS-091'], fase: 9, etiquetaFase: 'ERICK E1', descripcion: 'Consulta de ventas formativas, estado formativo de afiliados y eventos del conector.' },
+  { patron: '/evaluador', numero: 'E', nombre: 'Bandeja de sustentaciones MID', requerimientos: ['LMS-073', 'LMS-075'], fase: 8, descripcion: 'Sustentaciones asignadas al evaluador con rúbrica de calificación.' },
+  { patron: '/verificar', numero: 'V', nombre: 'Verificar documento', requerimientos: ['LMS-046'], fase: 8, descripcion: 'Verificación pública de certificados y diplomas por código.' },
+  { patron: '/verificar/:codigo', numero: 'V', nombre: 'Resultado de verificación', requerimientos: ['LMS-046'], fase: 8, descripcion: 'Documento válido, anulado o inexistente.' },
 ];

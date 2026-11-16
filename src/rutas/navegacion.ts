@@ -3,6 +3,7 @@ import {
   LayoutDashboard, Network, Package, Plug, Receipt, ScrollText, ShieldAlert, ShoppingCart, SlidersHorizontal,
   Calculator, TrendingUp, Users, Workflow, Scale, Landmark, Banknote, type LucideIcon,
 } from 'lucide-react';
+import { School } from 'lucide-react';
 import type { ModuloPermiso } from '../tipos/permisos';
 
 export interface ItemNavegacion {
@@ -46,6 +47,7 @@ export const navegacionAfiliado: GrupoNavegacion[] = [
       { texto: 'Mi balance', ruta: '/afiliado/balance', icono: Scale },
       { texto: 'Mis cobros', ruta: '/afiliado/cobros', icono: Banknote },
       { texto: 'Mi formación', ruta: '/afiliado/formacion', icono: GraduationCap },
+      { texto: 'Campus ERICK', ruta: '/campus', icono: School },
     ],
   },
 ];
@@ -76,6 +78,12 @@ export const navegacionCorporativo: GrupoNavegacion[] = [
       { texto: 'Liquidaciones', ruta: '/corporativo/liquidaciones', icono: ClipboardCheck, modulo: 'liquidaciones' },
       { texto: 'Retiros', ruta: '/corporativo/retiros', icono: Banknote, modulo: 'liquidaciones' },
       { texto: 'Balance financiero', ruta: '/corporativo/balance', icono: Landmark, modulo: 'reportes' },
+    ],
+  },
+  {
+    titulo: 'ERICK S.A.C.',
+    items: [
+      { texto: 'Integración ERICK', ruta: '/corporativo/integracion-erick', icono: School, modulo: 'academico' },
     ],
   },
   {

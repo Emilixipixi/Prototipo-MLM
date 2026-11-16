@@ -1,6 +1,8 @@
 import { useGuiaStore } from './useGuiaStore';
 import { useDescuentosStore } from './useDescuentosStore';
 import { useCobrosStore } from './useCobrosStore';
+import { useAcademicoStore } from './useAcademicoStore';
+import { useCampusStore } from './useCampusStore';
 import { useBitacoraStore } from './useBitacoraStore';
 import { useCarritoStore } from './useCarritoStore';
 import { useCatalogoStore } from './useCatalogoStore';
@@ -15,6 +17,7 @@ import { usePermisosStore } from './usePermisosStore';
 import { usePersonasStore } from './usePersonasStore';
 import { useRedStore } from './useRedStore';
 import { useSesionStore } from './useSesionStore';
+import { useErickStore } from './useErickStore';
 
 export function reiniciarDemo(): void {
   usePersonasStore.getState().reiniciar();
@@ -34,4 +37,7 @@ export function reiniciarDemo(): void {
   useGuiaStore.getState().reiniciar();
   useDescuentosStore.getState().reiniciar();
   useCobrosStore.getState().reiniciar();
+  useAcademicoStore.getState().reiniciar();
+  useCampusStore.getState().reiniciar();
+  useErickStore.getState().reiniciar();
 }

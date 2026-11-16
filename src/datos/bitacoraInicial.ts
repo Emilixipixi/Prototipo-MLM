@@ -1,4 +1,5 @@
 import type { Bitacora } from '../tipos/bitacora';
+import { bitacoraErickInicial } from './academico/erickInicial';
 
 type Fila = [string, string, string, string, string, string | null, unknown, unknown];
 
@@ -33,3 +34,4 @@ export const bitacoraInicial: Bitacora[] = filas
     fechaHora, actorId, accion, modulo, motivo, referenciaId, antes, despues,
   }))
   .reverse();
+bitacoraInicial.unshift(...[...bitacoraErickInicial].reverse());

@@ -52,12 +52,70 @@ const MisBonos = lazy(() => import('../paginas/afiliado/MisBonos'));
 const MisCompras = lazy(() => import('../paginas/afiliado/MisCompras'));
 const MisLiquidaciones = lazy(() => import('../paginas/afiliado/MisLiquidaciones'));
 const MiFormacion = lazy(() => import('../paginas/afiliado/MiFormacion'));
+const LayoutCampus = lazy(() => import('../layouts/LayoutCampus'));
+const LayoutEvaluador = lazy(() => import('../layouts/LayoutEvaluador'));
+const LayoutErick = lazy(() => import('../layouts/LayoutErick'));
+const IntegracionErick = lazy(() => import('../paginas/corporativo/IntegracionErick'));
+const IntegracionMlm = lazy(() => import('../paginas/erick/IntegracionMlm'));
+const ResumenErick = lazy(() => import('../paginas/erick/ResumenErick'));
+const Estudiantes = lazy(() => import('../paginas/erick/Estudiantes'));
+const Docentes = lazy(() => import('../paginas/erick/Docentes'));
+const CalendarioErick = lazy(() => import('../paginas/erick/CalendarioErick'));
+const ConfiguracionErick = lazy(() => import('../paginas/erick/ConfiguracionErick'));
+const BitacoraAcademica = lazy(() => import('../paginas/erick/BitacoraAcademica'));
+const PantallaProvisionalLms = lazy(() => import('../paginas/campus/PantallaProvisionalLms'));
+const MisProgramas = lazy(() => import('../paginas/campus/MisProgramas'));
+const MiMembresia = lazy(() => import('../paginas/campus/MiMembresia'));
+
+const RutaPrograma = lazy(() => import('../paginas/campus/RutaPrograma'));
+const TemaCampus = lazy(() => import('../paginas/campus/TemaCampus'));
+const EvaluacionCampus = lazy(() => import('../paginas/campus/EvaluacionCampus'));
+const TimCampus = lazy(() => import('../paginas/campus/TimCampus'));
+const MisNotas = lazy(() => import('../paginas/campus/MisNotas'));
+const HistorialAcademico = lazy(() => import('../paginas/campus/HistorialAcademico'));
+const MisCertificados = lazy(() => import('../paginas/campus/MisCertificados'));
+const MiMid = lazy(() => import('../paginas/campus/MiMid'));
+const BandejaMid = lazy(() => import('../paginas/evaluador/BandejaMid'));
+const VerificarDocumento = lazy(() => import('../paginas/publico/VerificarDocumento'));
+
+const pantallasCampus: Record<string, ComponentType> = {
+  programas: MisProgramas, membresia: MiMembresia, 'programas/:id': RutaPrograma, 'temas/:id': TemaCampus,
+  'evaluaciones/:ambito/:id': EvaluacionCampus, 'tim/:id': TimCampus, notas: MisNotas, historial: HistorialAcademico,
+  certificados: MisCertificados, mid: MiMid,
+};
+
+const rutasCampus = ['programas', 'programas/:id', 'temas/:id', 'evaluaciones/:ambito/:id', 'tim/:id', 'notas', 'historial', 'certificados', 'membresia', 'mid'];
+
+const pantallasAcademicas: Record<string, ComponentType> = {
+  'academico/resumen': lazy(() => import('../paginas/corporativo/academico/ResumenAcademico')),
+  'academico/programas': lazy(() => import('../paginas/corporativo/academico/ProgramasAcademicos')),
+  'academico/programas/:id': lazy(() => import('../paginas/corporativo/academico/EditorPrograma')),
+  'academico/preguntas': lazy(() => import('../paginas/corporativo/academico/BancoPreguntas')),
+  'academico/matriculas': lazy(() => import('../paginas/corporativo/academico/MatriculasAcademicas')),
+  'academico/membresias': lazy(() => import('../paginas/corporativo/academico/MembresiasAcademicas')),
+  'academico/certificados': lazy(() => import('../paginas/corporativo/academico/CertificadosRegistro')),
+  'academico/mid': lazy(() => import('../paginas/corporativo/academico/SustentacionesMid')),
+  'academico/reportes': lazy(() => import('../paginas/corporativo/academico/ReportesAcademicos')),
+};
+
+const rutasAcademicas: Array<{ ruta: string; modulo: ModuloPermiso }> = [
+  { ruta: 'academico/resumen', modulo: 'academico' },
+  { ruta: 'academico/programas', modulo: 'academico' },
+  { ruta: 'academico/programas/:id', modulo: 'academico' },
+  { ruta: 'academico/preguntas', modulo: 'academico' },
+  { ruta: 'academico/matriculas', modulo: 'matriculas' },
+  { ruta: 'academico/membresias', modulo: 'matriculas' },
+  { ruta: 'academico/certificados', modulo: 'certificados' },
+  { ruta: 'academico/mid', modulo: 'academico' },
+  { ruta: 'academico/reportes', modulo: 'academico' },
+];
 
 const pantallasCorporativo: Record<string, ComponentType> = {
   resumen: PanelCorporativo, usuarios: Usuarios, 'usuarios/:id': FichaPersona, permisos: Permisos,
   productos: Productos, arboles: Arboles, periodos: Periodos, rangos: Rangos,
   bonos: ConfiguracionBonos, simulador: Simulador, liquidaciones: Liquidaciones, compliance: Compliance,
   auditoria: Auditoria, reportes: Reportes, integraciones: Integraciones, balance: BalanceFinanciero, retiros: Retiros,
+  'integracion-erick': IntegracionErick,
 };
 
 const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
@@ -78,6 +136,18 @@ const rutasCorporativo: Array<{ ruta: string; modulo?: ModuloPermiso }> = [
   { ruta: 'balance', modulo: 'reportes' },
   { ruta: 'retiros', modulo: 'liquidaciones' },
   { ruta: 'integraciones', modulo: 'integraciones' },
+  { ruta: 'integracion-erick', modulo: 'academico' },
+];
+
+const rutasErick: Array<{ ruta: string; modulo: ModuloPermiso; Pantalla: ComponentType }> = [
+  ...rutasAcademicas.filter(({ ruta }) => ruta !== 'academico/resumen').map(({ ruta, modulo }) => ({ ruta: ruta.replace('academico/', ''), modulo, Pantalla: pantallasAcademicas[ruta] ?? PantallaProvisionalLms })),
+  { ruta: 'integracion', modulo: 'academico', Pantalla: IntegracionMlm },
+  { ruta: 'resumen', modulo: 'academico', Pantalla: ResumenErick },
+  { ruta: 'estudiantes', modulo: 'academico', Pantalla: Estudiantes },
+  { ruta: 'docentes', modulo: 'docentes', Pantalla: Docentes },
+  { ruta: 'calendario', modulo: 'calendario', Pantalla: CalendarioErick },
+  { ruta: 'configuracion', modulo: 'configuracion_erick', Pantalla: ConfiguracionErick },
+  { ruta: 'bitacora', modulo: 'academico', Pantalla: BitacoraAcademica },
 ];
 
 export function Rutas() {
@@ -98,6 +168,8 @@ export function Rutas() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="pedido/:id" element={<DetallePedido />} />
           <Route path="cuenta" element={<RutaPorPerfil perfiles={['cliente_alumno']}><MiCuenta /></RutaPorPerfil>} />
+          <Route path="verificar" element={<VerificarDocumento />} />
+          <Route path="verificar/:codigo" element={<VerificarDocumento />} />
         </Route>
 
         <Route path="/afiliado" element={<RutaPorPerfil perfiles={['afiliado']}><LayoutAfiliado /></RutaPorPerfil>}>
@@ -129,6 +201,26 @@ export function Rutas() {
               />
             );
           })}
+          <Route path="academico/*" element={<Navigate to="/corporativo/integracion-erick" replace />} />
+        </Route>
+
+        <Route path="/erick" element={<RutaPorPerfil perfiles={['admin_educativo']}><LayoutErick /></RutaPorPerfil>}>
+          <Route index element={<Navigate to="resumen" replace />} />
+          {rutasErick.map(({ ruta, modulo, Pantalla }) => (
+            <Route key={ruta} path={ruta} element={<RutaPorPermiso modulo={modulo}><Pantalla /></RutaPorPermiso>} />
+          ))}
+        </Route>
+
+        <Route path="/campus" element={<RutaPorPerfil perfiles={['cliente_alumno', 'afiliado']}><LayoutCampus /></RutaPorPerfil>}>
+          <Route index element={<Navigate to="programas" replace />} />
+          {rutasCampus.map((ruta) => {
+            const Pantalla = pantallasCampus[ruta] ?? PantallaProvisionalLms;
+            return <Route key={ruta} path={ruta} element={<Pantalla key={ruta} />} />;
+          })}
+        </Route>
+
+        <Route path="/evaluador" element={<RutaPorPerfil perfiles={['evaluador']}><LayoutEvaluador /></RutaPorPerfil>}>
+          <Route index element={<BandejaMid />} />
         </Route>
 
         <Route path="/demo" element={<RutaPorPerfil perfiles={['superadministrador']}><LayoutCorporativo /></RutaPorPerfil>}>

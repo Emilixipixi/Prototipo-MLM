@@ -2,7 +2,9 @@ import type { StoreApi, UseBoundStore } from 'zustand';
 import { pedidosIniciales } from '../datos/pedidos';
 import { personasIniciales } from '../datos/personas';
 import { productosIniciales } from '../datos/productos';
+import { useAcademicoStore } from './useAcademicoStore';
 import { useBitacoraStore } from './useBitacoraStore';
+import { useCampusStore } from './useCampusStore';
 import { useCarritoStore } from './useCarritoStore';
 import { useCatalogoStore } from './useCatalogoStore';
 import { useCobrosStore } from './useCobrosStore';
@@ -19,6 +21,7 @@ import { usePermisosStore } from './usePermisosStore';
 import { usePersonasStore } from './usePersonasStore';
 import { useRedStore } from './useRedStore';
 import { useSesionStore } from './useSesionStore';
+import { useErickStore } from './useErickStore';
 
 type Tienda = UseBoundStore<StoreApi<object>>;
 type Instantanea = Record<string, Record<string, unknown>>;
@@ -33,6 +36,8 @@ const compartidas: Record<string, Tienda> = {
   integraciones: useIntegracionesStore, compensacion: useCompensacionStore, permisos: usePermisosStore,
   notificaciones: useNotificacionesStore, bitacora: useBitacoraStore, descuentos: useDescuentosStore,
   cobros: useCobrosStore,
+  academico: useAcademicoStore, campus: useCampusStore,
+  erick: useErickStore,
 };
 
 const porPestana: Record<string, Tienda> = { sesion: useSesionStore, guia: useGuiaStore, carrito: useCarritoStore };
