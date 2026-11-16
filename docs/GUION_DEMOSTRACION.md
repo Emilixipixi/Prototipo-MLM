@@ -155,7 +155,8 @@ ERICK S.A.C. tiene su propia identidad (verde pastel) y su propia administració
 
 - **Administrador educativo (DEMO-U04, `/erick/resumen`).** Resumen educativo con próximas fechas y carga docente; Estudiantes con ficha lateral; Docentes con asignaciones; Calendario académico; Configuración y Bitácora académica.
 - **Docente (DEMO-U03, `/docente/cursos`).** Mis cursos con el avance de cada grupo; Clases en video; Libreta de notas con exportación, intento extra y observaciones; su calendario y la bandeja MID.
-- **Alumno (DEMO-L01, `/campus/programas`).** Próximas fechas con cuenta regresiva, Mi calendario y la campana de notificaciones.
+- **Alumno (acceso rápido "Alumno" = DEMO-L08 Valeria Cárdenas, `/campus/programas`).** Alumna con el diplomado aprobado (diploma y 2 certificados), MID aprobado con constancia, rúbrica y cronología, y el Curso Ventas Digitales en curso con notas por módulo. Muestra Próximas fechas, Mi calendario, Mis notas, Historial, Certificados, Mi MID y 10 notificaciones.
+- **Alumna nueva (acceso rápido "Alumna nueva" = DEMO-L01 Gabriela Ponce).** Recién matriculada en el Curso Liderazgo Comercial; es la alumna de los flujos F09, F10, F14 y F15.
 
 ### Orden recomendado: F14, F15, F16
 

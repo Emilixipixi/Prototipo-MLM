@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FileUp, Info, Microscope, Send } from 'lucide-react';
 import { LineaMid } from '../../componentes/campus/LineaMid';
+import { DetalleMid } from '../../componentes/campus/DetalleMid';
 import { Boton } from '../../componentes/ui/Boton';
 import { Campo } from '../../componentes/ui/Campo';
 import { EnlaceBoton } from '../../componentes/ui/EnlaceBoton';
@@ -60,11 +61,12 @@ export default function MiMid() {
             {item.notaFinal !== null && (
               <div className="mt-3 rounded-xl bg-fondo p-3 text-[13px]">
                 <p className="font-semibold">Nota final: <span className="cifra">{formatearNumero(item.notaFinal, 2)}</span></p>
-                <ul className="mt-1 grid gap-1 sm:grid-cols-2">{item.rubrica.map((criterio) => <li key={criterio.criterio} className="flex justify-between gap-2"><span>{criterio.criterio} ({criterio.peso}%)</span><span className="cifra">{criterio.nota ?? '-'}</span></li>)}</ul>
+                <ul className="mt-1 grid gap-x-8 gap-y-1 sm:grid-cols-2">{item.rubrica.map((criterio) => <li key={criterio.criterio} className="flex justify-between gap-2"><span>{criterio.criterio} ({criterio.peso}%)</span><span className="cifra">{criterio.nota ?? '-'}</span></li>)}</ul>
                 <p className="mt-2 text-texto-2">{item.observaciones}</p>
                 {item.estado === 'aprobado' && <EnlaceBoton to="/campus/certificados" tamano="sm" className="mt-2">Ver mi constancia</EnlaceBoton>}
               </div>
             )}
+            <DetalleMid sustentacion={item} evaluador={evaluador ? `${evaluador.nombres} ${evaluador.apellidos}` : null} />
           </Tarjeta>
         );
       })}

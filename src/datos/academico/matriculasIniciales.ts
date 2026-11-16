@@ -52,6 +52,7 @@ const semillas: SemillaMatricula[] = [
 ];
 semillas.push(...semillasAlumnosCampus);
 semillas.push(...semillasAlumnosAmpliados);
+semillas.push({ personaId: 'DEMO-L08', programaId: 'DEMO-CUR-03', origen: 'manual', inicio: '2026-09-28', aprobados: 14, fin: '2026-11-13', enCurso: { video: true, lectura: true }, fallidos: 2 });
 
 const motivosOrigen: Record<OrigenMatricula, string> = {
   compra: 'Matrícula automática por pago confirmado',

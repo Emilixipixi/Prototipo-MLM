@@ -16,7 +16,7 @@ function alumnosDe(programaId: string): string[] {
   return [...new Set(matriculasIniciales.filter((matricula) => contenedores.includes(matricula.programaId)).map((matricula) => matricula.personaId))];
 }
 
-const destacados = ['DEMO-L01', 'DEMO-L02', 'DEMO-L03', 'DEMO-L12', 'DEMO-L17', 'DEMO-L20', 'DEMO-A01'];
+const destacados = ['DEMO-L01', 'DEMO-L02', 'DEMO-L03', 'DEMO-L12', 'DEMO-L17', 'DEMO-L20', 'DEMO-A01', 'DEMO-L08'];
 
 export const notificacionesErick: Notificacion[] = eventosCalendarioIniciales
   .filter((evento) => evento.fecha >= relativoHoy(0))
