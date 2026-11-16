@@ -43,7 +43,7 @@ Fuente de verdad: `docs/PROMPT_INTEGRACION_LMS_ERICK.md`. Referencia visual: `do
 Fuente de verdad: `docs/PROMPT_ADMIN_EDUCATIVO_ERICK.md`.
 - E1. Separación y tema (completada: perfil `admin_educativo` DEMO-U04, docente DEMO-U05, módulos de permiso `calendario`, `docentes`, `contenidos`, `configuracion_erick`; el MLM solo consulta lo académico; tema verde pastel con `html[data-tema='erick']` en `src/index.css` y `hooks/useTemaErick.ts`; panel `/erick` con `layouts/LayoutErick.tsx`; Integración ERICK en `/corporativo/integracion-erick`; `/corporativo/academico/*` redirige; 30 alumnos más DEMO-L18 a L47 y 10 membresías en `datos/academico/alumnosAmpliados.ts`; pruebas `npm run prueba:erick`)
 - E2. Administración educativa completa (completada: `store/useErickStore.ts` con calendario, asignaciones de docentes, observaciones y configuración; datos en `datos/academico/erickInicial.ts` y docentes DEMO-U06 y DEMO-U07; servicios `docentes.ts`, `calendario.ts`, `configuracionErick.ts`; pantallas `/erick/resumen`, `/erick/estudiantes`, `/erick/docentes`, `/erick/calendario`, `/erick/configuracion`, `/erick/bitacora`; componente `componentes/campus/CalendarioAcademico.tsx`)
-- E3. Docente (pendiente)
+- E3. Docente (completada: panel `/docente` con `layouts/LayoutDocente.tsx`; `/evaluador` redirige a `/docente/sustentaciones`; pantallas en `paginas/docente/` Mis cursos, Clases en video, Libreta de notas y Calendario; videos MP4/WEBM en IndexedDB con `servicios/videosLocales.ts` (base `erick-videos`, se borra al reiniciar la demostración); `servicios/contenidosDocente.ts` y `servicios/notasDocente.ts`; el archivo subido tiene prioridad sobre YouTube en `TemaCampus`)
 - E4. Calendario del estudiante y cierre (pendiente)
 
 Pruebas: `npm run pruebas`.
