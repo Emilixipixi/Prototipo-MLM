@@ -76,6 +76,11 @@ const HistorialAcademico = lazy(() => import('../paginas/campus/HistorialAcademi
 const MisCertificados = lazy(() => import('../paginas/campus/MisCertificados'));
 const MiMid = lazy(() => import('../paginas/campus/MiMid'));
 const BandejaMid = lazy(() => import('../paginas/evaluador/BandejaMid'));
+const LayoutDocente = lazy(() => import('../layouts/LayoutDocente'));
+const MisCursosDocente = lazy(() => import('../paginas/docente/MisCursos'));
+const ClasesVideoDocente = lazy(() => import('../paginas/docente/ClasesVideo'));
+const LibretaNotasDocente = lazy(() => import('../paginas/docente/LibretaNotas'));
+const CalendarioDocente = lazy(() => import('../paginas/docente/CalendarioDocente'));
 const VerificarDocumento = lazy(() => import('../paginas/publico/VerificarDocumento'));
 
 const pantallasCampus: Record<string, ComponentType> = {
@@ -220,7 +225,16 @@ export function Rutas() {
         </Route>
 
         <Route path="/evaluador" element={<RutaPorPerfil perfiles={['evaluador']}><LayoutEvaluador /></RutaPorPerfil>}>
-          <Route index element={<BandejaMid />} />
+          <Route index element={<Navigate to="/docente/sustentaciones" replace />} />
+        </Route>
+
+        <Route path="/docente" element={<RutaPorPerfil perfiles={['evaluador']}><LayoutDocente /></RutaPorPerfil>}>
+          <Route index element={<Navigate to="cursos" replace />} />
+          <Route path="cursos" element={<MisCursosDocente />} />
+          <Route path="cursos/:programaId/clases" element={<ClasesVideoDocente />} />
+          <Route path="cursos/:programaId/notas" element={<LibretaNotasDocente />} />
+          <Route path="calendario" element={<CalendarioDocente />} />
+          <Route path="sustentaciones" element={<BandejaMid />} />
         </Route>
 
         <Route path="/demo" element={<RutaPorPerfil perfiles={['superadministrador']}><LayoutCorporativo /></RutaPorPerfil>}>

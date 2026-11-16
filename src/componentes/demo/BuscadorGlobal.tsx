@@ -21,7 +21,7 @@ export function BuscadorGlobal() {
   const [abierto, setAbierto] = useState(false);
   const referencia = useClicFuera<HTMLDivElement>(abierto, () => setAbierto(false));
   const corporativo = esCorporativo(sesion);
-  const prefijo = corporativo ? '/corporativo' : sesion?.perfil === 'admin_educativo' ? '/erick' : '/afiliado';
+  const prefijo = corporativo ? '/corporativo' : sesion?.perfil === 'admin_educativo' ? '/erick' : sesion?.perfil === 'evaluador' ? '/docente' : '/afiliado';
 
   const resultados = useMemo<Resultado[]>(() => {
     const termino = normalizar(texto.trim());

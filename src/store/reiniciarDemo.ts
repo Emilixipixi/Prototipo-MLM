@@ -18,6 +18,7 @@ import { usePersonasStore } from './usePersonasStore';
 import { useRedStore } from './useRedStore';
 import { useSesionStore } from './useSesionStore';
 import { useErickStore } from './useErickStore';
+import { borrarTodosLosVideos } from '../servicios/videosLocales';
 
 export function reiniciarDemo(): void {
   usePersonasStore.getState().reiniciar();
@@ -40,4 +41,5 @@ export function reiniciarDemo(): void {
   useAcademicoStore.getState().reiniciar();
   useCampusStore.getState().reiniciar();
   useErickStore.getState().reiniciar();
+  void borrarTodosLosVideos().catch(() => undefined);
 }

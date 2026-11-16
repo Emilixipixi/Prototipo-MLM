@@ -154,7 +154,7 @@ export const flujosDemostracion: FlujoDemostracion[] = [
     pasos: [
       { id: 'F13-1', texto: 'DEMO-L03 (diploma emitido) solicita el MID con título, resumen y archivo.', ruta: '/campus/mid', rolId: 'DEMO-L03', detectar: (estado) => Boolean(sustentacionL03(estado)) },
       { id: 'F13-2', texto: 'La administradora educativa asigna a DEMO-U03 y la fecha.', ruta: '/erick/mid', rolId: 'DEMO-U04', detectar: (estado) => Boolean(sustentacionL03(estado)?.evaluadorId) },
-      { id: 'F13-3', texto: 'El evaluador califica con la rúbrica y observaciones.', ruta: '/evaluador', rolId: 'DEMO-U03', detectar: (estado) => ['aprobado', 'desaprobado'].includes(sustentacionL03(estado)?.estado ?? '') },
+      { id: 'F13-3', texto: 'El evaluador califica con la rúbrica y observaciones.', ruta: '/docente/sustentaciones', rolId: 'DEMO-U03', detectar: (estado) => ['aprobado', 'desaprobado'].includes(sustentacionL03(estado)?.estado ?? '') },
       { id: 'F13-4', texto: 'DEMO-L03 ve su constancia MID; su diploma sigue igual.', ruta: '/campus/certificados', rolId: 'DEMO-L03', detectar: (estado) => documentoNuevo(estado, 'DEMO-L03', 'constancia_mid') },
     ],
   },

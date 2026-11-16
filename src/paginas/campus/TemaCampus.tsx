@@ -24,6 +24,7 @@ import { unirClases } from '../../utilidades/clases';
 import { formatearNumero } from '../../utilidades/formatos';
 import { ReproductorYoutube } from '../../componentes/campus/ReproductorYoutube';
 import { idYoutube } from '../../utilidades/youtube';
+import { ReproductorArchivo } from '../../componentes/campus/ReproductorArchivo';
 
 type PestanaTema = 'video' | 'lectura' | 'caso' | 'evaluacion';
 
@@ -73,7 +74,8 @@ function ContenidoTema({ id }: { id?: string }) {
   if (!contexto.acceso.acceso) return <AvisoSinAcceso programaId={contexto.programa.id} texto="Tu acceso a este programa no está vigente. Tus notas y certificados siguen disponibles en Mis notas y Mis certificados." />;
   if (contexto.estado === 'bloqueado') return <AvisoSinAcceso programaId={contexto.programa.id} texto="Este tema se desbloquea cuando apruebas el contenido anterior." />;
 
-  const videoYoutube = idYoutube(tema.video.urlVideo);
+  const videoArchivo = tema.video.archivoVideoId ?? null;
+  const videoYoutube = videoArchivo ? null : idYoutube(tema.video.urlVideo);
   const terminarVideoYoutube = () => {
     const resultado = marcarComponente(persona.id, tema.id, 'video');
     if (resultado.ok) toast.exito('Videoclase completada', 'Se registró tu avance.');
@@ -111,6 +113,16 @@ function ContenidoTema({ id }: { id?: string }) {
         <Tarjeta className="min-w-0">
           <Pestanas etiqueta="Componentes del tema" activa={pestana} alCambiar={(valor) => setPestana(valor as PestanaTema)} pestanas={pestanas} />
           <div className="pt-5">
+            {pestana === 'video' && videoArchivo && (
+              <div className="flex flex-col gap-4">
+                <ReproductorArchivo archivoVideoId={videoArchivo} titulo={tema.video.titulo} alTerminar={terminarVideoYoutube} />
+                <p className="text-[13px] text-texto-2">{tema.video.titulo}. Clase subida por tu docente: al terminar el video se registra como visto; también puedes marcarlo con el botón.</p>
+                <div className="flex flex-wrap justify-between gap-2">
+                  <Boton variante="secundario" icono={CircleCheck} disabled={componentes.video} onClick={() => marcar('video', 'lectura')}>{componentes.video ? 'Video visto' : 'Marcar como visto'}</Boton>
+                  <Boton variante="fantasma" iconoDerecha={ArrowRight} onClick={() => setPestana('lectura')}>Siguiente: Lectura</Boton>
+                </div>
+              </div>
+            )}
             {pestana === 'video' && videoYoutube && (
               <div className="flex flex-col gap-4">
                 <ReproductorYoutube videoId={videoYoutube} titulo={tema.video.titulo} alTerminar={terminarVideoYoutube} />
@@ -121,7 +133,7 @@ function ContenidoTema({ id }: { id?: string }) {
                 </div>
               </div>
             )}
-            {pestana === 'video' && !videoYoutube && (
+            {pestana === 'video' && !videoYoutube && !videoArchivo && (
               <div className="flex flex-col gap-4">
                 <div className="relative grid aspect-video place-items-center overflow-hidden rounded-2xl text-white" style={{ background: `linear-gradient(135deg, ${contexto.programa.colores[0]}, ${contexto.programa.colores[1]})` }}>
                   {tema.video.portada && <img src={tema.video.portada} alt="" className="pointer-events-none absolute inset-0 size-full object-cover opacity-80 mix-blend-overlay" />}

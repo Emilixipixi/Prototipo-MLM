@@ -67,3 +67,14 @@ export const navegacionErick: GrupoNavegacion[] = [
     ],
   },
 ];
+
+export const navegacionDocente: GrupoNavegacion[] = [
+  {
+    titulo: 'Docencia',
+    items: [
+      { texto: 'Mis cursos', ruta: '/docente/cursos', icono: GraduationCap },
+      { texto: 'Calendario', ruta: '/docente/calendario', icono: CalendarDays },
+    ],
+  },
+  { titulo: 'Evaluación académica', items: [{ texto: 'Sustentaciones MID', ruta: '/docente/sustentaciones', icono: ClipboardPen }] },
+];

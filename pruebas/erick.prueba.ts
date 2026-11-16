@@ -13,6 +13,11 @@ import { useBitacoraStore } from '../src/store/useBitacoraStore';
 import { useCampusStore } from '../src/store/useCampusStore';
 import { useErickStore } from '../src/store/useErickStore';
 import { useNotificacionesStore } from '../src/store/useNotificacionesStore';
+import { actualizarVideoTema, origenVideo } from '../src/servicios/contenidosDocente';
+import { agregarObservacion, construirLibreta, otorgarIntentoDocente } from '../src/servicios/notasDocente';
+import { validarArchivoVideo } from '../src/servicios/videosLocales';
+import { resumirPrograma } from '../src/motores/academico/progreso';
+import { usePersonasStore } from '../src/store/usePersonasStore';
 
 let total = 0;
 function prueba(nombre: string, cuerpo: () => void): void {
@@ -130,6 +135,75 @@ prueba('E2 datos precargados abundantes', () => {
   assert.ok(erick().asignacionesDocentes.length >= 9);
   assert.ok(erick().observacionesDocentes.length >= 8);
   assert.ok(useBitacoraStore.getState().registros.filter((registro) => ['docentes', 'calendario', 'configuracion_erick'].includes(registro.modulo)).length >= 8);
+});
+
+const estructura = () => ({ programas: useAcademicoStore.getState().programas, modulos: useAcademicoStore.getState().modulos });
+const registroCampus = () => { const { matriculas, progreso, intentos } = useCampusStore.getState(); return { matriculas, progreso, intentos }; };
+const libretaDe = (programaId: string) => construirLibreta(programaId, usePersonasStore.getState().personas, estructura(), registroCampus());
+
+prueba('E3 la libreta del docente coincide con resumirPrograma (L12 y L17)', () => {
+  ['DEMO-L12', 'DEMO-L17'].forEach((personaId) => {
+    const programaIds = useCampusStore.getState().matriculas.filter((item) => item.personaId === personaId).map((item) => item.programaId)
+      .filter((id) => programasActuales().find((programa) => programa.id === id)?.tipo !== 'mid');
+    assert.ok(programaIds.length > 0, personaId);
+    programaIds.forEach((programaId) => {
+      const fila = libretaDe(programaId).filas.find((item) => item.persona.id === personaId);
+      const resumen = resumirPrograma(personaId, programaId, estructura(), registroCampus());
+      assert.ok(fila && resumen, `${personaId} ${programaId}`);
+      assert.equal(fila.nota, resumen.nota.nota);
+      assert.equal(fila.estado, resumen.nota.estado);
+      assert.equal(fila.avance, resumen.avance);
+    });
+  });
+  assert.ok(libretaDe('DEMO-CUR-01').columnas.length >= 2);
+  assert.equal(libretaDe('DEMO-DIP-01').columnas.length, programasActuales().find((programa) => programa.id === 'DEMO-DIP-01')?.cursoIds.length);
+});
+
+prueba('E3 validación de archivos de video (formato y tamaño)', () => {
+  assert.equal(validarArchivoVideo({ type: 'video/mp4', size: 10 * 1024 * 1024 }), null);
+  assert.equal(validarArchivoVideo({ type: 'video/webm', size: 300 * 1024 * 1024 }), null);
+  assert.match(validarArchivoVideo({ type: 'video/quicktime', size: 1000 }) ?? '', /MP4 o WEBM/);
+  assert.match(validarArchivoVideo({ type: 'video/mp4', size: 301 * 1024 * 1024 }) ?? '', /300 MB/);
+  assert.match(validarArchivoVideo({ type: 'video/mp4', size: 0 }) ?? '', /vacío/);
+});
+
+prueba('E3 el docente cambia el video de sus temas; el archivo tiene prioridad sobre YouTube', () => {
+  const modulo = useAcademicoStore.getState().modulos.find((item) => item.programaId === 'DEMO-CUR-01');
+  const temaId = modulo?.temaIds[0] ?? '';
+  assert.equal(actualizarVideoTema(temaId, { urlVideo: 'https://ejemplo.com/video' }, 'DEMO-U03').ok, false);
+  const conEnlace = actualizarVideoTema(temaId, { urlVideo: 'https://youtu.be/abcdefghijk' }, 'DEMO-U03');
+  assert.ok(conEnlace.ok);
+  assert.equal(conEnlace.ok && origenVideo(conEnlace.valor.video), 'youtube');
+  const conArchivo = actualizarVideoTema(temaId, { archivoVideoId: 'VID-PRUEBA', nombreArchivo: 'clase.mp4' }, 'DEMO-U03');
+  assert.equal(conArchivo.ok && origenVideo(conArchivo.valor.video), 'archivo');
+  const sinArchivo = actualizarVideoTema(temaId, { archivoVideoId: null }, 'DEMO-U03');
+  assert.equal(sinArchivo.ok && origenVideo(sinArchivo.valor.video), 'youtube');
+  assert.ok(useBitacoraStore.getState().registros.some((registro) => registro.modulo === 'contenidos' && registro.referenciaId === temaId));
+});
+
+prueba('E3 DEMO-U05 no puede ver ni gestionar DEMO-CUR-01', () => {
+  assert.ok(!programasDeDocente('DEMO-U05', erick().asignacionesDocentes, programasActuales()).includes('DEMO-CUR-01'));
+  const temaId = useAcademicoStore.getState().modulos.find((item) => item.programaId === 'DEMO-CUR-01')?.temaIds[0] ?? '';
+  assert.equal(actualizarVideoTema(temaId, { urlVideo: 'https://youtu.be/abcdefghijk' }, 'DEMO-U05').ok, false);
+  assert.equal(agregarObservacion('DEMO-U05', 'DEMO-L12', 'DEMO-CUR-01', 'Observación no autorizada de prueba').ok, false);
+  const matricula = useCampusStore.getState().matriculas.find((item) => item.programaId === 'DEMO-CUR-01');
+  assert.equal(otorgarIntentoDocente('DEMO-U05', 'DEMO-CUR-01', matricula?.id ?? '', temaId, 1, 'Motivo suficientemente largo').ok, false);
+});
+
+prueba('E3 el intento extra y la observación no cambian la nota automática', () => {
+  const fila = libretaDe('DEMO-CUR-01').filas.find((item) => item.matricula && item.persona.id === 'DEMO-L12') ?? libretaDe('DEMO-CUR-01').filas.find((item) => item.matricula);
+  assert.ok(fila?.matricula);
+  const elemento = fila.bloqueados[0] ?? useAcademicoStore.getState().modulos.find((item) => item.programaId === 'DEMO-CUR-01')?.temaIds[0] ?? '';
+  const antes = resumirPrograma(fila.persona.id, 'DEMO-CUR-01', estructura(), registroCampus());
+  assert.equal(otorgarIntentoDocente('DEMO-U03', 'DEMO-CUR-01', fila.matricula.id, elemento, 1, 'corto').ok, false);
+  assert.ok(otorgarIntentoDocente('DEMO-U03', 'DEMO-CUR-01', fila.matricula.id, elemento, 1, 'Reprogramación por problemas de conexión').ok);
+  const observacion = agregarObservacion('DEMO-U03', fila.persona.id, 'DEMO-CUR-01', 'Buen avance en el módulo, reforzar el caso práctico.');
+  assert.ok(observacion.ok);
+  assert.equal(agregarObservacion('DEMO-U03', fila.persona.id, 'DEMO-CUR-01', 'corta').ok, false);
+  const despues = resumirPrograma(fila.persona.id, 'DEMO-CUR-01', estructura(), registroCampus());
+  assert.equal(despues?.nota.nota, antes?.nota.nota);
+  assert.ok((useCampusStore.getState().matriculas.find((item) => item.id === fila.matricula?.id)?.intentosExtra[elemento] ?? 0) >= 1);
+  assert.equal(rutaInicioPorPerfil('evaluador'), '/docente/cursos');
 });
 
 console.log(`\n${total} pruebas de ERICK superadas`);

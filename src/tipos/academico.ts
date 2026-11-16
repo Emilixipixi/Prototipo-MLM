@@ -121,3 +121,5 @@ export interface ConfiguracionErick {
   razonSocial: string; ruc: string; direccion: string; correoContacto: string; telefono: string;
   textoCertificado: string; mesesAccesoPorDefecto: number; intentosPorDefecto: number;
 }
+
+export interface ContenidoVideo { archivoVideoId?: string; nombreArchivo?: string }

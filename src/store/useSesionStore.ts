@@ -57,7 +57,7 @@ export function rutaInicioPorPerfil(perfil: PerfilAcceso | null | undefined): st
   if (perfil === 'superadministrador' || perfil === 'operador') return '/corporativo/resumen';
   if (perfil === 'afiliado') return '/afiliado/inicio';
   if (perfil === 'cliente_alumno') return '/cuenta';
-  if (perfil === 'evaluador') return '/evaluador';
+  if (perfil === 'evaluador') return '/docente/cursos';
   if (perfil === 'admin_educativo') return '/erick/resumen';
   return '/';
 }
