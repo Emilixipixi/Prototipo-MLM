@@ -162,3 +162,24 @@ Total: 70 requerimientos.
 | LMS-097 | API documentada | `/corporativo/integraciones` | Cubierto |  |
 
 Total: 77 requerimientos LMS (77 cubiertos). Pruebas automáticas: `npm run pruebas`.
+
+## Plataforma ERICK S.A.C. independiente (ERK-001 a ERK-011)
+
+Fuente: `docs/PROMPT_ADMIN_EDUCATIVO_ERICK.md`, criterios CE-01 a CE-11. Fases E1 a E4 completadas el 15/11/2026.
+
+| Código | Criterio | Dónde se ve | Estado | Nota |
+|---|---|---|---|---|
+| ERK-001 | CE-01 Administración completa de ERICK sin entrar al corporativo MLM | `/erick/*` con DEMO-U04 | Cubierto | Resumen, programas, preguntas, matrículas, membresías, certificados, MID, reportes, estudiantes, docentes, calendario, configuración y bitácora. |
+| ERK-002 | CE-02 El MLM solo ve Integración ERICK en lectura | `/corporativo/integracion-erick` | Cubierto | `/corporativo/academico/*` redirige. |
+| ERK-003 | CE-03 Tema verde pastel en ERICK y azul en el MLM | Todas las pantallas `/erick`, `/campus`, `/docente` | Cubierto | `html[data-tema='erick']` se activa al cambiar de rol. |
+| ERK-004 | CE-04 El docente solo ve y modifica sus programas asignados, también por URL | `/docente/cursos/:programaId/*` | Cubierto | Regla en servicios (`puedeGestionarPrograma`); prueba con DEMO-U05 y DEMO-CUR-01. |
+| ERK-005 | CE-05 El docente sube un video y el estudiante lo ve | `/docente/cursos/DEMO-CUR-01/clases`, `/campus/temas/:id` | Cubierto | YouTube o archivo MP4/WEBM hasta 300 MB en IndexedDB; el archivo tiene prioridad. |
+| ERK-006 | CE-06 Libreta por módulo con exportación CSV y PDF | `/docente/cursos/:programaId/notas` | Cubierto | Coincide con `resumirPrograma` (prueba con DEMO-L12 y DEMO-L17). |
+| ERK-007 | CE-07 Notas automáticas intactas; intentos extra con motivo | Cajón del estudiante en la libreta | Cubierto | También observaciones del docente. |
+| ERK-008 | CE-08 Fecha del docente en Mi calendario, Próximas fechas y notificación | `/docente/calendario`, `/campus/calendario`, `/campus/programas` | Cubierto | Crear, cambiar o cancelar avisa a todos los matriculados. |
+| ERK-009 | CE-09 Sustentaciones MID en el calendario del docente y del estudiante | `/docente/calendario`, `/campus/calendario` | Cubierto | Se generan desde las sustentaciones asignadas. |
+| ERK-010 | CE-10 Sin scroll horizontal a 375 px, objetivos de 44 px y foco visible | Revisión 375, 768 y 1440 px | Cubierto | |
+| ERK-011 | CE-11 Build, oxlint y pruebas en verde; 16 verificaciones MLM sin cambios | `npm run pruebas`, `/demo/datos` | Cubierto | 54 pruebas (18 de ERICK); verificaciones MLM 16/16. |
+
+Total: 11 requerimientos ERICK (11 cubiertos).
+

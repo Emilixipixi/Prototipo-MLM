@@ -591,6 +591,7 @@ Al final de cada fase: compilar (`npm run build`), lint (`npm run lint`), prueba
 - Cálculo de impuestos o facturación electrónica.
 - Integración con Moodle u otro LMS externo (se documenta como opción futura en `docs/API_LMS.md`).
 - Cambios en los motores de compensación del MLM.
+- Actualización por la ampliación ERICK (`docs/PROMPT_ADMIN_EDUCATIVO_ERICK.md`, 15/11/2026): la subida de video SÍ se permite en el prototipo como archivo `.mp4` o `.webm` de hasta 300 MB guardado en IndexedDB del navegador (solo visible en el navegador donde se subió y borrado al reiniciar la demostración). Sigue fuera de alcance un servidor de videos real, la transmisión en vivo y la sincronización con calendarios externos.
 
 ---
 

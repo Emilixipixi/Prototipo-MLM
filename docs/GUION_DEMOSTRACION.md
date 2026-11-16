@@ -146,3 +146,25 @@ DEMO-L04 (membresía por vencer en 5 días), DEMO-L05 (acceso vencido con certif
 ### Nota sobre la verificación pública
 
 Los datos viven en el navegador. Un QR escaneado desde otro dispositivo verifica los documentos precargados; los emitidos durante la demostración se verifican en el mismo navegador.
+
+## 8. Plataforma ERICK S.A.C. independiente
+
+ERICK S.A.C. tiene su propia identidad (verde pastel) y su propia administración. Cambia de rol con el selector "Rol demo" o desde la Guía de flujos; el tema cambia al instante.
+
+### Recorrido por roles (8 a 10 minutos)
+
+- **Administrador educativo (DEMO-U04, `/erick/resumen`).** Resumen educativo con próximas fechas y carga docente; Estudiantes con ficha lateral; Docentes con asignaciones; Calendario académico; Configuración y Bitácora académica.
+- **Docente (DEMO-U03, `/docente/cursos`).** Mis cursos con el avance de cada grupo; Clases en video; Libreta de notas con exportación, intento extra y observaciones; su calendario y la bandeja MID.
+- **Alumno (DEMO-L01, `/campus/programas`).** Próximas fechas con cuenta regresiva, Mi calendario y la campana de notificaciones.
+
+### Orden recomendado: F14, F15, F16
+
+- **F14 - Docente agenda el examen final.** DEMO-U03 abre Calendario y usa "Agendar fecha" para un Examen final del Curso Liderazgo Comercial. Cambiar a DEMO-L01: la campana muestra el aviso, Próximas fechas lo destaca en naranja y Mi calendario lo marca en la vista mensual.
+- **F15 - Docente sube una clase.** DEMO-U03 abre Clases en video del Curso Liderazgo Comercial, "Cambiar video" en el tema 1.2 "Estilos de liderazgo" y sube un MP4 o WEBM. Cambiar a DEMO-L01 y abrir el tema: se reproduce la clase subida y al terminar se marca como vista. Se usa el tema 1.2 porque es el que DEMO-L01 tiene disponible (el 1.3 sigue bloqueado hasta aprobar el 1.2).
+- **F16 - Administración asigna un docente.** DEMO-U04 abre Docentes y asigna a DEMO-U05 el Curso Liderazgo Comercial. Cambiar a DEMO-U05: el curso aparece en Mis cursos con su libreta. Antes de asignarlo, escribir `/docente/cursos/DEMO-CUR-01/notas` con DEMO-U05 muestra "Este programa no está asignado a ti".
+
+### Notas para la presentación
+
+- Los videos subidos por archivo viven solo en el navegador donde se suben y "Reiniciar demostración" los borra. Para presentar en otro equipo, usar enlaces de YouTube.
+- Si el navegador ya tenía datos de una versión anterior, usar "Reiniciar demostración" para ver las notificaciones y fechas precargadas.
+
